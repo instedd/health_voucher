@@ -11,7 +11,19 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130430200607) do
+ActiveRecord::Schema.define(:version => 20130430203512) do
+
+  create_table "authorizations", :force => true do |t|
+    t.integer  "card_id"
+    t.integer  "provider_id"
+    t.integer  "service_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "authorizations", ["card_id"], :name => "index_authorizations_on_card_id"
+  add_index "authorizations", ["provider_id"], :name => "index_authorizations_on_provider_id"
+  add_index "authorizations", ["service_id"], :name => "index_authorizations_on_service_id"
 
   create_table "batches", :force => true do |t|
     t.string   "name"
@@ -103,6 +115,35 @@ ActiveRecord::Schema.define(:version => 20130430200607) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "statements", :force => true do |t|
+    t.integer  "clinic_id"
+    t.date     "until"
+    t.string   "status"
+    t.decimal  "total",      :precision => 10, :scale => 0
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+  end
+
+  add_index "statements", ["clinic_id"], :name => "index_statements_on_clinic_id"
+
+  create_table "transactions", :force => true do |t|
+    t.integer  "provider_id"
+    t.integer  "voucher_id"
+    t.integer  "service_id"
+    t.integer  "authorization_id"
+    t.integer  "statement_id"
+    t.string   "status"
+    t.text     "comment"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "transactions", ["authorization_id"], :name => "index_transactions_on_authorization_id"
+  add_index "transactions", ["provider_id"], :name => "index_transactions_on_provider_id"
+  add_index "transactions", ["service_id"], :name => "index_transactions_on_service_id"
+  add_index "transactions", ["statement_id"], :name => "index_transactions_on_statement_id"
+  add_index "transactions", ["voucher_id"], :name => "index_transactions_on_voucher_id"
 
   create_table "vouchers", :force => true do |t|
     t.string   "code"
