@@ -11,20 +11,98 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130411185708) do
+ActiveRecord::Schema.define(:version => 20130430195713) do
+
+  create_table "batches", :force => true do |t|
+    t.string   "name"
+    t.string   "intial_serial_number"
+    t.integer  "quantity"
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+  end
 
   create_table "cards", :force => true do |t|
     t.string   "serial_number"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.integer  "pacient_id"
+    t.integer  "site_id"
+    t.date     "validity"
+    t.string   "status"
+  end
+
+  create_table "clinic_services", :force => true do |t|
+    t.integer  "clinic_id"
+    t.integer  "service_id"
+    t.boolean  "enabled"
+    t.decimal  "cost",       :precision => 10, :scale => 2
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
+  end
+
+  add_index "clinic_services", ["clinic_id"], :name => "index_clinic_services_on_clinic_id"
+  add_index "clinic_services", ["service_id"], :name => "index_clinic_services_on_service_id"
+
+  create_table "clinics", :force => true do |t|
+    t.string   "name"
+    t.integer  "site_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "clinics", ["site_id"], :name => "index_clinics_on_site_id"
+
+  create_table "mentors", :force => true do |t|
+    t.string   "name"
+    t.integer  "site_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "mentors", ["site_id"], :name => "index_mentors_on_site_id"
+
+  create_table "pacients", :force => true do |t|
+    t.string   "agep_id"
+    t.integer  "mentor_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "pacients", ["mentor_id"], :name => "index_pacients_on_mentor_id"
+
+  create_table "providers", :force => true do |t|
+    t.string   "name"
+    t.integer  "clinic_id"
+    t.string   "code"
+    t.boolean  "enabled"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "providers", ["clinic_id"], :name => "index_providers_on_clinic_id"
+
+  create_table "services", :force => true do |t|
+    t.string   "service_type"
+    t.string   "description"
+    t.string   "short_description"
+    t.string   "code"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  create_table "sites", :force => true do |t|
+    t.string   "name"
+    t.boolean  "training"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "vouchers", :force => true do |t|
     t.string   "code"
     t.integer  "card_id"
-    t.string   "panel"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.string   "service_type"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
   add_index "vouchers", ["card_id"], :name => "index_vouchers_on_card_id"
