@@ -1,4 +1,7 @@
 class Pacient < ActiveRecord::Base
-  belongs_to :mentor
   attr_accessible :agep_id
+
+  belongs_to :mentor
+
+  has_many :cards
 end

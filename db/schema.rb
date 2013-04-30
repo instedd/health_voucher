@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130430195713) do
+ActiveRecord::Schema.define(:version => 20130430200607) do
 
   create_table "batches", :force => true do |t|
     t.string   "name"
@@ -29,7 +29,12 @@ ActiveRecord::Schema.define(:version => 20130430195713) do
     t.integer  "site_id"
     t.date     "validity"
     t.string   "status"
+    t.integer  "batch_id"
   end
+
+  add_index "cards", ["batch_id"], :name => "index_cards_on_batch_id"
+  add_index "cards", ["pacient_id"], :name => "index_cards_on_pacient_id"
+  add_index "cards", ["site_id"], :name => "index_cards_on_site_id"
 
   create_table "clinic_services", :force => true do |t|
     t.integer  "clinic_id"
@@ -64,10 +69,12 @@ ActiveRecord::Schema.define(:version => 20130430195713) do
   create_table "pacients", :force => true do |t|
     t.string   "agep_id"
     t.integer  "mentor_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "current_card_id"
   end
 
+  add_index "pacients", ["current_card_id"], :name => "index_pacients_on_current_card_id"
   add_index "pacients", ["mentor_id"], :name => "index_pacients_on_mentor_id"
 
   create_table "providers", :force => true do |t|

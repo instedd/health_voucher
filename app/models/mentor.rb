@@ -1,4 +1,7 @@
 class Mentor < ActiveRecord::Base
-  belongs_to :site
   attr_accessible :name
+
+  belongs_to :site
+
+  has_many :pacients
 end
