@@ -3,6 +3,8 @@ class Voucher < ActiveRecord::Base
 
   VOUCHER_CODE_LENGTH = 12
 
+  attr_accessible :service_type, :code
+
   enumerize :service_type, in: [:primary, :secondary], default: :primary, predicates: true
 
   belongs_to :card

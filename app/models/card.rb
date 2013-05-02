@@ -2,6 +2,10 @@ class Card < ActiveRecord::Base
   extend Enumerize
 
   SERIAL_NUMBER_LENGTH = 6
+  PRIMARY_SERVICES = 6
+  SECONDARY_SERVICES = 7
+
+  attr_accessible :serial_number
 
   has_many :vouchers, :dependent => :destroy
 
@@ -22,7 +26,7 @@ class Card < ActiveRecord::Base
   end
 
   def serial_number=(value)
-    value = value.to_s.rjust(SERIAL_NUMBER_LENGTH, '0') if value.is_a?(Fixnum)
+    value = value.to_serial_number
     write_attribute :serial_number, value
     write_attribute :check_digit, Card::Damm.generate(value)
   end
