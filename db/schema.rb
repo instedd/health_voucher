@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502122625) do
+ActiveRecord::Schema.define(:version => 20130502141850) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "card_id"
@@ -27,10 +27,10 @@ ActiveRecord::Schema.define(:version => 20130502122625) do
 
   create_table "batches", :force => true do |t|
     t.string   "name"
-    t.string   "intial_serial_number"
+    t.string   "initial_serial_number"
     t.integer  "quantity"
-    t.datetime "created_at",           :null => false
-    t.datetime "updated_at",           :null => false
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
   create_table "cards", :force => true do |t|
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(:version => 20130502122625) do
     t.date     "validity"
     t.string   "status"
     t.integer  "batch_id"
+    t.string   "check_digit"
   end
 
   add_index "cards", ["batch_id"], :name => "index_cards_on_batch_id"

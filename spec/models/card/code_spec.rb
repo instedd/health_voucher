@@ -11,7 +11,7 @@ describe "Card::Code" do
     end
 
     it "should generate a string of digits" do
-      @code.generate(20).should match('\A[0-9]+\Z')
+      @code.generate(20).should match(/\A[0-9]+\Z/)
     end
   end
 

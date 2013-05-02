@@ -1,7 +1,7 @@
 class Card < ActiveRecord::Base
-  LengthSerialNumber = 6
+  extend Enumerize
 
-  attr_accessible :serial_number
+  SERIAL_NUMBER_LENGTH = 6
 
   has_many :vouchers, :dependent => :destroy
 
@@ -9,6 +9,29 @@ class Card < ActiveRecord::Base
   belongs_to :site
   belongs_to :batch
 
-  validates :serial_number, :uniqueness => true
-  validates_presence_of :serial_number
+  enumerize :status, in: [:active, :lost, :depleted, :expired], default: :active, predicates: true
+
+  validates_presence_of :batch, :serial_number
+  validates_uniqueness_of :serial_number
+  validates_format_of :serial_number, :with => /\A[0-9]+\z/
+  validates_length_of :serial_number, :is => SERIAL_NUMBER_LENGTH
+  validate :valid_check_digit
+
+  def full_serial_number
+    "#{check_digit}#{serial_number}"
+  end
+
+  def serial_number=(value)
+    value = value.to_s.rjust(SERIAL_NUMBER_LENGTH, '0') if value.is_a?(Fixnum)
+    write_attribute :serial_number, value
+    write_attribute :check_digit, Card::Damm.generate(value)
+  end
+
+  private
+
+  def valid_check_digit
+    unless check_digit == Card::Damm.generate(serial_number)
+      errors[:check_digit] << "is invalid"
+    end
+  end
 end

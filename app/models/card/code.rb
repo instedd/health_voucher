@@ -11,5 +11,9 @@ module Card::Code
   def self.check(code)
     Card::Damm.generate(code) == '0'
   end
+
+  def self.generate_voucher_code
+    self.generate_with_check(Voucher::VOUCHER_CODE_LENGTH)
+  end
 end
 
