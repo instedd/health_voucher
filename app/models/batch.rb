@@ -23,6 +23,10 @@ class Batch < ActiveRecord::Base
     initial_serial_number.to_i + quantity - 1
   end
 
+  def cards_with_vouchers
+    cards.includes(:vouchers)
+  end
+
   private
 
   def check_overlaps

@@ -31,6 +31,14 @@ class Card < ActiveRecord::Base
     write_attribute :check_digit, Card::Damm.generate(value)
   end
 
+  def primary_services
+    vouchers.select { |v| v.primary? }
+  end
+
+  def secondary_services
+    vouchers.select { |v| v.secondary? }
+  end
+
   private
 
   def valid_check_digit
