@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130430203512) do
+ActiveRecord::Schema.define(:version => 20130502122625) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "card_id"
@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(:version => 20130430203512) do
 
   add_index "cards", ["batch_id"], :name => "index_cards_on_batch_id"
   add_index "cards", ["pacient_id"], :name => "index_cards_on_pacient_id"
+  add_index "cards", ["serial_number"], :name => "index_cards_on_serial_number"
   add_index "cards", ["site_id"], :name => "index_cards_on_site_id"
 
   create_table "clinic_services", :force => true do |t|
@@ -154,5 +155,6 @@ ActiveRecord::Schema.define(:version => 20130430203512) do
   end
 
   add_index "vouchers", ["card_id"], :name => "index_vouchers_on_card_id"
+  add_index "vouchers", ["code"], :name => "index_vouchers_on_code"
 
 end

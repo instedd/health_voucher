@@ -6,6 +6,7 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'mysql2'
+gem 'enumerize'
 
 
 # Gems used only for assets and not required
@@ -20,6 +21,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'haml'
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
@@ -40,3 +42,4 @@ gem 'jquery-rails'
 group :development, :test do
   gem 'rspec-rails'
 end
+
