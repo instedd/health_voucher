@@ -1,15 +1,40 @@
-!!!
-%html
-  %head
-    %title eVouchers
-    = stylesheet_link_tag 'application'
-    = javascript_include_tag 'application'
-    = csrf_meta_tag
-    = yield :head
-  %body
-    %p.notice
-      = notice
-    %p.alert
-      = alert
-    = yield
+- content_for :navigation do
+  = section "Home", root_path, :home
+  = section "Site Management", root_path, :management
+  - if current_user.try(:admin?)
+    = section "Services Review", transactions_path, :transactions
+    = section "Sites", sites_path, :sites
+    = section "Batches", batches_path, :batches
+
+- content_for :right_menu do
+  %ul.RightMenu
+    - if user_signed_in?
+      %li
+        #User
+          = current_user.email
+          %br
+          %br
+          .container
+            %ul
+              %li
+                = link_to 'Settings', edit_user_registration_path
+            %hr
+            %ul
+              %li
+                %a(href="mailto:support@instedd.org?subject=#{application_name.underscore}-bug")
+                  Report a bug
+              %li
+                = link_to "Sign Out", destroy_user_session_path, :method => :delete
+      %li
+        = link_to '', edit_user_registration_path, :class => 'fsettings'
+    - else
+      %li
+        = link_to "Create account", new_user_registration_path, :class => 'fedit'
+      %li
+        = link_to "Log in", new_user_session_path, :class => 'fuser'
+
+- content_for :footer_links do
+  = link_to "Home", root_path
+
+= render :file => 'layouts/instedd_application'
 
