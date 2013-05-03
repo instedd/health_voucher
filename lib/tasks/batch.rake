@@ -13,7 +13,7 @@ namespace :batch do
       generator = Batch::Generator.new(batch)
       generator.generate!
 
-      puts "OK"
+      puts "Batch generated with id #{batch.id}"
 
     rescue Exception => e
       puts "Error creating batch: #{e}"
