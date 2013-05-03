@@ -7,11 +7,11 @@ class Batch::CsvExporter
 
   def export
     CSV.generate do |csv|
-      csv << ["# Serial number", 
+      csv << ["# Serial number", "Check digit",  
               column_titles(Card::PRIMARY_SERVICES, 'primary'),
               column_titles(Card::SECONDARY_SERVICES, 'secondary')].flatten
       @batch.cards_with_vouchers.each do |card|
-        csv << [card.full_serial_number, 
+        csv << [card.serial_number, card.check_digit,
                 card.primary_services.map(&:code),
                 card.secondary_services.map(&:code)].flatten
       end
