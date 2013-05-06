@@ -35,5 +35,16 @@ namespace :batch do
     batch = Batch.find(args[:id])
     puts Batch::CsvExporter.new(batch).export
   end
+
+  desc "Import cards in CSV format from standard input and create a batch of the given name"
+  task :import, [:name] => :environment do |t, args|
+    text = STDIN.read
+    begin
+      batch = Batch::CsvImporter.new(args[:name]).import(text)
+      puts "#{batch.quantity} cards imported to batch #{batch.id}, starting at #{batch.initial_serial_number}"
+    rescue ActiveRecord::RecordInvalid, RuntimeError => e
+      puts "Error importing: #{e}"
+    end
+  end
 end
 
