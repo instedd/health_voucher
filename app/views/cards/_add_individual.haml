@@ -1,0 +1,5 @@
+= form_tag site_cards_path(@site), :method => :post do
+  = label_tag "Add Individual Card"
+  = text_field_tag :serial_number, nil, :class => 'serial_number'
+  = submit_tag "Add to Site stock"
+

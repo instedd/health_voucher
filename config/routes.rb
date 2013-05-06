@@ -3,8 +3,20 @@ EVoucher::Application.routes.draw do
 
   root :to => 'home#index'
 
+  resources :batches do
+  end
+
   resources :sites do
-    resources :cards
+    resources :cards do
+      collection do
+        post 'return'
+      end
+    end
+  end
+
+  resources :clinics
+
+  resources :transactions do
   end
 
   # The priority is based upon order of creation:

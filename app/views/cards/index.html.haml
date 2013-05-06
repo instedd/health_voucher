@@ -1,0 +1,28 @@
+%h1 Add Cards to Site Manager
+
+%h2
+  Site ID:
+  = @site.name
+
+.left
+  .box.w50
+    = render partial: 'site_status'
+
+  %br
+  .box.w50
+    = render partial: 'add_from_batch'
+
+  %br
+  .box.w50
+    = render partial: 'add_individual'
+
+.right
+  .box.w40
+    = render partial: 'unassigned_cards'
+
+.cards-span
+
+:javascript
+  var availability = #{cards_availability(@batches).to_json.gsub('</', '<\/')};
+  onCardsIndex()
+

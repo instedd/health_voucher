@@ -17,4 +17,8 @@ class Site < ActiveRecord::Base
   def unassigned_cards
     cards.where(:pacient_id => nil)
   end
+
+  def pacients_with_cards
+    pacients.where('current_card_id IS NOT NULL')
+  end
 end

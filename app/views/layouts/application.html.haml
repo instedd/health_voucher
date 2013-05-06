@@ -1,10 +1,10 @@
 - content_for :navigation do
   = section "Home", root_path, :home
-  = section "Site Management", root_path, :management
   - if current_user.try(:admin?)
-    = section "Services Review", transactions_path, :transactions
-    = section "Sites", sites_path, :sites
     = section "Batches", batches_path, :batches
+    = section "Sites", sites_path, :sites
+    = section "Clinics", clinics_path, :clinics
+    = section "Transactions", transactions_path, :transactions
 
 - content_for :right_menu do
   %ul.RightMenu

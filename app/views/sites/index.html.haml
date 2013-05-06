@@ -15,7 +15,8 @@
   %tbody
     - @sites.each do |site|
       %tr
-        %td= site.name
+        %td
+          = link_to site.name, edit_site_path(site)
         %td= site.created_at
         %td= site.training?
         %td= site.manager

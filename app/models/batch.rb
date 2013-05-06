@@ -11,6 +11,10 @@ class Batch < ActiveRecord::Base
   validate :check_overlaps
   validate :forbid_changes_after_cards_created
 
+  def self.have_unassigned_cards
+    Card.where('site_id IS NULL').select('DISTINCT(batch_id)').map(&:batch)
+  end
+
   def initial_serial_number=(value)
     write_attribute :initial_serial_number, value.to_serial_number
   end
@@ -25,6 +29,10 @@ class Batch < ActiveRecord::Base
 
   def cards_with_vouchers
     cards.includes(:vouchers)
+  end
+
+  def cards_available
+    cards.where('site_id IS NULL').order('serial_number')
   end
 
   private
