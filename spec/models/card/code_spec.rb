@@ -36,4 +36,23 @@ describe "Card::Code" do
       @code.check('5721').should be_false   # 572 -> 4
     end
   end
+
+  describe "generate voucher code" do
+    it "should generate a 12 digit code" do
+      @code.generate_voucher_code.size.should eq(12)
+      @code.generate_voucher_code.should match /\A[0-9]{12}\z/
+    end
+
+    it "should generate a valid code" do
+      100.times do
+        @code.check(@code.generate_voucher_code).should be_true
+      end
+    end
+
+    it "first digit should never be zero" do
+      100000.times.each do 
+        @code.generate_voucher_code.start_with?('0').should be_false
+      end
+    end
+  end
 end
