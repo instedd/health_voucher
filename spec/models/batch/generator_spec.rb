@@ -36,5 +36,15 @@ describe Batch::Generator do
       card.vouchers.select { |v| v.secondary? }.count.should eq(Card::SECONDARY_SERVICES)
     end
   end
+
+  it "should generate valid cards" do
+    @generator.generate!
+    @batch.reload.cards.each do |card|
+      card.check_digit.should eq(Card::Damm.generate(card.serial_number))
+      card.vouchers.each do |voucher|
+        Card::Code.check(voucher.code).should be_true
+      end
+    end
+  end
 end
 

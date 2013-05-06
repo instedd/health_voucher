@@ -1,0 +1,30 @@
+%h1 Sites
+
+%table
+  %thead
+    %tr
+      %th Site identification
+      %th Created
+      %th Training?
+      %th Manager
+      %th Mentors
+      %th AGEP IDs
+      %th Unassigned cards
+      %th
+
+  %tbody
+    - @sites.each do |site|
+      %tr
+        %td= site.name
+        %td= site.created_at
+        %td= site.training?
+        %td= site.manager
+        %td= site.mentors.count
+        %td= site.pacients.count
+        %td= site.unassigned_cards.count
+        %td
+          = link_to 'Assign more cards', site_cards_path(site)
+
+.actions
+  = link_to 'Register new site', new_site_path
+

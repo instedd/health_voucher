@@ -1,0 +1,15 @@
+= form_for @site do |f|
+  = errors_for @site
+  = hidden_field_tag :id, @site.id
+
+  .field
+    = f.label :name
+    = f.text_field :name
+
+  .field
+    = f.check_box :training
+    = f.label :training
+
+  .actions
+    = f.submit
+

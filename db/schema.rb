@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130503141448) do
+ActiveRecord::Schema.define(:version => 20130503174021) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "card_id"
@@ -135,7 +135,10 @@ ActiveRecord::Schema.define(:version => 20130503141448) do
     t.boolean  "training"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "user_id"
   end
+
+  add_index "sites", ["user_id"], :name => "index_sites_on_user_id"
 
   create_table "statements", :force => true do |t|
     t.integer  "clinic_id"
