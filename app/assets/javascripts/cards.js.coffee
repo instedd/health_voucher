@@ -1,17 +1,11 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
-
 @onCardsIndex = ->
   $('#batch_id').change ->
-    if @value
-      info = availability[@value]
-      if info
-        $('#first_serial_number').val(info.first_serial_number)
-        $('#quantity').val(info.quantity).attr('min', 1).attr('max', info.quantity)
-
-  $('.serial_number').change ->
-    @value = pad(@value, 6)
+    return unless @value
+    info = availability[@value]
+    if info
+      $('#first_serial_number').val(info.first_serial_number)
+      $('#quantity').val(info.quantity).
+        attr('min', 1).attr('max', info.quantity)
 
   last_clicked = null
   $('.return_card').click (evt) ->
@@ -28,6 +22,9 @@
       checks.attr 'checked', clicked.checked
     else
       last_clicked = @
+
+  $('.serial_number').change ->
+    @value = pad(@value, 6)
 
   pad = (n, width, z) ->
     z = z || '0'

@@ -1,15 +1,21 @@
 require 'spec_helper'
 
-# Specs in this file have access to a helper object that includes
-# the CardsHelper. For example:
-#
-# describe CardsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       helper.concat_strings("this","that").should == "this that"
-#     end
-#   end
-# end
 describe CardsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "cards availability" do
+    before(:each) do
+      @batch = Batch.make!
+    end
+
+    it "returns a hash map" do
+      helper.cards_availability([]).should be_a(Hash)
+    end
+
+    it "has the required data" do
+      result = helper.cards_availability(Batch.all)
+      result.should include(@batch.id)
+      result[batch.id].should be_a(Hash)
+      result[batch.id].should include(:first_serial_number)
+      result[batch.id].should include(:quantity)
+    end
+  end
 end
