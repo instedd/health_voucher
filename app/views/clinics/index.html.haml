@@ -1,0 +1,29 @@
+= render partial: '/sites/selector', locals: { :path_helper => :site_clinics_path }
+
+%h1 Clinics
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Providers
+      %th Services
+      %th
+  %tbody
+    - @clinics.each do |clinic|
+      %tr
+        %td
+          = link_to clinic.name, site_clinic_path(@site, clinic)
+        %td= clinic.providers.count
+        %td= clinic.enabled_clinic_services.count
+        %td
+          - if clinic.providers.count == 0
+            = link_to 'Remove', site_clinic_path(@site, clinic), :method => :delete
+
+%br
+.box
+  = form_tag site_clinics_path(@site) do
+    = label_tag 'clinic[name]', 'Name'
+    = text_field_tag 'clinic[name]', nil, maxlength: 80
+    = submit_tag 'Add'
+

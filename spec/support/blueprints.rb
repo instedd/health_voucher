@@ -21,11 +21,62 @@ Voucher.blueprint(:secondary) do
   service_type { :secondary }
 end
 
+Site.blueprint do
+  name { "Site" }
+end
+
+Clinic.blueprint do
+  site { Site.make! }
+  name { "Clinic" }
+end
+
+Provider.blueprint do
+  clinic { Clinic.make! }
+  code { _provider_code }
+  name { "Provider #{code}" }
+  enabled { true }
+end
+
+Service.blueprint do
+  description { "Some service" }
+  short_description { "Service" }
+  service_type { :primary }
+  code { _service_code }
+end
+
+Authorization.blueprint do
+  card { Card.make! }
+  provider { Provider.make! }
+  service { Service.make! }
+end
+
+Transaction.blueprint do 
+  provider { Provider.make! }
+  voucher { Voucher.make! }
+  service { Service.make! }
+  authorization { Authorization.make! }
+  status { :pending }
+end
+
 def _serial_number
   Card::Code.generate(Card::SERIAL_NUMBER_LENGTH)
 end
 
 def _pin_code
   Card::Code.generate_with_check(Voucher::VOUCHER_CODE_LENGTH)
+end
+
+def _provider_code
+  begin
+    code = rand(1..999).to_s.rjust(3, '0')
+  end while Provider.find_by_code(code)
+  code
+end
+
+def _service_code
+  begin
+    code = rand(1..99).to_s.rjust(2, '0')
+  end while Service.find_by_code(code)
+  code
 end
 

@@ -3,8 +3,9 @@ EVoucher::Application.routes.draw do
 
   root :to => 'home#index'
 
-  resources :batches do
-  end
+  match '/clinics' => 'home#clinics'
+
+  resources :batches, :only => [:index]
 
   resources :sites do
     namespace :cards, :module => false, :controller => 'cards' do
@@ -13,12 +14,13 @@ EVoucher::Application.routes.draw do
       post :assign
       post :return
     end
+
+    resources :clinics
   end
 
-  resources :clinics
+  resources :providers, :only => [:create, :destroy]
 
-  resources :transactions do
-  end
+  resources :transactions, :only => [:index]
 
   # for instedd-platform-rails
   match 'terms_and_conditions' => redirect("http://instedd.org/terms-of-service/")

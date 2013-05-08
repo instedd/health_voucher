@@ -1,0 +1,11 @@
+= render partial: '/sites/selector', locals: { :path_helper => :site_clinics_path }
+
+%h1= @clinic.name
+
+.left.box.w40
+  = render partial: 'providers'
+.right.box.w50
+  = render partial: 'services'
+
+.clinics-span
+

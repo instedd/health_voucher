@@ -1,3 +1,35 @@
-// Place all the styles related to the clinics controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.clinics {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  li {
+    padding: 4px 8px;
+    &.current {
+      background: #eee;
+      border-radius: 4px;
+    }
+  }
+}
+
+.providers {
+  max-height: 340px;
+  overflow: auto;
+
+  table {
+    width: 100%;
+  }
+}
+
+.clinic_services {
+  height: 340px;
+  overflow: auto;
+
+  table {
+    width: 100%;
+  }
+}
+
+.clinics-span {
+  height: 400px;
+}
+

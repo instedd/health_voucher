@@ -1,0 +1,34 @@
+%h2 Providers
+
+.providers
+  %table
+    %thead
+      %tr
+        %th Code
+        %th Name
+        %th Enabled?
+        %th
+    %tbody
+      - @clinic.providers.each do |provider|
+        %tr
+          %td= provider.code
+          %td= provider.name
+          %td= provider.enabled
+          %td
+            - if provider.transactions.empty?
+              = link_to 'Remove', provider_path(provider), :method => :delete
+
+.new_provider_form
+  = form_tag providers_path do
+    = hidden_field_tag 'clinic_id', @clinic.id
+
+    .field
+      = label_tag 'provider[code]', 'Code'
+      = text_field_tag 'provider[code]', nil, maxlength: 3, size: 3
+
+    .field
+      = label_tag 'provider[name]', 'Name'
+      = text_field_tag 'provider[name]', nil, maxlength: 100
+
+    .actions
+    = submit_tag 'Add Provider'

@@ -13,9 +13,9 @@ describe CardsHelper do
     it "has the required data" do
       result = helper.cards_availability(Batch.all)
       result.should include(@batch.id)
-      result[batch.id].should be_a(Hash)
-      result[batch.id].should include(:first_serial_number)
-      result[batch.id].should include(:quantity)
+      result[@batch.id].should be_a(Hash)
+      result[@batch.id].should include(:first_serial_number)
+      result[@batch.id].should include(:quantity)
     end
   end
 end
