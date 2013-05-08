@@ -1,0 +1,6 @@
+%h1 Site Management
+
+= render partial: '/sites/selector', :locals => { :path_helper => :manage_site_path }
+
+%h2= @site.name
+

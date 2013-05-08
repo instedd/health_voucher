@@ -58,6 +58,10 @@ Transaction.blueprint do
   status { :pending }
 end
 
+Pacient.blueprint do
+  agep_id { sn.to_s.rjust(10, '0') }
+end
+
 def _serial_number
   Card::Code.generate(Card::SERIAL_NUMBER_LENGTH)
 end
@@ -75,7 +79,7 @@ end
 
 def _service_code
   begin
-    code = rand(1..99).to_s.rjust(2, '0')
+    code = rand(10..99).to_s.rjust(2, '0')
   end while Service.find_by_code(code)
   code
 end
