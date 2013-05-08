@@ -1,0 +1,15 @@
+%h1 Assign card to AGEP ID
+
+%h2 
+  AGEP ID:
+  = @patient.agep_id
+
+= form_tag assign_card_patient(@patient) do
+  .field
+    = label_tag :serial_number, "Card Serial Number"
+    = text_field_tag :serial_number, nil, :class => 'serial_number'
+
+  .actions
+    = submit_tag 'Assign'
+    = link_to 'Back', manage_site_mentor(@patient.mentor.site, @patient.mentor)
+

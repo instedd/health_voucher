@@ -1,0 +1,25 @@
+%h3 Mentors
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th
+  %tbody
+    - @site.mentors.each do |mentor|
+      %tr
+        %td
+          = link_to mentor.name, manage_site_mentor_path(@site, mentor)
+        %td
+          - if mentor.patients.count == 0
+            = link_to 'Remove', site_mentor_path(@site, mentor), :method => :delete
+
+%br
+.box.new_mentor_form
+  = form_tag site_mentors_path(@site) do
+    .field
+      = label_tag "mentor[name]", 'Name'
+      = text_field_tag "mentor[name]"
+    .actions
+      = submit_tag 'Add'
+

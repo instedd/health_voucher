@@ -12,5 +12,10 @@ class ManagementController < ApplicationController
     else
       @site = Site.first
     end
+    if @site
+      if params[:mentor_id]
+        @mentor = @site.mentors.find(params[:mentor_id])
+      end
+    end
   end
 end

@@ -20,6 +20,12 @@ EVoucher::Application.routes.draw do
   end
 
   resources :providers, :only => [:create, :destroy]
+  resources :patients, :only => [] do
+    member do
+      get 'assign_card'
+      post 'do_assign_card', :path => 'assign_card', :as => 'assign_card'
+    end
+  end
 
   resources :transactions, :only => [:index]
 

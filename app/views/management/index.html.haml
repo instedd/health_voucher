@@ -4,27 +4,27 @@
 
 %h2= @site.name
 
-%h3 Mentors
+- if @mentor.nil?
+  = render partial: 'mentors'
+- else
+  %h3= @mentor.name
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th
-  %tbody
-    - @site.mentors.each do |mentor|
+  %table
+    %thead
       %tr
+        %th
+        %th AGEP ID
+        %th Current card
+        %th Valid from
+        %th
+    %tbody
+      - @mentor.patients.each do |patient|
         %td
-          = link_to mentor.name, manage_site_mentor_path(@site, mentor)
+          = check_box_tag "patient_ids[]", patient.id
+        %td= patient.agep_id
+        %td= patient.current_card.try(:serial_number)
+        %td= patient.current_card.try(:validity)
         %td
-          - if mentor.patients.count == 0
-            = link_to 'Remove', site_mentor_path(@site, mentor), :method => :delete
-
-%br
-.box.new_mentor_form
-  = form_tag site_mentors_path(@site) do
-    .field
-      = label_tag "mentor[name]", 'Name'
-      = text_field_tag "mentor[name]"
-    .actions
-      = submit_tag 'Add'
+          - if patient.current_card.nil?
+            = link_to 'Assign card', assign_card_patient(patient)
+        
