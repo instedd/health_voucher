@@ -4,7 +4,7 @@ class Site < ActiveRecord::Base
   belongs_to :user
   has_many :clinics, :dependent => :destroy
   has_many :mentors, :dependent => :destroy
-  has_many :pacients, :through => :mentors
+  has_many :patients, :through => :mentors
   has_many :cards
 
   validates_presence_of :name
@@ -15,10 +15,10 @@ class Site < ActiveRecord::Base
   end
 
   def unassigned_cards
-    cards.where(:pacient_id => nil)
+    cards.where(:patient_id => nil)
   end
 
-  def pacients_with_cards
-    pacients.where('current_card_id IS NOT NULL')
+  def patients_with_cards
+    patients.where('current_card_id IS NOT NULL')
   end
 end

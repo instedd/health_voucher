@@ -3,7 +3,7 @@ class Mentor < ActiveRecord::Base
 
   belongs_to :site
 
-  has_many :pacients
+  has_many :patients
 
   validates_presence_of :name, :site
   validates_length_of :name, :maximum => 80
@@ -13,7 +13,7 @@ class Mentor < ActiveRecord::Base
   private
 
   def check_no_patients
-    if pacients.count > 0
+    if patients.count > 0
       errors[:base] << "Mentor has patients"
       false
     else

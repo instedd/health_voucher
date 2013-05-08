@@ -17,7 +17,7 @@
         %td
           = link_to mentor.name, manage_site_mentor_path(@site, mentor)
         %td
-          - if mentor.pacients.count == 0
+          - if mentor.patients.count == 0
             = link_to 'Remove', site_mentor_path(@site, mentor), :method => :delete
 
 %br

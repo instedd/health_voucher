@@ -9,7 +9,7 @@ class Card < ActiveRecord::Base
 
   has_many :vouchers, :dependent => :destroy
 
-  belongs_to :pacient
+  belongs_to :patient
   belongs_to :site
   belongs_to :batch
 

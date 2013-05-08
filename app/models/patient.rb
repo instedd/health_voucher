@@ -1,4 +1,4 @@
-class Pacient < ActiveRecord::Base
+class Patient < ActiveRecord::Base
   attr_accessible :agep_id
 
   belongs_to :mentor
@@ -16,14 +16,14 @@ class Pacient < ActiveRecord::Base
 
   def check_current_card
     if current_card
-      unless current_card.pacient == self || current_card.pacient.nil?
-        errors[:current_card] << "belongs to another pacient"
+      unless current_card.patient == self || current_card.patient.nil?
+        errors[:current_card] << "belongs to another patient"
       end
     end
   end
 
   def assign_current_card
-    current_card.update_attribute :pacient, self unless current_card.nil?
+    current_card.update_attribute :patient, self unless current_card.nil?
     true
   end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130503174021) do
+ActiveRecord::Schema.define(:version => 20130508193457) do
 
   create_table "authorizations", :force => true do |t|
     t.integer  "card_id"
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(:version => 20130503174021) do
     t.string   "serial_number"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
-    t.integer  "pacient_id"
+    t.integer  "patient_id"
     t.integer  "site_id"
     t.date     "validity"
     t.string   "status"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(:version => 20130503174021) do
   end
 
   add_index "cards", ["batch_id"], :name => "index_cards_on_batch_id"
-  add_index "cards", ["pacient_id"], :name => "index_cards_on_pacient_id"
+  add_index "cards", ["patient_id"], :name => "index_cards_on_pacient_id"
   add_index "cards", ["serial_number"], :name => "index_cards_on_serial_number"
   add_index "cards", ["site_id"], :name => "index_cards_on_site_id"
 
@@ -99,7 +99,7 @@ ActiveRecord::Schema.define(:version => 20130503174021) do
   add_index "models", ["email"], :name => "index_models_on_email", :unique => true
   add_index "models", ["reset_password_token"], :name => "index_models_on_reset_password_token", :unique => true
 
-  create_table "pacients", :force => true do |t|
+  create_table "patients", :force => true do |t|
     t.string   "agep_id"
     t.integer  "mentor_id"
     t.datetime "created_at",      :null => false
@@ -107,8 +107,8 @@ ActiveRecord::Schema.define(:version => 20130503174021) do
     t.integer  "current_card_id"
   end
 
-  add_index "pacients", ["current_card_id"], :name => "index_pacients_on_current_card_id"
-  add_index "pacients", ["mentor_id"], :name => "index_pacients_on_mentor_id"
+  add_index "patients", ["current_card_id"], :name => "index_pacients_on_current_card_id"
+  add_index "patients", ["mentor_id"], :name => "index_pacients_on_mentor_id"
 
   create_table "providers", :force => true do |t|
     t.string   "name"
