@@ -45,7 +45,15 @@ class ManagementController < ApplicationController
   end
 
   def move
-    redirect_to manage_site_path(@site)
+    @mentor = Mentor.find(params[:target_id])
+    Patient.transaction do
+      ids = params[:patient_ids].split(',')
+      ids.each do |id|
+        Patient.find(id).update_attribute :mentor, @mentor
+      end
+      flash[:notice] = "#{ids.count} AGEP IDs moved to #{@mentor.name}"
+    end
+    redirect_to manage_site_mentor_path(@site, @mentor)
   end
 
   private

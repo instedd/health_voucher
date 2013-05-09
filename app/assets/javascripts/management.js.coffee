@@ -37,3 +37,14 @@ class ManagementDialog
     report.div.find('.serial_number').text($(@).data('serial-number'))
     pos = $(@).position()
     report.show_at(pos)
+
+  move_dialog = $('.move_dialog')
+  move_dialog.find('select').change ->
+    if @value
+      move_dialog.find('button').attr('disabled', false)
+    else
+      move_dialog.find('button').attr('disabled', true)
+  move_dialog.find('form').submit ->
+    ids = $('.patients input:checked').map(-> @value).toArray().join()
+    $('#patient_ids').val(ids)
+    true

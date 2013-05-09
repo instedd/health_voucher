@@ -11,7 +11,7 @@
     - @mentor.patients.each do |patient|
       %tr(data-id="#{patient.id}")
         %td
-          = check_box_tag "patient_ids[]", patient.id
+          = check_box_tag nil, patient.id
         %td= patient.agep_id
         %td= card_serial_number(patient.current_card)
         %td= card_validity(patient.current_card)
@@ -101,11 +101,12 @@
   .w30.ux-collapsible.collapsed(data-on-expanded="box grey")
     %span
       %a.fright Move selected to another mentor
-    .ux-content
+    .ux-content.move_dialog
       = form_tag manage_site_move_patients_path(@site) do
+        = hidden_field_tag "patient_ids"
         .field.w30
           = label_tag :target_id, 'Select another mentor'
-          = select_tag :target_id, options_from_collection_for_select(@site.mentors, :id, :name), include_blank: true, class: 'w30'
+          = select_tag :target_id, target_mentors_for_select(@site, @mentor), include_blank: true, class: 'w30'
         .actions
-          = button_tag 'Move', :class => 'white'
+          = button_tag 'Move', :class => 'white', :disabled => true
 
