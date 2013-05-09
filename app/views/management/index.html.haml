@@ -2,29 +2,18 @@
 
 = render partial: '/sites/selector', :locals => { :path_helper => :manage_site_path }
 
-%h2= @site.name
+%h2
+  = @site.name
+  - if @mentor
+    \-
+    = @mentor.name
+
 
 - if @mentor.nil?
   = render partial: 'mentors'
 - else
-  %h3= @mentor.name
+  = render partial: 'patients'
 
-  %table
-    %thead
-      %tr
-        %th
-        %th AGEP ID
-        %th Current card
-        %th Valid from
-        %th
-    %tbody
-      - @mentor.patients.each do |patient|
-        %td
-          = check_box_tag "patient_ids[]", patient.id
-        %td= patient.agep_id
-        %td= patient.current_card.try(:serial_number)
-        %td= patient.current_card.try(:validity)
-        %td
-          - if patient.current_card.nil?
-            = link_to 'Assign card', assign_card_patient(patient)
-        
+:javascript
+  $(function() { onManagementIndex() })
+

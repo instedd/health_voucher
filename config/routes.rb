@@ -7,31 +7,41 @@ EVoucher::Application.routes.draw do
 
   resources :batches, :only => [:index]
 
-  resources :sites do
-    namespace :cards, :module => false, :controller => 'cards' do
-      get '/', :action => :index
-      post :batch_assign
-      post :assign
-      post :return
+  resources :sites, :except => [:show] do
+    member do
+      get :assign_cards
+      post :batch_assign_cards
+      post :assign_individual_card
+      post :return_cards
     end
 
     resources :clinics
     resources :mentors, :only => [:create, :destroy]
   end
 
+  resources :cards, :only => [] do
+    member do
+      post 'start_validity'
+    end
+  end
+
   resources :providers, :only => [:create, :destroy]
   resources :patients, :only => [] do
     member do
-      get 'assign_card'
-      post 'do_assign_card', :path => 'assign_card', :as => 'assign_card'
+      post 'assign_card'
     end
   end
 
   resources :transactions, :only => [:index]
 
-  match '/manage_site' => 'management#index', :as => 'manage_sites'
-  match '/manage_site/:site_id' => 'management#index', :as => 'manage_site'
-  match '/manage_site/:site_id/:mentor_id' => 'management#index', :as => 'manage_site_mentor'
+  namespace 'manage_site', :module => false, :controller => 'management', :as => '' do
+    get '/', :action => :index, :as => 'manage_sites'
+    get '/:site_id', :action => :index, :as => 'manage_site'
+    get '/:site_id/:mentor_id', :action => :index, :as => 'manage_site_mentor'
+    post '/:site_id/:mentor_id/add_patients', :action => :add_patients, :as => 'manage_site_add_patients'
+    post '/:site_id/:mentor_id/assign', :action => :assign, :as => 'manage_site_auto_assign'
+    post '/:site_id/move_patients', :action => :move, :as => 'manage_site_move_patients'
+  end
 
   # for instedd-platform-rails
   match 'terms_and_conditions' => redirect("http://instedd.org/terms-of-service/")

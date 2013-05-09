@@ -1,0 +1,16 @@
+= form_tag batch_assign_cards_site_path(@site), :method => :post do
+  .field
+    = label_tag "Add Cards from Batch"
+    = select_tag :batch_id, options_from_collection_for_select(@batches, :id, :name), include_blank: true, :class => 'w30'
+
+  .field
+    = label_tag "Initial Serial Number"
+    = text_field_tag :first_serial_number, nil, :class => 'serial_number w10'
+
+  .field
+    = label_tag "Quantity"
+    = number_field_tag :quantity, nil, min: 1, max: 999999, :class => 'w10'
+
+  .actions
+    = button_tag "Add to Site stock", :class => 'white'
+

@@ -7,4 +7,11 @@ module SitesHelper
     end
     options_for_select(sites, current)
   end
+
+  def assigned_patients_percent(site)
+    patients = site.patients.count
+    assigned = site.patients_with_cards.count
+
+    100.0 * (patients - assigned) / patients
+  end
 end

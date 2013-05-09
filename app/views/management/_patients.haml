@@ -1,0 +1,85 @@
+.tablewrapp
+  %table.GralTable.patients
+    %colgroup
+      %col(style="width: 30px")
+    %tr
+      %th
+      %th AGEP ID
+      %th Current card
+      %th Valid from
+      %th
+    - @mentor.patients.each do |patient|
+      %tr(data-id="#{patient.id}")
+        %td
+          = check_box_tag "patient_ids[]", patient.id
+        %td= patient.agep_id
+        %td= patient.current_card.try(:serial_number)
+        %td= patient.current_card.try(:validity)
+        %td
+          - if patient.current_card.nil?
+            %a.fadd.assign_action(data-action="#{assign_card_patient_path(patient)}")
+              Assign card
+          - elsif patient.current_card.validity.nil?
+            %a.fplay.start_action(data-action="#{start_validity_card_path(patient.current_card)}") Start validity
+          - else
+            %a.fclain.report_action Report lost
+
+  .dialog#assign_dialog
+    .box.grey.w20
+      %span
+        %a.fadd Assign card
+      .ux-content
+        = form_tag nil, :id => 'assign_form', :method => "post" do
+          .field.w20
+            %label(for="assign_sn") Serial Number
+            %input.w20.serial_number#assign_sn(name="serial_number" type="text" 
+              value="#{first_unassigned_card_serial_number(@site)}")
+          .actions
+            %button.white(type="submit") Assign
+
+  
+
+%br
+.actions
+  .w40.ux-collapsible.collapsed(data-on-expanded="box grey")
+    %span
+      %a.fadd Add new AGEP IDs to this group
+    .ux-content
+      = form_tag manage_site_add_patients_path(@site, @mentor) do
+        .field.w40
+          = label_tag :agep_ids, 'AGEP IDs'
+          %p (you can enter several AGEP IDs separated by spaces or new lines)
+          = text_area_tag :agep_ids, '', rows: 5
+        .actions
+          = button_tag 'Add', :class => 'white'
+
+  - if @site.unassigned_cards.count > 0
+    .w20.ux-collapsible.collapsed(data-on-expanded="box grey")
+      %span
+        %a.fsettings Assign cards automatically
+      .ux-content
+        = form_tag manage_site_auto_assign_path(@site, @mentor) do
+          .field.w20
+            = label_tag :initial_serial_number, 'Initial Serial Number'
+            = text_field_tag :initial_serial_number, 
+              first_unassigned_card_serial_number(@site), 
+              :class => 'serial_number'
+          .actions
+            = button_tag 'Assign', :class => 'white'
+  - else
+    .w20
+      %span
+        %a.fsettings.disabled Assign cards automatically
+
+
+  .w30.ux-collapsible.collapsed(data-on-expanded="box grey")
+    %span
+      %a.fright Move selected to another mentor
+    .ux-content
+      = form_tag manage_site_move_patients_path(@site) do
+        .field.w30
+          = label_tag :target_id, 'Select another mentor'
+          = select_tag :target_id, options_from_collection_for_select(@site.mentors, :id, :name), include_blank: true, class: 'w30'
+        .actions
+          = button_tag 'Move', :class => 'white'
+

@@ -1,0 +1,7 @@
+= form_tag assign_individual_card_site_path(@site), :method => :post do
+  .field.w30
+    = label_tag "Add Individual Card"
+    = text_field_tag :serial_number, nil, :class => 'serial_number w10'
+  .actions
+    = button_tag "Add to Site stock", :class => 'white'
+

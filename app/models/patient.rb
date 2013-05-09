@@ -6,8 +6,9 @@ class Patient < ActiveRecord::Base
   has_many :cards
   belongs_to :current_card, :class_name => 'Card'
 
-  validates_presence_of :agep_id
+  validates_presence_of :agep_id, :mentor
   validates_format_of :agep_id, :with => /\A([0-9]{7}|[0-9]{10})\z/
+  validates_uniqueness_of :agep_id
 
   validate :check_current_card
   after_save :assign_current_card

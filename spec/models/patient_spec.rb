@@ -3,21 +3,21 @@ require 'spec_helper'
 describe Patient do
   describe "AGEP ID validation" do
     it "should validate 7 digits IDs" do
-      Patient.new(agep_id: '1234567').should be_valid
+      Patient.make(agep_id: '1234567').should be_valid
     end
 
     it "should validate 10 digits IDs" do
-      Patient.new(agep_id: '1234567890').should be_valid
+      Patient.make(agep_id: '1234567890').should be_valid
     end
 
     it "should reject non-digit IDs" do
-      Patient.new(agep_id: 'ABCDEFG').should_not be_valid
+      Patient.make(agep_id: 'ABCDEFG').should_not be_valid
     end
 
     it "should reject IDs of length other than 7 or 10" do
       (0..15).each do |length|
         unless length == 7 || length == 10
-          Patient.new(agep_id: '1'*length).should_not be_valid
+          Patient.make(agep_id: '1'*length).should_not be_valid
         end
       end
     end

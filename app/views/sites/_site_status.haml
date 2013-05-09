@@ -1,0 +1,16 @@
+.values(style="width: 100%")
+  .L
+    %span= @site.patients.count
+    %span AGEP IDs
+  .R
+    %span= @site.patients_with_cards.count
+    %span with card assigned
+  %br(clear="all")
+  .M
+    %span.Fill(style="width: #{assigned_patients_percent(@site)}%")
+
+  %br
+  .U
+    %span
+      #{@site.unassigned_cards.count} unassigned cards in site
+

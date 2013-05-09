@@ -1,31 +1,35 @@
 %h1 Sites
 
-%table
-  %thead
-    %tr
-      %th Site identification
-      %th Created
-      %th Training?
-      %th Manager
-      %th Mentors
-      %th AGEP IDs
-      %th Unassigned cards
-      %th
-
-  %tbody
-    - @sites.each do |site|
+.tablewrapp
+  %table.GralTable
+    %tbody
       %tr
-        %td
-          = link_to site.name, edit_site_path(site)
-        %td= site.created_at
-        %td= site.training?
-        %td= site.manager
-        %td= site.mentors.count
-        %td= site.patients.count
-        %td= site.unassigned_cards.count
-        %td
-          = link_to 'Assign more cards', site_cards_path(site)
+        %th Site identification
+        %th Created
+        %th Training?
+        %th Manager
+        %th Mentors
+        %th AGEP IDs
+        %th Unassigned cards
+        %th
+      - @sites.each do |site|
+        %tr
+          %td
+            = link_to site.name, edit_site_path(site)
+          %td= site.created_at.to_s(:long)
+          %td
+            - if site.training?
+              %input(type="checkbox" disabled="true" checked="true")
+            - else
+              %input(type="checkbox" disabled="true")
+          %td= site.manager
+          %td= site.mentors.count
+          %td= site.patients.count
+          %td= site.unassigned_cards.count
+          %td
+            = link_to 'Assign cards', assign_cards_site_path(site), :class => 'fsettings'
 
+%br
 .actions
-  = link_to 'Register new site', new_site_path
+  = link_to 'Register new site', new_site_path, :class => 'fadd'
 

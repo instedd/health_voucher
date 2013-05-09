@@ -58,8 +58,14 @@ Transaction.blueprint do
   status { :pending }
 end
 
+Mentor.blueprint do
+  name { "Mentor #{sn}" }
+  site { Site.make! }
+end
+
 Patient.blueprint do
   agep_id { sn.to_s.rjust(10, '0') }
+  mentor { Mentor.make! }
 end
 
 def _serial_number
