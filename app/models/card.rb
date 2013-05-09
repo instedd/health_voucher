@@ -39,6 +39,10 @@ class Card < ActiveRecord::Base
     vouchers.select { |v| v.secondary? }
   end
 
+  def report_lost!
+    update_attribute :status, :lost
+  end
+
   private
 
   def valid_check_digit

@@ -1,5 +1,5 @@
 $ ->
-  $('.serial_number').change ->
+  $('input.serial_number').change ->
     @value = pad(@value, 6)
 
   pad = (n, width, z) ->

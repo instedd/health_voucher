@@ -13,6 +13,16 @@ class Patient < ActiveRecord::Base
   validate :check_current_card
   after_save :assign_current_card
 
+  def report_lost_card!
+    if current_card
+      transaction do
+        current_card.report_lost!
+        self.current_card = nil
+        save!
+      end
+    end
+  end
+
   private
 
   def check_current_card

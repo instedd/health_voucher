@@ -4,9 +4,11 @@
 
 %h2
   = @site.name
+  \-
   - if @mentor
-    \-
     = @mentor.name
+  - else
+    Mentors
 
 
 - if @mentor.nil?

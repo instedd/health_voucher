@@ -1,4 +1,4 @@
-class AssignDialog
+class ManagementDialog
   constructor: (@div) ->
     @title = @div.find('span a')
     @title.click =>
@@ -18,10 +18,22 @@ class AssignDialog
     @div.css('display', 'none')
 
 @onManagementIndex = ->
-  assign = new AssignDialog($('#assign_dialog'))
+  assign = new ManagementDialog($('#assign_dialog'))
+  start = new ManagementDialog($('#start_dialog'))
+  report = new ManagementDialog($('#report_dialog'))
 
   $('.assign_action').click ->
     assign.form.attr('action', $(@).data('action'))
     pos = $(@).position()
     assign.show_at(pos)
 
+  $('.start_action').click ->
+    start.form.attr('action', $(@).data('action'))
+    pos = $(@).position()
+    start.show_at(pos)
+
+  $('.report_action').click ->
+    report.form.attr('action', $(@).data('action'))
+    report.div.find('.serial_number').text($(@).data('serial-number'))
+    pos = $(@).position()
+    report.show_at(pos)

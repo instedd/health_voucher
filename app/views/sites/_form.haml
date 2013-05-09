@@ -1,16 +1,17 @@
+= errors_for @site
+
 = form_for @site do |f|
-  = errors_for @site
-  = hidden_field_tag :id, @site.id
+  .box.w30
+    .field
+      = f.label :name
+      = f.text_field :name, :class => 'w30'
 
-  .field
-    = f.label :name
-    = f.text_field :name
+    .field
+      = f.check_box :training
+      = f.label :training
 
-  .field
-    = f.check_box :training
-    = f.label :training
-
+  %br
   .actions
-    = f.submit
+    = f.button nil, :class => 'white'
     = link_to 'Back', sites_path
 

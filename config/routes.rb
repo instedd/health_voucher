@@ -29,6 +29,7 @@ EVoucher::Application.routes.draw do
   resources :patients, :only => [] do
     member do
       post 'assign_card'
+      post 'lost_card'
     end
   end
 

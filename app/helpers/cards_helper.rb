@@ -8,4 +8,20 @@ module CardsHelper
       result
     end
   end
+
+  def card_serial_number(card)
+    if card
+      "#{card.check_digit}-#{card.serial_number}"
+    else
+      ''
+    end
+  end
+
+  def card_validity(card)
+    if card && card.validity
+      card.validity.to_time.to_s(:date)
+    else
+      ''
+    end
+  end
 end

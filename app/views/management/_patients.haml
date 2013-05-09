@@ -13,8 +13,8 @@
         %td
           = check_box_tag "patient_ids[]", patient.id
         %td= patient.agep_id
-        %td= patient.current_card.try(:serial_number)
-        %td= patient.current_card.try(:validity)
+        %td= card_serial_number(patient.current_card)
+        %td= card_validity(patient.current_card)
         %td
           - if patient.current_card.nil?
             %a.fadd.assign_action(data-action="#{assign_card_patient_path(patient)}")
@@ -22,20 +22,46 @@
           - elsif patient.current_card.validity.nil?
             %a.fplay.start_action(data-action="#{start_validity_card_path(patient.current_card)}") Start validity
           - else
-            %a.fclain.report_action Report lost
+            %a.fclaim.report_action(data-action="#{lost_card_patient_path(patient)}" data-serial-number="#{card_serial_number(patient.current_card)}") Report lost
 
   .dialog#assign_dialog
     .box.grey.w20
       %span
         %a.fadd Assign card
       .ux-content
-        = form_tag nil, :id => 'assign_form', :method => "post" do
+        = form_tag nil, :method => "post" do
           .field.w20
             %label(for="assign_sn") Serial Number
             %input.w20.serial_number#assign_sn(name="serial_number" type="text" 
               value="#{first_unassigned_card_serial_number(@site)}")
           .actions
             %button.white(type="submit") Assign
+
+  .dialog#start_dialog
+    .box.grey.w20
+      %span
+        %a.fplay Start validity
+      .ux-content
+        = form_tag nil, :method => "post" do
+          .field.w20
+            %label(for="validity") Card is valid from
+            %input.w20.ux-datepicker#validity(name="validity" type="text" 
+              value="#{Time.now.to_s(:date)}")
+          .actions
+            %button.white(type="submit") Set
+
+  .dialog#report_dialog
+    .box.grey.w20
+      %span
+        %a.fclaim Report lost
+      .ux-content
+        = form_tag nil, :method => "post" do
+          %p Please confirm the patient's card was lost or stolen
+          %p
+            Serial Number
+            %b.serial_number
+          .actions
+            %button.white(type="submit") Confirm Report
 
   
 

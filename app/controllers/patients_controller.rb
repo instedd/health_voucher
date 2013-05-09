@@ -13,4 +13,16 @@ class PatientsController < ApplicationController
     end
     redirect_to manage_site_mentor_path(@site, @mentor)
   end
+  
+  def lost_card
+    @patient = Patient.find(params[:id])
+    @mentor = @patient.mentor
+    @site = @mentor.site
+    @card = @patient.current_card
+    if @card
+      @patient.report_lost_card!
+      flash[:notice] = "Card was reported lost"
+    end
+    redirect_to manage_site_mentor_path(@site, @mentor)
+  end
 end
