@@ -17,3 +17,5 @@
 # Ignore Vim swap files
 *.swp
 
+# Ignore settings.yml
+/config/settings.yml

@@ -1,0 +1,22 @@
+defaults: &defaults
+  nuntium_host: http://nuntium.instedd.org/
+  nuntium_account: COMPLETE
+  nuntium_app: COMPLETE
+  nuntium_app_passwd: COMPLETE
+  basic_auth_name: COMPLETE
+  basic_auth_pwd: COMPLETE
+  default_url_options:
+    host: localhost:3000
+  from_email: health_vouchers@popcouncil.org
+
+development:
+  <<: *defaults
+
+test: &test
+  <<: *defaults
+
+staging:
+  <<: *defaults
+
+production:
+  <<: *defaults
