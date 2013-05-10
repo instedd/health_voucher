@@ -21,6 +21,19 @@ class Card < ActiveRecord::Base
   validates_length_of :serial_number, :is => SERIAL_NUMBER_LENGTH
   validate :valid_check_digit
 
+  def self.valid_serial_number?(sn)
+    sn.length == SERIAL_NUMBER_LENGTH + 1 &&
+      Card::Damm.generate(sn[1..-1]) == sn[0]
+  end
+
+  def self.find_by_serial_number(sn)
+    if sn.to_s.length == SERIAL_NUMBER_LENGTH + 1
+      self.where(serial_number: sn.to_s[1..-1], check_digit: sn.to_s[0]).first
+    else
+      self.where(serial_number: sn).first
+    end
+  end
+
   def full_serial_number
     "#{check_digit}#{serial_number}"
   end

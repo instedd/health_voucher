@@ -12,4 +12,9 @@ class Voucher < ActiveRecord::Base
   validates_presence_of :card
   validates_uniqueness_of :code
   validates :code, :code => { :length => VOUCHER_CODE_LENGTH }
+
+  def self.valid_voucher_code?(code)
+    code.length == VOUCHER_CODE_LENGTH &&
+      Card::Code.check(code)
+  end
 end

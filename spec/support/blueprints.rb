@@ -68,6 +68,10 @@ Patient.blueprint do
   mentor { Mentor.make! }
 end
 
+Patient.blueprint(:agep_id_7) do
+  agep_id { sn.to_s.rjust(7, '0') }
+end
+
 def _serial_number
   Card::Code.generate(Card::SERIAL_NUMBER_LENGTH)
 end

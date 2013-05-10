@@ -1,4 +1,5 @@
 class Patient < ActiveRecord::Base
+  AGEP_ID_REGEX = /\A([0-9]{7}|[0-9]{10})\z/
   attr_accessible :agep_id
 
   belongs_to :mentor
@@ -7,7 +8,7 @@ class Patient < ActiveRecord::Base
   belongs_to :current_card, :class_name => 'Card'
 
   validates_presence_of :agep_id, :mentor
-  validates_format_of :agep_id, :with => /\A([0-9]{7}|[0-9]{10})\z/
+  validates_format_of :agep_id, :with => AGEP_ID_REGEX
   validates_uniqueness_of :agep_id
 
   validate :check_current_card
@@ -21,6 +22,10 @@ class Patient < ActiveRecord::Base
         save!
       end
     end
+  end
+
+  def self.valid_agep_id?(agep_id)
+    agep_id =~ AGEP_ID_REGEX
   end
 
   private

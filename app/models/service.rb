@@ -1,4 +1,6 @@
 class Service < ActiveRecord::Base
+  SERVICE_CODE_LENGTH = 2
+
   extend Enumerize
 
   attr_accessible :code, :description, :service_type, :short_description
