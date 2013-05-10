@@ -2,28 +2,34 @@
 
 %h1 Clinics
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th Providers
-      %th Services
-      %th
-  %tbody
-    - @clinics.each do |clinic|
+.tablewrapp
+  %table.GralTable
+    %tbody
       %tr
-        %td
-          = link_to clinic.name, site_clinic_path(@site, clinic)
-        %td= clinic.providers.count
-        %td= clinic.enabled_clinic_services.count
-        %td
-          - if clinic.providers.count == 0
-            = link_to 'Remove', site_clinic_path(@site, clinic), :method => :delete
+        %th Name
+        %th Providers
+        %th Services
+        %th
+      - @clinics.each do |clinic|
+        %tr
+          %td
+            = link_to clinic.name, site_clinic_path(@site, clinic)
+          %td= clinic.providers.count
+          %td= clinic.enabled_clinic_services.count
+          %td
+            - if clinic.providers.count == 0
+              = link_to 'Remove', site_clinic_path(@site, clinic), :method => :delete, :class => 'fdelete'
 
 %br
-.box
-  = form_tag site_clinics_path(@site) do
-    = label_tag 'clinic[name]', 'Name'
-    = text_field_tag 'clinic[name]', nil, maxlength: 80
-    = submit_tag 'Add'
+.actions
+  .w30.ux-collapsible.collapsed(data-on-expanded="box grey")
+    %span
+      %a.fadd Add new Clinic
+    .ux-content
+      = form_tag site_clinics_path(@site) do
+        .field.w30
+          = label_tag 'clinic[name]', 'Name'
+          = text_field_tag 'clinic[name]', nil, maxlength: 80, :class => 'w30'
+        .actions
+          = button_tag 'Add', :class => 'white'
 

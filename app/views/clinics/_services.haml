@@ -1,18 +1,18 @@
 %h2 Services &amp; Cost
 
 .clinic_services
-  %table
-    %thead
+  %table.GralTable
+    %tbody
       %tr
         %th Code
         %th Description
         %th Enabled?
         %th Cost
-    %tbody
       - @clinic.all_clinic_services.each do |cs|
         %tr
           %td= cs.service.code
           %td= cs.service.description
-          %td= cs.enabled
+          %td
+            = check_box_tag "service_ids[]", cs.service.id, cs.enabled
           %td= cs.cost
 
