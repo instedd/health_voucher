@@ -154,7 +154,6 @@ describe MessageParser do
 
     it "Service Code invalid" do
       parser_error("01*#{@pin}").should eq(:service_code_invalid)
-      parser_error("99*#{@pin}").should eq(:service_code_invalid)
     end
 
     it "PIN code invalid" do

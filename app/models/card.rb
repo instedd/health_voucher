@@ -8,6 +8,7 @@ class Card < ActiveRecord::Base
   attr_accessible :serial_number
 
   has_many :vouchers, :dependent => :destroy
+  has_many :authorizations
 
   belongs_to :patient
   belongs_to :site
@@ -52,8 +53,20 @@ class Card < ActiveRecord::Base
     vouchers.select { |v| v.secondary? }
   end
 
+  def expired?
+    !validity.nil? && validity < 1.year.ago
+  end
+
   def report_lost!
     update_attribute :status, :lost
+  end
+
+  def unused_vouchers(type = nil)
+    if type.nil?
+      vouchers.where(:used => false)
+    else
+      vouchers.where(:used => false).where(:service_type => type)
+    end
   end
 
   private

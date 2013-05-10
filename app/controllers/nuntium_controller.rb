@@ -4,8 +4,19 @@ class NuntiumController < BasicAuthController
   def receive
     parser = MessageParser.new(params[:body])
     
-    if parser.parse
-      result = "OK"
+    case parser.parse
+    when :authorization
+      processor = Authorization::Processor.new(parser.provider, 
+                                               parser.patient, 
+                                               parser.card)
+      if processor.validate() && processor.add_services(parser.services)
+        result = processor.authorize
+      else
+        result = processor.error_message
+      end
+
+    when :confirmation
+      result = "confirmation"
     else
       result = parser.error_message
     end
