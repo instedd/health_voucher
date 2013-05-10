@@ -1,4 +1,6 @@
 class CardsController < ApplicationController
+  before_filter :authenticate_user!
+
   def start_validity
     @card = Card.find(params[:id])
     if @card.patient

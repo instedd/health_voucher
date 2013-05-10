@@ -1,4 +1,6 @@
 class PatientsController < ApplicationController
+  before_filter :authenticate_user!
+
   def assign_card
     @patient = Patient.find(params[:id])
     @mentor = @patient.mentor

@@ -1,4 +1,6 @@
 class ProvidersController < ApplicationController
+  before_filter :authenticate_user!
+
   def create
     @clinic = Clinic.find(params[:clinic_id])
     @provider = Provider.new(params[:provider])

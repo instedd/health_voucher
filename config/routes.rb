@@ -1,6 +1,9 @@
 EVoucher::Application.routes.draw do
   devise_for :users
 
+  # Nuntium routes
+  post '/nuntium/receive'
+
   root :to => 'management#index'
 
   match '/clinics' => 'home#clinics'

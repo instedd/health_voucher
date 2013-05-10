@@ -1,4 +1,5 @@
 class MentorsController < ApplicationController
+  before_filter :authenticate_user!
   before_filter :load_site
 
   def create
