@@ -1,5 +1,6 @@
 class Authorization::Processor
   attr_reader :error, :error_options
+  attr_reader :services
 
   def initialize(provider, patient, card)
     @provider = provider
@@ -9,7 +10,7 @@ class Authorization::Processor
   end
 
   def error_message
-    I18n.t "errors.#{@error}", (@error_options || {})
+    I18n.t "errors.#{@error}", (@error_options || {}) if @error
   end
 
   def validate
@@ -61,7 +62,11 @@ class Authorization::Processor
       next if @services.include?(service)
       
       # skip services already authenticated
-      next if pending_authorizations.find { |auth| auth.service == service }
+      if pending_authorizations.find { |auth| auth.service == service }
+        # but add them for the success message
+        @services << service
+        next
+      end
 
       # check service availability
       if !clinic.provides_service?(service)
@@ -69,7 +74,7 @@ class Authorization::Processor
 
       # and voucher availability
       elsif available_vouchers[service.service_type] <= 0
-        case service.service_type
+        case service.service_type.to_sym
         when :primary
           set_error :no_primary_vouchers, service: service
         when :secondary

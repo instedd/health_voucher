@@ -47,5 +47,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'machinist'
   gem 'timecop'
+  gem 'mocha', :require => false
 end
 

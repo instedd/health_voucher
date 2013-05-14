@@ -4,11 +4,16 @@ describe Authorization::Processor do
   before(:each) do
     @service1 = Service.make!
     @service2 = Service.make!(:secondary)
-    @card = Card.make!(:with_vouchers)
+    @service3 = Service.make!
+
     @clinic = Clinic.make!
     @cs1 = ClinicService.make! clinic: @clinic, service: @service1
     @cs2 = ClinicService.make! clinic: @clinic, service: @service2
+    @cs3 = ClinicService.make! clinic: @clinic, service: @service3
+
     @provider = Provider.make! clinic: @clinic
+
+    @card = Card.make!(:with_vouchers)
     @patient = Patient.make! current_card: @card
 
     @processor = Authorization::Processor.new(@provider, @patient, @card)
@@ -114,7 +119,72 @@ describe Authorization::Processor do
 
   describe "add services" do
     it "should validate adding available services" do
-      @processor.add_services([@service1, @service2]).should be_true, @processor.error_message
+      @processor.add_services([@service1, @service2]).should be_true
+      @processor.services.should eq([@service1, @service2])
+    end
+
+    it "should ignore duplicate services" do
+      @processor.add_services([@service1, @service1]).should be_true
+      @processor.services.should eq([@service1])
+    end
+
+    it "should add reviously authorized services" do
+      @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
+
+      @processor.add_services([@service1]).should be_true
+      @processor.services.should eq([@service1])
+    end
+
+    it "should not authorize services the clinic's provider does not provide" do
+      @service3 = Service.make!
+
+      @processor.add_services([@service3]).should be_false
+      @processor.error.should eq(:service_not_provided)
+    end
+    
+    it "should not authorize primary services when no primary vouchers are available" do
+      @card.primary_services.each do |voucher|
+        voucher.update_attribute :used, true
+      end
+
+      @processor.add_services([@service1]).should be_false
+      @processor.error.should eq(:no_primary_vouchers)
+    end
+
+    it "should not authorize secondary services when no secondary vouchers are available" do
+      @card.secondary_services.each do |voucher|
+        voucher.update_attribute :used, true
+      end
+
+      @processor.add_services([@service2]).should be_false
+      @processor.error.should eq(:no_secondary_vouchers)
+    end
+
+    it "should count pending authorizations as used vouchers" do
+      @card.primary_services.take(5).each do |voucher|
+        voucher.update_attribute :used, true
+      end
+      @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
+
+      @processor.add_services([@service3]).should be_false
+      @processor.error.should eq(:no_primary_vouchers)
+    end
+
+    it "should not authorize more than max_daily_authorizations" do
+      @processor.stubs(:max_daily_authorizations).returns(1)
+
+      @processor.add_services([@service1, @service2]).should be_false
+      @processor.error.should eq(:agep_id_authorization_limit)
+    end
+
+    it "should count pending authorizations towards max daily authorizations" do
+      @processor.stubs(:max_daily_authorizations).returns(1)
+
+      @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
+
+      @processor.add_services([@service2]).should be_false
+      @processor.error.should eq(:agep_id_authorization_limit)
     end
   end
 end
+

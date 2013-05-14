@@ -9,7 +9,7 @@ class ClinicsController < ApplicationController
   def create
     @clinic = @site.clinics.create(params[:clinic])
     if @clinic.valid?
-      redirect_to site_clinic_path(@clinic), notice: 'Clinic was created'
+      redirect_to site_clinic_path(@site, @clinic), notice: 'Clinic was created'
     else
       redirect_to site_clinics_path(@site), 
         alert: "Error creating clinic: #{@clinic.errors.full_messages.join(', ')}"

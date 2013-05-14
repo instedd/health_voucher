@@ -69,15 +69,19 @@ class ManagementController < ApplicationController
       if params[:mentor_id]
         @mentor = @site.mentors.find(params[:mentor_id])
       end
+    else
+      redirect_to welcome_path
     end
   end
 
   def add_breadcrumbs
     @show_breadcrumb = true
     add_breadcrumb 'Site Management', manage_sites_path
-    add_breadcrumb @site.name, manage_site_path(@site)
-    if @mentor
-      add_breadcrumb @mentor.name, manage_site_mentor_path(@site, @mentor)
+    if @site
+      add_breadcrumb @site.name, manage_site_path(@site)
+      if @mentor
+        add_breadcrumb @mentor.name, manage_site_mentor_path(@site, @mentor)
+      end
     end
   end
 end

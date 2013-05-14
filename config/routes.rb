@@ -47,6 +47,8 @@ EVoucher::Application.routes.draw do
     post '/:site_id/move_patients', :action => :move, :as => 'manage_site_move_patients'
   end
 
+  match '/welcome' => 'home#index'
+
   # for instedd-platform-rails
   match 'terms_and_conditions' => redirect("http://instedd.org/terms-of-service/")
 end

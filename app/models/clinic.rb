@@ -4,7 +4,8 @@ class Clinic < ActiveRecord::Base
   belongs_to :site
 
   has_many :clinic_services, :dependent => :destroy
-  has_many :services, :through => :clinic_services
+  has_many :enabled_services, :through => :clinic_services, :source => 'service',
+    :conditions => { 'clinic_services.enabled' => true }
   has_many :providers
 
   validates_presence_of :name
@@ -24,7 +25,7 @@ class Clinic < ActiveRecord::Base
   end
 
   def provides_service?(service)
-    enabled_clinic_services.include?(service)
+    enabled_clinic_services.where(:service_id => service.id).count > 0
   end
 
   private
