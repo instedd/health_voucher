@@ -10,8 +10,9 @@ class Transaction < ActiveRecord::Base
   belongs_to :voucher
   belongs_to :service
   belongs_to :authorization
+  belongs_to :statement
 
-  validates_presence_of :provider, :voucher, :service
+  validates_presence_of :provider, :voucher, :service, :authorization
 
   # Status changes allowed:
   #

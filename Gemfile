@@ -46,5 +46,6 @@ gem 'nuntium_api', '~> 0.19', :require => 'nuntium'
 group :development, :test do
   gem 'rspec-rails'
   gem 'machinist'
+  gem 'timecop'
 end
 

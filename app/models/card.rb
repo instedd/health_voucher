@@ -14,7 +14,7 @@ class Card < ActiveRecord::Base
   belongs_to :site
   belongs_to :batch
 
-  enumerize :status, in: [:active, :lost, :depleted, :expired], default: :active, predicates: true
+  enumerize :status, in: [:active, :lost], default: :active, predicates: true
 
   validates_presence_of :batch, :serial_number
   validates_uniqueness_of :serial_number

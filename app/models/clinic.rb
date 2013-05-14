@@ -23,6 +23,10 @@ class Clinic < ActiveRecord::Base
     clinic_services.where(:enabled => true)
   end
 
+  def provides_service?(service)
+    enabled_clinic_services.include?(service)
+  end
+
   private
 
   def check_no_providers

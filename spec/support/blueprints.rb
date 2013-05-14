@@ -11,6 +11,10 @@ Card.blueprint do
   serial_number { _serial_number }
 end
 
+Card.blueprint(:with_vouchers) do
+  vouchers { 6.times.map { Voucher.make } + 7.times.map { Voucher.make(:secondary) } }
+end
+
 Voucher.blueprint do
   card { Card.make! }
   code { _pin_code }
@@ -42,6 +46,17 @@ Service.blueprint do
   short_description { "Service" }
   service_type { :primary }
   code { _service_code }
+end
+
+Service.blueprint(:secondary) do
+  service_type { :secondary }
+end
+
+ClinicService.blueprint do
+  clinic { Clinic.make! }
+  service { Service.make! }
+  enabled { true }
+  cost { 1.0 }
 end
 
 Authorization.blueprint do
