@@ -54,7 +54,7 @@ class Card < ActiveRecord::Base
   end
 
   def expired?
-    !validity.nil? && validity < 1.year.ago
+    !validity.nil? && validity < 1.year.ago.to_date
   end
 
   def report_lost!

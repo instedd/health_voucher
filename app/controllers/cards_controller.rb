@@ -4,7 +4,8 @@ class CardsController < ApplicationController
   def start_validity
     @card = Card.find(params[:id])
     if @card.patient
-      @card.validity = params[:validity]
+      # FIXME: parameterize date format
+      @card.validity = Date.strptime(params[:validity], "%m/%d/%Y") rescue Date.today
       if @card.save
         flash[:notice] = "Card validity date set"
       else

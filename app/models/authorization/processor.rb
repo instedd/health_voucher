@@ -97,8 +97,35 @@ class Authorization::Processor
   end
 
   def authorize
-    # FIXME
-    "OK"
+    unless validate and @services.any?
+      raise RuntimeError, "Authorization::Processor.authorize called on invalid authorization"
+    end
+
+    Authorization.transaction do
+      clinic = @provider.clinic
+
+      # destroy other clinic's pending authorizations
+      other_pending_authorizations = @card.authorizations.pending.today
+      other_pending_authorizations.each do |auth|
+        if auth.provider.clinic != clinic
+          auth.destroy
+        end
+      end
+
+      # create authorizations for each service
+      pending_authorizations = current_pending_authorizations_for(clinic)
+      @services.each do |service|
+        unless pending_authorizations.find { |auth| auth.service == service }
+          @card.authorizations.create! provider: @provider, service: service
+        end
+      end
+
+      # set card's validity if was nil
+      @card.update_attribute :validity, Date.today if @card.validity.nil?
+    end
+
+    I18n.t "authorization_success", serial_number: @card.full_serial_number, 
+      services_short_desc: @services.map(&:short_description).join(', ')
   end
 
   private

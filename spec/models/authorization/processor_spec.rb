@@ -186,5 +186,94 @@ describe Authorization::Processor do
       @processor.error.should eq(:agep_id_authorization_limit)
     end
   end
+
+  describe "authorize" do
+    before(:each) do
+      @processor.validate.should be_true
+      @processor.add_services([@service1, @service2]).should be_true
+    end
+
+    it "should return a success text message" do
+      @processor.authorize.should be_a(String)
+    end
+
+    it "should create authorizations for the given services" do
+      lambda do
+        @processor.authorize
+      end.should change(Authorization, :count).by(2)
+
+      authorizations = @card.authorizations.today.by_clinic(@clinic)
+      authorizations.count.should eq(2)
+      authorizations.map(&:service).should include(@service1)
+      authorizations.map(&:service).should include(@service2)
+    end
+
+    it "should destroy any today's pending authorizations for another clinic" do
+      @another_provider = Provider.make!
+      @another_auth = Authorization.make! card: @card, 
+        provider: @another_provider, service: @service3
+
+      @card.authorizations.today.count.should eq(1)
+
+      @processor.authorize
+
+      Authorization.where(:id => @another_auth.id).should be_empty
+      @card.authorizations.today.count.should eq(2)
+    end
+
+    it "should not set card's validity if already initialized" do
+      Timecop.freeze(Date.today)
+
+      @card.update_attribute :validity, Date.yesterday
+      lambda do
+        @processor.authorize
+      end.should_not change(@card, :validity)
+    end
+
+    it "should set validity date on the card if it was nil" do
+      Timecop.freeze
+
+      @card.validity.should be_nil
+
+      @processor.authorize
+
+      @card.validity.should_not be_nil
+      @card.validity.should eq(Date.today)
+    end
+
+    it "should retain previous authorizations for the same clinic" do
+      @auth3 = Authorization.make! card: @card, provider: @provider, service: @service3
+
+      lambda do
+        @processor.authorize
+      end.should change(Authorization, :count).by(2)
+
+      @card.authorizations.should include(@auth3)
+    end
+
+    it "should not create a second authorization for a previously authorized service" do
+      @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
+
+      lambda do
+        @processor.authorize
+      end.should change(Authorization, :count).by(1)
+
+      @card.authorizations.should include(@auth1)
+    end
+
+    it "should not destroy confirmed authorizations" do
+      @another_provider = Provider.make!
+      @another_auth = Authorization.make! card: @card, 
+        provider: @another_provider, service: @service1
+      @txn = Transaction.make! authorization: @another_auth, provider: @another_provider, 
+        service: @service1, voucher: @card.primary_services.first
+
+      lambda do
+        @processor.authorize
+      end.should change(Authorization, :count).by(2)
+
+      Authorization.where(:id => @another_auth.id).first.should eq(@another_auth)
+    end
+  end
 end
 

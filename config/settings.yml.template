@@ -8,6 +8,7 @@ defaults: &defaults
   default_url_options:
     host: localhost:3000
   from_email: health_vouchers@popcouncil.org
+  max_daily_authorizations: 3
 
 development:
   <<: *defaults

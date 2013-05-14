@@ -30,3 +30,5 @@ en:
     voucher_not_secondary: "PIN invalid for service %{service_short_desc}. Please send Secondary panel PIN code to confirm the service."
     voucher_not_primary: "PIN invalid for service %{service_short_desc}. Please send Primary panel PIN code to confirm the service."
 
+  authorization_success: "Serial number %{serial_number} accepted for %{services_short_desc}."
+

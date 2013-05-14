@@ -30,7 +30,7 @@ class MessageParser
   end
 
   def error_message
-    I18n.t "errors.#{@error}", (@error_options || {})
+    I18n.t "errors.#{@error}", (@error_options || {}) if @error
   end
   
   private
