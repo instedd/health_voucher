@@ -78,8 +78,7 @@ describe Authorization::Processor do
     end
 
     it "should not return confirmed authorizations" do
-      @txn = Transaction.make! authorization: @auth1, provider: @auth1.provider, 
-        voucher: @card.vouchers.first, service: @auth1.service
+      @txn = Transaction.make! authorization: @auth1, voucher: @card.vouchers.first
 
       @processor.current_pending_authorizations_for(@clinic).should_not include(@auth1)
       @processor.current_pending_authorizations_for(@clinic).should include(@auth2)
@@ -265,8 +264,7 @@ describe Authorization::Processor do
       @another_provider = Provider.make!
       @another_auth = Authorization.make! card: @card, 
         provider: @another_provider, service: @service1
-      @txn = Transaction.make! authorization: @another_auth, provider: @another_provider, 
-        service: @service1, voucher: @card.primary_services.first
+      @txn = Transaction.make! authorization: @another_auth, voucher: @card.primary_services.first
 
       lambda do
         @processor.authorize

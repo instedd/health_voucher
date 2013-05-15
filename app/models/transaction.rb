@@ -6,13 +6,11 @@ class Transaction < ActiveRecord::Base
 
   attr_accessible :comment
 
-  belongs_to :provider
   belongs_to :voucher
-  belongs_to :service
   belongs_to :authorization
   belongs_to :statement
 
-  validates_presence_of :provider, :voucher, :service, :authorization
+  validates_presence_of :voucher, :authorization
 
   # Status changes allowed:
   #

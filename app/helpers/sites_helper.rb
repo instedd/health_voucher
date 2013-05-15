@@ -12,6 +12,10 @@ module SitesHelper
     patients = site.patients.count
     assigned = site.patients_with_cards.count
 
-    100.0 * (patients - assigned) / patients
+    if patients > 0
+      100.0 * (patients - assigned) / patients
+    else
+      0
+    end
   end
 end

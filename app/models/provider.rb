@@ -5,7 +5,8 @@ class Provider < ActiveRecord::Base
 
   belongs_to :clinic
 
-  has_many :transactions
+  has_many :authorizations
+  has_many :transactions, :through => :authorizations
 
   validates_presence_of :name, :code, :clinic
   validates_uniqueness_of :code

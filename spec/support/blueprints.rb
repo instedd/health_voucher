@@ -66,9 +66,7 @@ Authorization.blueprint do
 end
 
 Transaction.blueprint do 
-  provider { Provider.make! }
   voucher { Voucher.make! }
-  service { Service.make! }
   authorization { Authorization.make! }
   status { :pending }
 end
