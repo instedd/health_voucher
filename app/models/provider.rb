@@ -4,6 +4,7 @@ class Provider < ActiveRecord::Base
   attr_accessible :code, :enabled, :name
 
   belongs_to :clinic
+  has_one :site, :through => :clinic
 
   has_many :authorizations
   has_many :transactions, :through => :authorizations

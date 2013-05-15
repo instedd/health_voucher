@@ -291,5 +291,27 @@ describe Authorization::Processor do
       Authorization.where(:id => @another_auth.id).first.should eq(@another_auth)
     end
   end
+
+  describe "training" do
+    before(:each) do
+      @training_site = Site.make! training: true
+    end
+
+    it "should be false by default" do
+      @processor.should_not be_training
+    end
+
+    it "should be true if the card belongs to a training site" do
+      @card.update_attribute :site, @training_site
+
+      @processor.should be_training
+    end
+
+    it "should be true if the provider belongs to a training site" do
+      @provider.clinic.update_attribute :site, @training_site
+
+      @processor.should be_training
+    end
+  end
 end
 

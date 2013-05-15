@@ -27,6 +27,7 @@ end
 
 Site.blueprint do
   name { "Site" }
+  training { false }
 end
 
 Clinic.blueprint do

@@ -130,8 +130,22 @@ class Authorization::Processor
       @card.update_attribute :validity, Date.today if @card.validity.nil?
     end
 
-    I18n.t "authorization_success", serial_number: @card.full_serial_number, 
+    options = {
+      serial_number: @card.full_serial_number, 
       services_short_desc: @services.map(&:short_description).join(', ')
+    }
+
+    if training?
+      message_code = "training.authorization_success"
+    else
+      message_code = "authorization_success"
+    end
+
+    I18n.t message_code, options
+  end
+
+  def training?
+    @card.site.try(:training?) || @provider.site.try(:training?)
   end
 
   private

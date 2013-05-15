@@ -42,7 +42,19 @@ class Transaction::Processor
       @txn.save!
     end
 
-    I18n.t "confirmation_success", serial_number: @voucher.card.full_serial_number, transaction_id: @txn.id, service_short_desc: @service.short_description
+    options = {
+      serial_number: @voucher.card.full_serial_number, 
+      transaction_id: @txn.id, 
+      service_short_desc: @service.short_description
+    }
+
+    if training?
+      message_code = "training.confirmation_success"
+    else
+      message_code = "confirmation_success"
+    end
+
+    I18n.t message_code, options
   end
 
   def error_message
@@ -50,6 +62,10 @@ class Transaction::Processor
   end
 
   private
+
+  def training?
+    @auth.training?
+  end
 
   def set_error(code, options = {})
     if @error.nil?

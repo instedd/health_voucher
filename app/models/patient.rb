@@ -3,6 +3,7 @@ class Patient < ActiveRecord::Base
   attr_accessible :agep_id
 
   belongs_to :mentor
+  has_one :site, :through => :mentor
 
   has_many :cards
   belongs_to :current_card, :class_name => 'Card'

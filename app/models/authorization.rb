@@ -21,4 +21,8 @@ class Authorization < ActiveRecord::Base
 
   scope :confirmed, joins(:transaction)
   scope :pending, joins('LEFT JOIN transactions ON transactions.authorization_id = authorizations.id').where('transactions.id IS NULL')
+
+  def training?
+    card.site.try(:training?) || provider.site.try(:training?)
+  end
 end
