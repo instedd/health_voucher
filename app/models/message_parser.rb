@@ -5,7 +5,7 @@ class MessageParser
   attr_reader :provider_code, :agep_id, :serial_number, :service_codes
   attr_reader :service_code, :voucher_code
 
-  attr_reader :provider, :patient, :card, :voucher, :services
+  attr_reader :provider, :patient, :card, :voucher, :services, :service
 
   def initialize(body)
     @body = body
