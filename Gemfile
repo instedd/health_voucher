@@ -48,5 +48,7 @@ group :development, :test do
   gem 'machinist'
   gem 'timecop'
   gem 'mocha', :require => false
+  gem 'capistrano'
+  gem 'rvm-capistrano'
 end
 
