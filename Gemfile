@@ -49,6 +49,6 @@ group :development, :test do
   gem 'timecop'
   gem 'mocha', :require => false
   gem 'capistrano'
-  gem 'rvm-capistrano'
+  gem 'rvm-capistrano', '~> 1.2.7'
 end
 
