@@ -41,6 +41,19 @@ class ClinicsController < ApplicationController
     head :ok
   end
 
+  def set_service_cost
+    @clinic = @clinics.find(params[:id])
+    @service = Service.find(params[:service_id])
+    @clinic_service = @clinic.clinic_service_for(@service)
+    @clinic_service.cost = params[:cost]
+    if @clinic_service.save
+      flash[:notice] = "Cost for service was set"
+    else
+      flash[:alert] = "Error setting cost: #{@clinic_service.errors.full_messages.join(', ')}"
+    end
+    redirect_to site_clinic_path(@site, @clinic)
+  end
+
   private
 
   def load_site

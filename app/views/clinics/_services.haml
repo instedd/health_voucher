@@ -7,16 +7,16 @@
         %th Code
         %th Description
         %th Enabled?
-        %th Cost
+        %th(colspan="2") Cost
       - @clinic.all_clinic_services.each do |cs|
         %tr
           %td= cs.service.code
           %td= cs.service.description
           %td
             = check_box_tag "enabled", cs.service.id, cs.enabled, :data => { :remote => true, :method => :post, :url => toggle_service_site_clinic_path(@site, @clinic), :params => "service_id=#{cs.service.id}" }, :class => 'service_enable'
+          %td.cost= number_to_currency(cs.cost, unit: '')
           %td
-            %span.cost= cs.cost
-            %span.set_cost.fedit
+            %span.set_cost.fedit(data-action="#{set_service_cost_site_clinic_path(@site, @clinic)}" data-service-id="#{cs.service.id}")
 
   .dialog#cost_dialog
     .box.grey.w20
@@ -24,6 +24,7 @@
         %a.fedit Set Service Cost
       .ux-content
         = form_tag nil, :method => "post" do
+          = hidden_field_tag :service_id, nil
           .field.w20
             %label(for="cost") Cost
             %input.w20#cost(name="cost" type="number" value="" data-focus="true")
