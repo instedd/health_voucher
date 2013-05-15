@@ -47,6 +47,12 @@ class Authorization::Processor
     result
   end
 
+  def confirmed_or_pending_authorizations_for(clinic)
+    todays_authorizations.select do |auth|
+      auth.provider.clinic == clinic || auth.transaction.present?
+    end
+  end
+
   def max_daily_authorizations
     EVoucher::Application.config.max_daily_authorizations
   end
@@ -55,7 +61,7 @@ class Authorization::Processor
     clinic = @provider.clinic
     pending_authorizations = current_pending_authorizations_for(clinic)
     available_vouchers = count_available_vouchers(clinic)
-    auth_count = todays_authorizations.count
+    auth_count = confirmed_or_pending_authorizations_for(clinic).count
 
     services.each do |service|
       # skip duplicate services

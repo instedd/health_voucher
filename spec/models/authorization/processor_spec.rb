@@ -184,6 +184,24 @@ describe Authorization::Processor do
       @processor.add_services([@service2]).should be_false
       @processor.error.should eq(:agep_id_authorization_limit)
     end
+
+    it "should count confirmed authorizations (regardless of clinic) towards max daily authorizations" do
+      @processor.stubs(:max_daily_authorizations).returns(1)
+
+      @auth = Authorization.make! card: @card, provider: Provider.make!, service: @service1
+      @txn = Transaction.make! voucher: @card.primary_services.first, authorization: @auth
+
+      @processor.add_services([@service1]).should be_false
+      @processor.error.should eq(:agep_id_authorization_limit)
+    end
+
+    it "should not count pending authorizations for another clinic towards max daily authorizations" do
+      @processor.stubs(:max_daily_authorizations).returns(1)
+
+      @auth = Authorization.make! card: @card, provider: Provider.make!, service: @service1
+
+      @processor.add_services([@service1]).should be_true
+    end
   end
 
   describe "authorize" do

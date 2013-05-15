@@ -17,7 +17,14 @@ class NuntiumController < BasicAuthController
         end
 
       when :confirmation
-        result = "confirmation"
+        processor = Transaction::Processor.new(parser.service, parser.voucher)
+        
+        if processor.validate()
+          result = processor.confirm
+        else
+          result = processor.error_message
+        end
+
       else
         result = parser.error_message
       end

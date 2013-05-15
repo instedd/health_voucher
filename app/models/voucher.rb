@@ -17,4 +17,8 @@ class Voucher < ActiveRecord::Base
     code.length == VOUCHER_CODE_LENGTH &&
       Card::Code.check(code)
   end
+
+  def use!
+    update_attribute :used, true
+  end
 end
