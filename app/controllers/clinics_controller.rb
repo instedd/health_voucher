@@ -32,6 +32,15 @@ class ClinicsController < ApplicationController
     redirect_to site_clinics_path(@site)
   end
 
+  def toggle_service
+    @clinic = @clinics.find(params[:id])
+    @service = Service.find(params[:service_id])
+    @clinic_service = @clinic.clinic_service_for(@service)
+    @clinic_service.enabled = params[:enabled].present?
+    @clinic_service.save(validate: false)
+    head :ok
+  end
+
   private
 
   def load_site

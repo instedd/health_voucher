@@ -18,7 +18,7 @@ describe Clinic do
 
       @clinic.provides_service?(@service).should be_false
 
-      @clinic.clinic_services.create service: @service, enabled: true
+      @clinic.clinic_services.create! service: @service, enabled: true, cost: 1
 
       @clinic.provides_service?(@service).should be_true
     end

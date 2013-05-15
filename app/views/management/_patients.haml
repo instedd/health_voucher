@@ -32,8 +32,7 @@
         = form_tag nil, :method => "post" do
           .field.w20
             %label(for="assign_sn") Serial Number
-            %input.w20.serial_number#assign_sn(name="serial_number" type="text" 
-              value="#{first_unassigned_card_serial_number(@site)}")
+            %input.w20.serial_number#assign_sn(name="serial_number" type="text" data-focus="true" value="#{first_unassigned_card_serial_number(@site)}")
           .actions
             %button.white(type="submit") Assign
 
@@ -45,8 +44,7 @@
         = form_tag nil, :method => "post" do
           .field.w20
             %label(for="validity") Card is valid from
-            %input.w20.ux-datepicker#validity(name="validity" type="text" 
-              value="#{Time.now.to_s(:date)}")
+            %input.w20.ux-datepicker#validity(name="validity" type="text" data-focus="true" value="#{Time.now.to_s(:date)}")
           .actions
             %button.white(type="submit") Set
 
@@ -75,7 +73,7 @@
         .field.w40
           = label_tag :agep_ids, 'AGEP IDs'
           %p (you can enter several AGEP IDs separated by spaces or new lines)
-          = text_area_tag :agep_ids, '', rows: 5
+          = text_area_tag :agep_ids, '', rows: 5, :autofocus => true
         .actions
           = button_tag 'Add', :class => 'white'
 
@@ -89,7 +87,7 @@
             = label_tag :initial_serial_number, 'Initial Serial Number'
             = text_field_tag :initial_serial_number, 
               first_unassigned_card_serial_number(@site), 
-              :class => 'serial_number'
+              :class => 'serial_number', :autofocus => true
           .actions
             = button_tag 'Assign', :class => 'white'
   - else
@@ -106,7 +104,7 @@
         = hidden_field_tag "patient_ids"
         .field.w30
           = label_tag :target_id, 'Select another mentor'
-          = select_tag :target_id, target_mentors_for_select(@site, @mentor), include_blank: true, class: 'w30'
+          = select_tag :target_id, target_mentors_for_select(@site, @mentor), include_blank: true, class: 'w30', autofocus: true
         .actions
           = button_tag 'Move', :class => 'white', :disabled => true
 

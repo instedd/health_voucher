@@ -16,8 +16,12 @@ class Clinic < ActiveRecord::Base
 
   def all_clinic_services
     Service.order(:code).map do |service|
-      clinic_services.where(:service_id => service.id).first_or_initialize
+      clinic_service_for(service)
     end
+  end
+
+  def clinic_service_for(service)
+    clinic_services.where(:service_id => service.id).first_or_initialize
   end
 
   def enabled_clinic_services

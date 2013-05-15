@@ -24,4 +24,10 @@ class ProvidersController < ApplicationController
     end
     redirect_to site_clinic_path(@clinic.site, @clinic)
   end
+
+  def toggle
+    @provider = Provider.find(params[:id])
+    @provider.update_attribute :enabled, params[:enabled].present?
+    head :ok
+  end
 end

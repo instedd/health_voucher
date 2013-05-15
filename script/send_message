@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require 'yaml'
+
+SETTINGS_FILE = File.expand_path('../../config/settings.yml', __FILE__)
+raise Exception, "#{SETTINGS_FILE} configuration file is missing" unless FileTest.exists?(SETTINGS_FILE) 
+
+Environment = ENV['RAILS_ENV'] || 'development'
+config = YAML.load_file(SETTINGS_FILE)[Environment]
+
+puts `curl -X POST -u #{config['basic_auth_name']}:#{config['basic_auth_pwd']} http://localhost:3000/nuntium/receive -F body=#{ARGV[0]} 2>/dev/null`
+

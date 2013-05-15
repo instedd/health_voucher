@@ -86,7 +86,12 @@ Patient.blueprint(:agep_id_7) do
 end
 
 def _serial_number
-  Card::Code.generate(Card::SERIAL_NUMBER_LENGTH)
+  last_card = Card.order('serial_number DESC').first
+  if last_card
+    (last_card.serial_number.to_i + 1).to_serial_number
+  else
+    1.to_serial_number
+  end
 end
 
 def _pin_code

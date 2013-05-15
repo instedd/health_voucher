@@ -134,7 +134,7 @@ class Authorization::Processor
     if @error.nil?
       service = options.delete(:service)
       options = {
-        serial_number: @card.serial_number,
+        serial_number: @card.full_serial_number,
         agep_id: @patient.agep_id,
         provider_code: @provider.code
       }.merge(options)

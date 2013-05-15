@@ -1,3 +1,13 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+@onClinicsShow = ->
+  cost_dialog = new FloatingDialog($('#cost_dialog'))
+
+  $('.set_cost').click ->
+    td = $(@).parents('td')
+    cost_dialog.form.attr('action', $(@).data('action'))
+    pos = $(@).position()
+    cost_dialog.show_at(pos)
+
+  $('.service_enable').click ->
+    # if @checked
+    #   $(@).parents('tr').find('.set_cost').click()
+

@@ -13,7 +13,7 @@
           %td= provider.code
           %td= provider.name
           %td
-            = check_box_tag "provider_ids[]", provider.id, provider.enabled
+            = check_box_tag "enabled", provider.id, provider.enabled, :data => { :remote => true, :url => toggle_provider_path(provider), :method => :post }
           %td
             - if provider.transactions.empty?
               = link_to 'Remove', provider_path(provider), :method => :delete, :class => 'fdelete'

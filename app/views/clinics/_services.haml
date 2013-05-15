@@ -13,6 +13,20 @@
           %td= cs.service.code
           %td= cs.service.description
           %td
-            = check_box_tag "service_ids[]", cs.service.id, cs.enabled
-          %td= cs.cost
+            = check_box_tag "enabled", cs.service.id, cs.enabled, :data => { :remote => true, :method => :post, :url => toggle_service_site_clinic_path(@site, @clinic), :params => "service_id=#{cs.service.id}" }, :class => 'service_enable'
+          %td
+            %span.cost= cs.cost
+            %span.set_cost.fedit
+
+  .dialog#cost_dialog
+    .box.grey.w20
+      %span
+        %a.fedit Set Service Cost
+      .ux-content
+        = form_tag nil, :method => "post" do
+          .field.w20
+            %label(for="cost") Cost
+            %input.w20#cost(name="cost" type="number" value="" data-focus="true")
+          .actions
+            %button.white(type="submit") Set
 

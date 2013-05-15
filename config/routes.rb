@@ -18,7 +18,11 @@ EVoucher::Application.routes.draw do
       post :return_cards
     end
 
-    resources :clinics
+    resources :clinics do
+      member do
+        post 'toggle_service'
+      end
+    end
     resources :mentors, :only => [:create, :destroy]
   end
 
@@ -28,7 +32,12 @@ EVoucher::Application.routes.draw do
     end
   end
 
-  resources :providers, :only => [:create, :destroy]
+  resources :providers, :only => [:create, :destroy] do
+    member do
+      post 'toggle'
+    end
+  end
+
   resources :patients, :only => [] do
     member do
       post 'assign_card'
