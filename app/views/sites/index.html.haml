@@ -1,11 +1,10 @@
 %h1 Sites
 
 .tablewrapp
-  %table.GralTable
+  %table.GralTable.sites
     %tbody
       %tr
         %th Site identification
-        %th Created
         %th Training?
         %th Manager
         %th Mentors
@@ -16,18 +15,31 @@
         %tr
           %td
             = link_to site.name, edit_site_path(site)
-          %td= site.created_at.to_s(:long)
           %td
             - if site.training?
               %input(type="checkbox" disabled="true" checked="true")
             - else
               %input(type="checkbox" disabled="true")
-          %td= site.manager
+          %td
+            - if site.manager.present?
+              = link_to site.manager.email, edit_manager_site_path(site)
+            - else
+              = link_to 'Set', edit_manager_site_path(site), :class => 'fuser'
           %td= site.mentors.count
           %td= site.patients.count
           %td= site.unassigned_cards.count
           %td
             = link_to 'Assign cards', assign_cards_site_path(site), :class => 'fsettings'
+            = link_to 'Clinics', site_clinics_path(site), :class => 'flocation'
+            = link_to 'Manage', manage_site_path(site), :class => 'farrow'
+
+      - if @sites.empty?
+        %tr
+          %td.emptyTable(colspan="7")
+            There are no sites defined.
+            %br
+            = link_to 'Register a new site', new_site_path
+            to start using the application.
 
 %br
 .actions

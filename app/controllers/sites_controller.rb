@@ -74,6 +74,21 @@ class SitesController < ApplicationController
     redirect_to assign_cards_site_path(@site), notice: "#{cards.size} cards returned"
   end
 
+  def edit_manager
+    @user = @site.user || @site.build_user
+  end
+
+  def update_manager
+    @user = @site.user || @site.build_user
+    @user.update_for_site_manager params[:user]
+    if @user.save
+      @site.update_attribute :user, @user
+      redirect_to sites_path, notice: 'Site manager was updated'
+    else
+      render 'edit_manager'
+    end
+  end
+
   private
 
   def load_site

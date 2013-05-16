@@ -21,6 +21,9 @@ EVoucher::Application.routes.draw do
       post :batch_assign_cards
       post :assign_individual_card
       post :return_cards
+      
+      get :edit_manager
+      post :update_manager
     end
 
     resources :clinics do

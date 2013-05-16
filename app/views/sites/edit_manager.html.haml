@@ -1,0 +1,23 @@
+%h1 Set Manager for #{@site.name}
+
+= errors_for @user
+%br
+
+= form_for @user, :url => update_manager_site_path(@site), :method => :post do |f|
+  .field
+    = f.label :email
+    = f.email_field :email, :autofocus => true
+
+  .field
+    = f.label :password
+    - unless @user.new_record?
+      %p (leave blank if you don't want to change it)
+    = f.password_field :password, :autocomplete => "off"
+
+  .field
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation
+
+  .actions
+    = f.button "Update", :class => 'white'
+
