@@ -1,6 +1,9 @@
 EVoucher::Application.routes.draw do
   devise_for :users
 
+  get '/users/edit' => 'users#edit', :as => 'edit_user'
+  put '/users' => 'users#update', :as => 'user'
+
   # Nuntium routes
   post '/nuntium/receive'
 

@@ -1,10 +1,11 @@
 - content_for :navigation do
-  = section "Site Management", root_path, :management
-  - if current_user.try(:admin?)
-    = section "Batches", batches_path, :batches
-    = section "Sites", sites_path, :sites
-    = section "Clinics", clinics_path, :clinics
-    = section "Transactions", transactions_path, :transactions
+  - if user_signed_in?
+    = section "Site Management", root_path, :management
+    - if current_user.admin?
+      = section "Batches", batches_path, :batches
+      = section "Sites", sites_path, :sites
+      = section "Clinics", clinics_path, :clinics
+      = section "Transactions", transactions_path, :transactions
 
 - content_for :right_menu do
   %ul.RightMenu
@@ -17,7 +18,7 @@
           .container
             %ul
               %li
-                = link_to 'Settings', edit_user_registration_path
+                = link_to 'Settings', edit_user_path
             %hr
             %ul
               %li
@@ -26,10 +27,8 @@
               %li
                 = link_to "Sign Out", destroy_user_session_path, :method => :delete
       %li
-        = link_to '', edit_user_registration_path, :class => 'fsettings'
+        = link_to '', edit_user_path, :class => 'fsettings'
     - else
-      %li
-        = link_to "Create account", new_user_registration_path, :class => 'fedit'
       %li
         = link_to "Log in", new_user_session_path, :class => 'fuser'
 

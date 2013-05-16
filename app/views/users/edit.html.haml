@@ -1,0 +1,27 @@
+%h2 User Settings
+
+= errors_for @user
+%br
+
+= form_for @user, url: user_path do |f|
+  .field
+    = f.label :email
+    = f.email_field :email, :autofocus => true
+
+  .field
+    = f.label :password
+    %p (leave blank if you don't want to change it)
+    = f.password_field :password, :autocomplete => "off"
+
+  .field
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation
+
+  .field
+    = f.label :current_password
+    %p (we need your current password to confirm your changes)
+    = f.password_field :current_password
+
+  .actions
+    = f.button "Update", :class => 'white'
+
