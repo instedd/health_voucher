@@ -1,5 +1,14 @@
 require 'machinist/active_record'
 
+User.blueprint do
+  email { "user#{sn}@example.com" }
+  password { rand(10**6..10**8).to_s }
+end
+
+User.blueprint(:admin) do
+  admin { true }
+end
+
 Batch.blueprint do
   name { "Batch #{sn}" }
   initial_serial_number { _serial_number }

@@ -41,4 +41,8 @@ RSpec.configure do |config|
   config.after(:each) do
     Timecop.return
   end
+
+  # Devise Helpers
+  config.include Devise::TestHelpers, :type => :controller
 end
+
