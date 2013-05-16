@@ -1,4 +1,4 @@
-class BasicAuthController < ApplicationController
+class BasicAuthController < ActionController::Base
   before_filter :authenticate
   
   private

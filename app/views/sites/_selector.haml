@@ -1,3 +1,4 @@
-.right.site_selector
-  = label_tag :site_id, 'Site ID '
-  = select_tag :site_id, options_for_site_selector(path_helper, @site), :class => 'w20'
+- if current_user.admin?
+  .right.site_selector
+    = label_tag :site_id, 'Site ID '
+    = select_tag :site_id, options_for_site_selector(path_helper, @site), :class => 'w20'

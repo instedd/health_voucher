@@ -1,9 +1,9 @@
-class ClinicsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :load_site
+class ClinicsController < SiteController
+  before_filter :authenticate_admin!
   before_filter :add_breadcrumbs
 
   def index
+    @clinics = @site.clinics.order(:name)
   end
 
   def create
@@ -33,7 +33,7 @@ class ClinicsController < ApplicationController
   end
 
   def toggle_service
-    @clinic = @clinics.find(params[:id])
+    @clinic = @site.clinics.find(params[:id])
     @service = Service.find(params[:service_id])
     @clinic_service = @clinic.clinic_service_for(@service)
     @clinic_service.enabled = params[:enabled].present?
@@ -42,7 +42,7 @@ class ClinicsController < ApplicationController
   end
 
   def set_service_cost
-    @clinic = @clinics.find(params[:id])
+    @clinic = @site.clinics.find(params[:id])
     @service = Service.find(params[:service_id])
     @clinic_service = @clinic.clinic_service_for(@service)
     @clinic_service.cost = params[:cost]
@@ -55,11 +55,6 @@ class ClinicsController < ApplicationController
   end
 
   private
-
-  def load_site
-    @site = Site.find(params[:site_id])
-    @clinics = @site.clinics.order(:name)
-  end
 
   def add_breadcrumbs
     @show_breadcrumb = true

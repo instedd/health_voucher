@@ -1,5 +1,5 @@
 class CardsController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_admin!
 
   def start_validity
     @card = Card.find(params[:id])

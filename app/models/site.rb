@@ -5,7 +5,7 @@ class Site < ActiveRecord::Base
   has_many :clinics, :dependent => :destroy
   has_many :mentors, :dependent => :destroy
   has_many :patients, :through => :mentors
-  has_many :cards
+  has_many :cards, :dependent => :nullify
 
   validates_presence_of :name
   validates_length_of :name, :maximum => 100

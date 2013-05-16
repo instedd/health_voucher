@@ -1,7 +1,4 @@
-class MentorsController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :load_site
-
+class MentorsController < SiteController
   def create
     @mentor = @site.mentors.new(params[:mentor])
     if @mentor.save
@@ -20,11 +17,5 @@ class MentorsController < ApplicationController
       flash[:alert] = "Cannot remove mentor: #{@mentor.errors.full_messages.join}"
     end
     redirect_to manage_site_path(@site)
-  end
-
-  private
-
-  def load_site
-    @site = Site.find(params[:site_id])
   end
 end

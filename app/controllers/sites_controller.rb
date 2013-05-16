@@ -1,5 +1,5 @@
 class SitesController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :authenticate_admin!
   before_filter :load_site, :except => [:index, :new, :create]
   before_filter :add_breadcrumbs
 

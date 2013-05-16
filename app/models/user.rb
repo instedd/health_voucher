@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me
 
   has_one :user
+  has_one :site
 
   def update_for_site_manager(params)
     if params[:password].blank?

@@ -1,6 +1,5 @@
-class ManagementController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :load_site
+class ManagementController < SiteController
+  before_filter :load_mentor
   before_filter :add_breadcrumbs
 
   def index
@@ -59,19 +58,8 @@ class ManagementController < ApplicationController
 
   private
 
-  def load_site
-    if params[:site_id]
-      @site = Site.find(params[:site_id])
-    else
-      @site = Site.first
-    end
-    if @site
-      if params[:mentor_id]
-        @mentor = @site.mentors.find(params[:mentor_id])
-      end
-    else
-      redirect_to welcome_path
-    end
+  def load_mentor
+    @mentor = @site.mentors.find(params[:mentor_id]) unless params[:mentor_id].blank?
   end
 
   def add_breadcrumbs

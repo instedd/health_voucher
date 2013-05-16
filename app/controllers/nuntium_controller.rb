@@ -1,6 +1,4 @@
 class NuntiumController < BasicAuthController
-  skip_before_filter :verify_authenticity_token
-
   def receive
     begin
       parser = MessageParser.new(params[:body])
