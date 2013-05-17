@@ -102,7 +102,7 @@ class SitesController < ApplicationController
     @show_breadcrumb = true
     add_breadcrumb 'Sites', sites_path
     if @site
-      add_breadcrumb @site.name, sites_path
+      add_breadcrumb @site.name, @site
     end
   end
 end

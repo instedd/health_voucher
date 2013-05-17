@@ -36,6 +36,7 @@ EVoucher::Application.routes.draw do
 
       member do
         post 'add_patients'
+        post 'auto_assign'
       end
     end
   end

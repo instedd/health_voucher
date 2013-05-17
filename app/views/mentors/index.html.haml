@@ -1,21 +1,25 @@
-%h1= @site.name
+- if current_user.admin?
+  = render partial: '/sites/tabs', locals: { active_tab: 'mentors' }
+- else
+  %h1= @site.name
 
-= render partial: '/sites/selector', :locals => { :path_helper => :site_mentors_path }
-
-%h2 Mentors
+%h1 Mentors
 
 .tablewrapp.mentors
   %table.GralTable
     %tbody
       %tr
         %th Name
-        %th Patients
+        %th AGEP IDs (without card)
         %th
       - @site.mentors.each do |mentor|
         %tr
           %td
             = link_to mentor.name, site_mentor_path(@site, mentor)
-          %td= mentor.patients.count
+          %td
+            = mentor.patients.count
+            - if mentor.patients.without_card.any?
+              = "(#{mentor.patients.without_card.count})"
           %td
             = link_to '', site_mentor_path(@site, mentor), :class => 'farrow'
             - if mentor.patients.count == 0

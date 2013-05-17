@@ -45,7 +45,7 @@ class MentorsController < SiteController
     redirect_to site_mentor_path(@site, @mentor)
   end
 
-  def assign
+  def auto_assign
     initial = params[:initial_serial_number]
     if initial
       cards = @site.unassigned_cards.where("serial_number >= ?", initial)
@@ -53,7 +53,7 @@ class MentorsController < SiteController
         flash[:alert] = "No unassigned cards found from #{initial}"
       else
         assigned = 0
-        @site.patients_without_cards.zip(cards).each do |(patient, card)|
+        @mentor.patients.without_card.zip(cards).each do |(patient, card)|
           patient.current_card = card
           if patient.save
             assigned += 1

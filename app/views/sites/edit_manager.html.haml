@@ -1,4 +1,6 @@
-%h1 Set Manager for #{@site.name}
+= render partial: 'tabs', locals: { active_tab: 'manager' }
+
+%h2 Site Manager
 
 = errors_for @user
 %br
@@ -20,5 +22,5 @@
 
   .actions
     = f.button "Update", :class => 'white'
-    = link_to "Back", sites_path
+    = link_to "Back", @site
 

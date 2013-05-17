@@ -1,3 +1,7 @@
+.error_description {
+  margin-bottom: 20px;
+}
+
 .GralTable .emptyTable {
   text-align: center;
   color: #999999;
@@ -16,6 +20,27 @@
 
 .box .actions {
   padding-bottom: 0;
+}
+
+.box.overview {
+  display: inline-block;
+  width: 220px;
+  margin-right: 10px;
+
+  .content {
+    display: inline-block;
+    width: 160px;
+    vertical-align: middle;
+  }
+}
+
+.box.overview.incomplete {
+  .icon {
+    background-position: 0 -50px;
+  }
+  .content {
+    color: #ff6600;
+  }
 }
 
 .ux-content .actions {

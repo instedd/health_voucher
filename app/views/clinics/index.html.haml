@@ -1,4 +1,4 @@
-= render partial: '/sites/selector', locals: { :path_helper => :site_clinics_path }
+= render partial: '/sites/tabs', locals: { active_tab: 'clinics' }
 
 %h1 Clinics
 
@@ -17,6 +17,7 @@
           %td= clinic.providers.count
           %td= clinic.enabled_clinic_services.count
           %td
+            = link_to '', site_clinic_path(@site, clinic), :class => 'farrow'
             - if clinic.providers.count == 0
               = link_to 'Remove', site_clinic_path(@site, clinic), :method => :delete, :class => 'fdelete'
 

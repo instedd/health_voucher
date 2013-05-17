@@ -1,16 +1,15 @@
 = errors_for @site
 
 = form_for @site do |f|
-  .box.w30
-    .field
-      = f.label :name
-      = f.text_field :name, :class => 'w30', :autofocus => true
+  .field.w30
+    = f.label :name
+    = f.text_field :name, :class => 'w30', :autofocus => true
 
-    .field
-      = f.check_box :training
-      = f.label :training
+  .field
+    = f.label :training, 'Training Site'
+    %p Transactions from providers or cards assigned to this site will not be included in any statement.
+    = f.check_box :training
 
-  %br
   .actions
     = f.button nil, :class => 'white'
     = link_to 'Back', sites_path

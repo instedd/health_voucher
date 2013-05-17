@@ -14,24 +14,18 @@
       - @sites.each do |site|
         %tr
           %td
-            = link_to site.name, edit_site_path(site)
+            = link_to site.name, site
           %td
             - if site.training?
               %input(type="checkbox" disabled="true" checked="true")
             - else
               %input(type="checkbox" disabled="true")
-          %td
-            - if site.manager.present?
-              = link_to site.manager.email, edit_manager_site_path(site)
-            - else
-              = link_to 'Set', edit_manager_site_path(site), :class => 'fuser'
+          %td= site.manager.try(:email)
           %td= site.mentors.count
           %td= site.patients.count
           %td= site.unassigned_cards.count
           %td
-            = link_to 'Assign cards', assign_cards_site_path(site), :class => 'fsettings'
-            = link_to 'Clinics', site_clinics_path(site), :class => 'flocation'
-            = link_to 'Mentors', site_mentors_path(site), :class => 'farrow'
+            = link_to '', site, :class => 'farrow'
 
       - if @sites.empty?
         %tr

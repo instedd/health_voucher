@@ -1,0 +1,25 @@
+%h1
+  = @site.name
+  - if @site.training?
+    %span.training (Training Site)
+%br
+
+%ul.tabs.top
+  %li.overview
+    = link_to "Overview", @site
+  %li.assign_cards
+    = link_to "Assign Cards", assign_cards_site_path(@site)
+  %li.clinics
+    = link_to "Clinics & Providers", site_clinics_path(@site)
+  %li.mentors
+    = link_to "Mentors & AGEP IDs", site_mentors_path(@site)
+  %li.manager
+    = link_to "Manager", edit_manager_site_path(@site)
+  %li.settings
+    = link_to "Settings", edit_site_path(@site)
+
+.tabsline
+
+:javascript
+  $('.tabs').find('.#{active_tab}').addClass('active');
+

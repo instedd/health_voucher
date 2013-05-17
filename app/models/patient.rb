@@ -8,6 +8,9 @@ class Patient < ActiveRecord::Base
   has_many :cards
   belongs_to :current_card, :class_name => 'Card'
 
+  scope :with_card, where('current_card_id IS NOT NULL')
+  scope :without_card, where(:current_card_id => nil)
+
   validates_presence_of :agep_id, :mentor
   validates_format_of :agep_id, :with => AGEP_ID_REGEX
   validates_uniqueness_of :agep_id

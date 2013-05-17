@@ -1,11 +1,9 @@
 .right.sbox.grey.StateDisplay.w20
   = render partial: 'site_status'
 
-%h1 Add Cards to Site Manager
+= render partial: 'tabs', locals: { active_tab: 'assign_cards' }
 
-%h2
-  Site ID:
-  = @site.name
+%h1 Add Cards to Site Manager
 
 .left
   .box.w30

@@ -10,12 +10,16 @@ module SitesHelper
 
   def assigned_patients_percent(site)
     patients = site.patients.count
-    assigned = site.patients_with_cards.count
+    assigned = site.patients.with_card.count
 
     if patients > 0
       100.0 * (patients - assigned) / patients
     else
       0
     end
+  end
+
+  def site_needs_more_cards(site)
+    site.patients.without_card.count > site.unassigned_cards.count
   end
 end

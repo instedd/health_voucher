@@ -13,9 +13,9 @@ class CardsController < ApplicationController
       end
       mentor = @card.patient.mentor
       site = mentor.site
-      redirect_to manage_site_mentor_path(site, mentor)
+      redirect_to site_mentor_path(site, mentor)
     else
-      redirect_to manage_sites_path
+      redirect_to site_mentors_path(site)
     end
   end
 end

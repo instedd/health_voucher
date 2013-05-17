@@ -1,8 +1,9 @@
-%h1= @site.name
+- if current_user.admin?
+  = render partial: '/sites/tabs', locals: { active_tab: 'mentors' }
+- else
+  %h1= @site.name
 
-= render partial: '/sites/selector', :locals => { :path_helper => :site_mentors_path }
-
-%h2= @mentor.name
+%h1= @mentor.name
 
 .tablewrapp
   %table.GralTable.patients
@@ -88,7 +89,7 @@
       %span
         %a.fsettings Assign cards automatically
       .ux-content
-        = form_tag manage_site_auto_assign_path(@site, @mentor) do
+        = form_tag auto_assign_site_mentor_path(@site, @mentor) do
           .field.w20
             = label_tag :initial_serial_number, 'Initial Serial Number'
             = text_field_tag :initial_serial_number, 

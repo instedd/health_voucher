@@ -1,7 +1,7 @@
 - content_for :navigation do
   - if user_signed_in?
     - if current_user.admin?
-      = section "Sites", sites_path, :sites
+      = section "Sites", sites_path, :sites, [:sites, :clinics, :mentors]
       = section "Batches", batches_path, :batches
       = section "Transactions", transactions_path, :transactions
       = section "Statements", nil, :statements

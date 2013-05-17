@@ -1,2 +1,28 @@
-%h1= @site.name
+= render partial: 'tabs', locals: { active_tab: 'overview' }
+
+%h1 Site Properties
+
+.box.overview{ :class => ('incomplete' if site_needs_more_cards(@site)) }
+  .i48grad-list.icon
+  .content
+    #{@site.unassigned_cards.count} Unassigned cards
+    %br
+    #{@site.patients.without_card.count} AGEP IDs with no card
+  = link_to 'Assign cards', assign_cards_site_path(@site), :class => 'farrow'
+
+.box.overview{ :class => ('incomplete' if @site.providers.empty?) }
+  .i48grad-dataBase.icon
+  .content
+    #{@site.clinics.count} Clinics
+    %br
+    #{@site.providers.count} Providers
+  = link_to 'Manage Clinics', site_clinics_path(@site), :class => 'farrow'
+
+.box.overview{ :class => ('incomplete' if @site.mentors.empty?) }
+  .i48grad-users.icon
+  .content
+    #{@site.mentors.count} Mentors
+    %br
+    #{@site.patients.count} AGEP IDs
+  = link_to 'Manage Mentors', site_mentors_path(@site), :class => 'farrow'
 
