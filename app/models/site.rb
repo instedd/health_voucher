@@ -18,12 +18,4 @@ class Site < ActiveRecord::Base
   def unassigned_cards
     cards.where(:patient_id => nil).order(:serial_number)
   end
-
-  def patients_with_cards
-    patients.where('current_card_id IS NOT NULL')
-  end
-
-  def patients_without_cards
-    patients.where('current_card_id IS NULL')
-  end
 end

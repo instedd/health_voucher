@@ -21,5 +21,6 @@
 
 :javascript
   var availability = #{cards_availability(@batches).to_json.gsub('</', '<\/')};
+  var needed = #{site_needed_cards(@site)};
   $(function() { onSiteAssignCardsIndex() })
 

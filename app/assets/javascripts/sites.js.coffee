@@ -15,7 +15,7 @@ $ ->
     info = availability[@value]
     if info
       $('#first_serial_number').val(info.first_serial_number)
-      $('#quantity').val(info.quantity).
+      $('#quantity').val(Math.min(needed, info.quantity)).
         attr('min', 1).attr('max', info.quantity)
 
   one_submit = submit_elements('#serial_number')

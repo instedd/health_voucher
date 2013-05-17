@@ -22,4 +22,14 @@ module SitesHelper
   def site_needs_more_cards(site)
     site.patients.without_card.count > site.unassigned_cards.count
   end
+
+  def site_needed_cards(site)
+    needed = site.patients.without_card.count - site.unassigned_cards.count
+    extra = site.patients.count / 5 + 1
+    if needed > 0
+      needed + extra
+    else
+      extra
+    end
+  end
 end
