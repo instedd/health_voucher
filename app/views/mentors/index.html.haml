@@ -1,3 +1,9 @@
+%h1= @site.name
+
+= render partial: '/sites/selector', :locals => { :path_helper => :site_mentors_path }
+
+%h2 Mentors
+
 .tablewrapp.mentors
   %table.GralTable
     %tbody
@@ -8,10 +14,10 @@
       - @site.mentors.each do |mentor|
         %tr
           %td
-            = link_to mentor.name, manage_site_mentor_path(@site, mentor)
+            = link_to mentor.name, site_mentor_path(@site, mentor)
           %td= mentor.patients.count
           %td
-            = link_to '', manage_site_mentor_path(@site, mentor), :class => 'farrow'
+            = link_to '', site_mentor_path(@site, mentor), :class => 'farrow'
             - if mentor.patients.count == 0
               = link_to 'Remove', site_mentor_path(@site, mentor), :method => :delete, :class => 'fdelete'
 
@@ -26,4 +32,5 @@
         = text_field_tag "mentor[name]", '', :class => 'w30'
       .actions
         = button_tag 'Add', :class => 'white'
+
 

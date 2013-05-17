@@ -1,10 +1,19 @@
 class MentorsController < SiteController
+  before_filter :load_mentor
+  before_filter :add_breadcrumbs
+
+  def index
+  end
+
+  def show
+  end
+
   def create
     @mentor = @site.mentors.new(params[:mentor])
     if @mentor.save
-      redirect_to manage_site_mentor_path(@site, @mentor), notice: 'Mentor was added'
+      redirect_to site_mentor_path(@site, @mentor), notice: 'Mentor was added'
     else
-      redirect_to manage_site_path(@site), alert: "Error adding mentor: #{@mentor.errors.full_messages.join(', ')}"
+      redirect_to site_mentors_path(@site), alert: "Error adding mentor: #{@mentor.errors.full_messages.join(', ')}"
     end
   end
 
@@ -16,6 +25,75 @@ class MentorsController < SiteController
     else
       flash[:alert] = "Cannot remove mentor: #{@mentor.errors.full_messages.join}"
     end
-    redirect_to manage_site_path(@site)
+    redirect_to site_mentors_path(@site)
+  end
+
+  def add_patients
+    errors = []
+    ids = params[:agep_ids].strip.split(/\s+/)
+    ids.each do |agep_id|
+      patient = @mentor.patients.create agep_id: agep_id
+      unless patient.valid? 
+        errors << "#{agep_id} #{patient.errors[:agep_id].first}"
+      end
+    end
+    if errors.empty?
+      flash[:notice] = "#{ids.size} AGEP IDs added"
+    else
+      flash[:alert] = "Failed to add these IDs: #{errors.join(', ')}"
+    end
+    redirect_to site_mentor_path(@site, @mentor)
+  end
+
+  def assign
+    initial = params[:initial_serial_number]
+    if initial
+      cards = @site.unassigned_cards.where("serial_number >= ?", initial)
+      if cards.count == 0
+        flash[:alert] = "No unassigned cards found from #{initial}"
+      else
+        assigned = 0
+        @site.patients_without_cards.zip(cards).each do |(patient, card)|
+          patient.current_card = card
+          if patient.save
+            assigned += 1
+          end
+        end
+        flash[:notice] = "#{assigned} cards assigned"
+      end
+    else
+      flash[:alert] = "No initial Serial Number specified"
+    end
+    redirect_to site_mentor_path(@site, @mentor)
+  end
+
+  def move_patients
+    @mentor = Mentor.find(params[:target_id])
+    Patient.transaction do
+      ids = params[:patient_ids].split(',')
+      ids.each do |id|
+        Patient.find(id).update_attribute :mentor, @mentor
+      end
+      flash[:notice] = "#{ids.count} AGEP IDs moved to #{@mentor.name}"
+    end
+    redirect_to site_mentor_path(@site, @mentor)
+  end
+
+  private
+
+  def load_mentor
+    @mentor = @site.mentors.find(params[:id]) unless params[:id].blank?
+  end
+
+  def add_breadcrumbs
+    @show_breadcrumb = true
+    if current_user.admin?
+      add_breadcrumb 'Sites', sites_path
+      add_breadcrumb @site.name, site_path(@site)
+    end
+    add_breadcrumb 'Mentors', site_mentors_path(@site)
+    if @mentor
+      add_breadcrumb @mentor.name, site_mentor_path(@site, @mentor)
+    end
   end
 end

@@ -1,7 +1,3 @@
-.box .actions {
-  padding-bottom: 0;
-}
-
 .cards-span {
   height: 440px
 }
@@ -17,25 +13,9 @@
   table-layout: fixed;
 }
 
-.box h3 {
-  margin-top: 0;
-}
-
 .GralTable.sites {
   td:last-child {
     white-space: nowrap;
-  }
-}
-
-.GralTable .emptyTable {
-  text-align: center;
-  color: #999999;
-  padding-top: 100px;
-  vertical-align: middle;
-  font-style: italic;
-
-  a {
-    text-decoration: underline;
   }
 }
 

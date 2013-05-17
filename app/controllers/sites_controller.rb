@@ -7,6 +7,9 @@ class SitesController < ApplicationController
     @sites = Site.all
   end
 
+  def show
+  end
+
   def new
     add_breadcrumb 'New site', nil
     @site = Site.new

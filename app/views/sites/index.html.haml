@@ -31,7 +31,7 @@
           %td
             = link_to 'Assign cards', assign_cards_site_path(site), :class => 'fsettings'
             = link_to 'Clinics', site_clinics_path(site), :class => 'flocation'
-            = link_to 'Manage', manage_site_path(site), :class => 'farrow'
+            = link_to 'Mentors', site_mentors_path(site), :class => 'farrow'
 
       - if @sites.empty?
         %tr

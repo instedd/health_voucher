@@ -1,0 +1,34 @@
+.GralTable .emptyTable {
+  text-align: center;
+  color: #999999;
+  padding-top: 100px;
+  vertical-align: middle;
+  font-style: italic;
+
+  a {
+    text-decoration: underline;
+  }
+}
+
+.box h3 {
+  margin-top: 0;
+}
+
+.box .actions {
+  padding-bottom: 0;
+}
+
+.ux-content .actions {
+  padding-bottom: 0;
+}
+
+.dialog {
+  position: absolute;
+  display: none;
+}
+
+.grey input.ux-datepicker {
+  background-color: white;
+}
+
+
