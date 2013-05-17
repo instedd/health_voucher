@@ -47,9 +47,18 @@
   padding-bottom: 0;
 }
 
+.tablewrapp {
+  z-index: 100;
+}
+
+#footer {
+  z-index: 0;
+}
+
 .dialog {
   position: absolute;
   display: none;
+  z-index: 100;
 }
 
 .grey input.ux-datepicker {

@@ -62,7 +62,11 @@ EVoucher::Application.routes.draw do
     end
   end
 
-  resources :transactions, :only => [:index]
+  resources :transactions, :only => [:index] do
+    member do
+      post 'update_status'
+    end
+  end
 
   # for instedd-platform-rails
   match 'terms_and_conditions' => redirect("http://instedd.org/terms-of-service/")

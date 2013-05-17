@@ -48,4 +48,8 @@ class Transaction < ActiveRecord::Base
   def patient
     card.patient
   end
+
+  def training?
+    authorization.training?
+  end
 end

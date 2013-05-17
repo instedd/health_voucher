@@ -10,5 +10,20 @@ table.transactions {
     overflow: hidden;
     white-space: nowrap;
   }
+
+  tr.training {
+    td {
+      color: #444444;
+    }
+
+    td:first-child:after {
+      content: " *"
+    }
+  }
+}
+
+.fineprint {
+  color: #999999;
+  font-size: 90%;
 }
 

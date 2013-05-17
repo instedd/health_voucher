@@ -4,4 +4,9 @@ class TransactionsController < ApplicationController
   def index
     @transactions = Transaction.for_listing.order('id DESC').page params[:page]
   end
+
+  def update_status
+    @txn = Transaction.find(params[:id])
+    @txn.update_status! params[:status], params[:comments]
+  end
 end
