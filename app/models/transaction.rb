@@ -12,9 +12,9 @@ class Transaction < ActiveRecord::Base
 
   validates_presence_of :voucher, :authorization
 
-  scope :for_listing, includes(
-    :authorization => [:service, :card => :patient, :provider => :clinic]).
-    order('created_at DESC')
+  scope :for_listing, includes(:authorization => [:service, :card => :patient, :provider => :clinic])
+
+  paginates_per 15
 
   # Status changes allowed:
   #

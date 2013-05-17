@@ -1,7 +1,17 @@
 %h1 Transactions
 
 .tablewrapp
-  %table.GralTable
+  %table.GralTable.w-pagination.transactions
+    %colgroup
+      %col(style="width: 45px")
+      %col(style="width: 150px")
+      %col(style="width: 160px")
+      %col(style="width: 65px")
+      %col(style="width: 60px")
+      %col(style="width: 100px")
+      %col(style="width: 70px")
+      %col(style="width: 100px")
+      %col(style="width: auto")
     %tbody
       %tr
         %th ID#
@@ -17,13 +27,15 @@
         %tr
           %td= txn.id
           %td= txn.created_at.to_s(:long)
-          %td= txn.clinic.name
+          %td(title="#{txn.clinic.name}")= txn.clinic.name
           %td= txn.provider.code
           %td= txn.service.code
           %td= txn.patient.agep_id
           %td= txn.card.full_serial_number
-          %td= txn.status
-          %td= txn.comment
+          %td
+            %a.fedit{:class => ('disabled' if txn.paid?)}
+              = txn.status
+          %td(title="#{txn.comment}")= txn.comment
   = paginate @transactions
 
 
