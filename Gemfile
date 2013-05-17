@@ -26,6 +26,8 @@ end
 gem 'haml'
 gem 'jquery-rails', '~> 2.0.2'
 gem 'instedd-rails'
+gem 'kaminari'
+
 gem 'nuntium_api', '~> 0.19', :require => 'nuntium'
 
 # To use ActiveModel has_secure_password

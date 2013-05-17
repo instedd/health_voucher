@@ -12,6 +12,10 @@ class Transaction < ActiveRecord::Base
 
   validates_presence_of :voucher, :authorization
 
+  scope :for_listing, includes(
+    :authorization => [:service, :card => :patient, :provider => :clinic]).
+    order('created_at DESC')
+
   # Status changes allowed:
   #
   # Unpaid => Pending or Rejected (To set paid you have to set paid the full
@@ -24,4 +28,24 @@ class Transaction < ActiveRecord::Base
   # Rejected => Pending or Unpaid
   #
   # Paid => no change allowed, flag unpaid the full statement before
+  
+  def provider
+    authorization.provider
+  end
+
+  def clinic
+    provider.clinic
+  end
+
+  def service
+    authorization.service
+  end
+
+  def card
+    authorization.card
+  end
+
+  def patient
+    card.patient
+  end
 end

@@ -1,1 +1,29 @@
 %h1 Transactions
+
+.tablewrapp
+  %table.GralTable
+    %tbody
+      %tr
+        %th ID#
+        %th Date
+        %th Clinic
+        %th Provider
+        %th Service
+        %th AGEP ID
+        %th Voucher
+        %th Status
+        %th Comment
+      - @transactions.each do |txn|
+        %tr
+          %td= txn.id
+          %td= txn.created_at.to_s(:long)
+          %td= txn.clinic.name
+          %td= txn.provider.code
+          %td= txn.service.code
+          %td= txn.patient.agep_id
+          %td= txn.card.full_serial_number
+          %td= txn.status
+          %td= txn.comment
+  = paginate @transactions
+
+
