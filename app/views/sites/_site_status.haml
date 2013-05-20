@@ -3,8 +3,8 @@
     %span= @site.patients.count
     %span AGEP IDs
   .R
-    %span= @site.patients.with_card.count
-    %span with card assigned
+    %span= @site.patients.without_card.count
+    %span without card
   %br(clear="all")
   .M
     %span.Fill(style="width: #{assigned_patients_percent(@site)}%")

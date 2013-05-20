@@ -13,7 +13,7 @@ module SitesHelper
     assigned = site.patients.with_card.count
 
     if patients > 0
-      100.0 * (patients - assigned) / patients
+      100.0 * assigned / patients
     else
       0
     end

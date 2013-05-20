@@ -39,4 +39,8 @@ $ ->
       checks.attr 'checked', clicked.checked
     else
       last_clicked = @
+    $('.check_all').attr('checked', $('.return_card:not(:checked)').length == 0)
+
+  $('.check_all').click ->
+    $('.return_card').attr('checked', @checked)
 

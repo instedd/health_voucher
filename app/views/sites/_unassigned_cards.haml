@@ -1,23 +1,24 @@
-%h3 Cards in Site's stock not assigned to an AGEP ID
+%h3 Unassigned cards in site's stock
 
 = form_tag return_cards_site_path(@site) do
   .unassigned_cards
     %table.GralTable
       %colgroup
+        %col(style="width: 30px;")
         %col
         %col(style="width: 10em;")
-        %col(style="width: 30px;")
       %tbody
         %tr
+          %th
+            %input.check_all(type="checkbox")
           %th Batch
           %th Serial number
-          %th
         - @site.unassigned_cards.each do |card|
           %tr
-            %td= card.batch.name
-            %td= card.serial_number
             %td
               = check_box_tag "return_ids[]", card.id, false, :class => 'return_card'
+            %td= card.batch.name
+            %td= card.serial_number
   .actions
     = button_tag 'Return selected cards to PopCouncil stock', :class => 'white'
 

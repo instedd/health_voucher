@@ -32,7 +32,7 @@ class SitesController < ApplicationController
   def update
     @site.update_attributes params[:site]
     if @site.save
-      redirect_to sites_path, notice: 'Site was updated successfully'
+      redirect_to @site, notice: 'Site was updated successfully'
     else
       add_breadcrumb @site.name, nil
       render :edit
@@ -83,13 +83,13 @@ class SitesController < ApplicationController
   end
 
   def update_manager
-    add_breadcrumb 'Manager', edit_manager_site_path(@site)
     @user = @site.user || @site.build_user
     @user.update_for_site_manager params[:user]
     if @user.save
       @site.update_attribute :user, @user
-      redirect_to sites_path, notice: 'Site manager was updated'
+      redirect_to @site, notice: 'Site manager was updated'
     else
+      add_breadcrumb 'Manager', edit_manager_site_path(@site)
       render 'edit_manager'
     end
   end
