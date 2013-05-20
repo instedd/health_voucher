@@ -2,6 +2,16 @@
   margin-bottom: 20px;
 }
 
+.GralTable {
+  table-layout: fixed;
+
+  td {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
+
 .GralTable .emptyTable {
   text-align: center;
   color: #999999;
@@ -63,6 +73,28 @@
 
 .grey input.ux-datepicker {
   background-color: white;
+}
+
+.fineprint {
+  color: #999999;
+  font-size: 90%;
+}
+
+.BreadCrumb li {
+  max-width: 200px;
+  a {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+  }
+}
+
+#container > h1 {
+  max-width: 750px;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 

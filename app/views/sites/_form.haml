@@ -3,7 +3,7 @@
 = form_for @site do |f|
   .field.w30
     = f.label :name
-    = f.text_field :name, :class => 'w30', :autofocus => true
+    = f.text_field :name, :class => 'w30', :autofocus => true, :maxlength => 100
 
   .field
     = f.label :training, 'Training Site'

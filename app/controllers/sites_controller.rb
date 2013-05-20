@@ -78,10 +78,12 @@ class SitesController < ApplicationController
   end
 
   def edit_manager
+    add_breadcrumb 'Manager', edit_manager_site_path(@site)
     @user = @site.user || @site.build_user
   end
 
   def update_manager
+    add_breadcrumb 'Manager', edit_manager_site_path(@site)
     @user = @site.user || @site.build_user
     @user.update_for_site_manager params[:user]
     if @user.save

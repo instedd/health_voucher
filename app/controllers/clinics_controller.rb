@@ -59,7 +59,7 @@ class ClinicsController < SiteController
   def add_breadcrumbs
     @show_breadcrumb = true
     add_breadcrumb 'Sites', sites_path
-    add_breadcrumb @site.name, sites_path
+    add_breadcrumb @site.name, @site
     add_breadcrumb 'Clinics', site_clinics_path(@site)
   end
 end

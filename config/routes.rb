@@ -68,6 +68,9 @@ EVoucher::Application.routes.draw do
     end
   end
 
+  resources :statements, :only => [:index, :show] do
+  end
+
   # for instedd-platform-rails
   match 'terms_and_conditions' => redirect("http://instedd.org/terms-of-service/")
 end

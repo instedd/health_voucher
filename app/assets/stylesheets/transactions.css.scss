@@ -3,14 +3,6 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 table.transactions {
-  table-layout: fixed;
-
-  td {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
   tr.training {
     td {
       color: #444444;
@@ -33,10 +25,5 @@ table.transactions {
   tr[data-status=pending] td {
     color: #1f86c8;
   }
-}
-
-.fineprint {
-  color: #999999;
-  font-size: 90%;
 }
 

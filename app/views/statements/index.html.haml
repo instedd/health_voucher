@@ -1,0 +1,36 @@
+%h1 Statements
+
+.tablewrapp
+  %table.GralTable.w-pagination.statements
+    %colgroup
+      %col(style="width: 40px")
+      %col(style="width: 150px")
+      %col(style="width: 120px")
+      %col(style="width: 160px")
+      %col(style="width: 100px")
+      %col(style="width: 80px")
+      %col(style="width: 90px")
+      %col(style="width: 100px")
+    %tbody
+      %tr
+        %th ID#
+        %th Date
+        %th Site
+        %th Clinic
+        %th Until
+        %th # services
+        %th Total cost
+        %th Status
+        %th
+      - @statements.each do |stmt|
+        %tr
+          %td= stmt.id
+          %td= stmt.created_at.to_s(:transaction)
+          %td= stmt.site.name
+          %td= stmt.clinic.name
+          %td= stmt.until.to_s(:date)
+          %td= stmt.transactions.count
+          %td= number_to_currency(stmt.total_amount, unit: '')
+          %td= stmt.status
+          %td
+
