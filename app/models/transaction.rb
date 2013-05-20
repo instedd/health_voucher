@@ -55,9 +55,12 @@ class Transaction < ActiveRecord::Base
   end
 
   def update_status status, comments
-    if paid?
+    if training?
+      errors[:base] << "Can't change status for training transactions"
+    elsif paid?
       errors[:base] << "Transaction status cannot be changed from paid without cancelling the statement first"
     end
+    return if errors.any?
 
     self.status = status
     self.comment = comments
