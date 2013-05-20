@@ -10,7 +10,7 @@
       %col(style="width: 65px")
       %col(style="width: 60px")
       %col(style="width: 100px")
-      %col(style="width: 70px")
+      %col(style="width: 80px")
       %col(style="width: 100px")
       %col(style="width: auto")
     %tbody
@@ -25,18 +25,7 @@
         %th Status
         %th Comment
       - @transactions.each do |txn|
-        %tr{:class => ('training' if txn.training?)}
-          %td= txn.id
-          %td= txn.created_at.to_s(:long)
-          %td(title="#{txn.clinic.name}")= txn.clinic.name
-          %td= txn.provider.code
-          %td= txn.service.code
-          %td= txn.patient.agep_id
-          %td= txn.card.full_serial_number
-          %td
-            %a.fedit.status{:class => ('disabled' if txn.paid?), "data-action" => update_status_transaction_path(txn)}
-              = txn.status
-          %td.comment(title="#{txn.comment}")= txn.comment
+        = render partial: 'transaction', locals: { txn: txn }
   = paginate @transactions
 
   .dialog#update_status_dialog
@@ -58,7 +47,7 @@
             %label(for="rejected_status") Rejected
           .field.w40
             %label(for="comment") Comments
-            %textarea#comment(rows="4" name="comment")
+            %textarea#comment(rows="4" name="comment" maxlength="200")
           .actions
             %button.white(type="submit") Update
   

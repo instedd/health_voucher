@@ -1,18 +1,22 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 @onTransactionsIndex = ->
   dialog = new FloatingDialog($('#update_status_dialog'))
 
   dialog.form.submit ->
+    $.ajax({
+      url: dialog.form.attr('action'),
+      type: 'post',
+      dataType: 'script',
+      data: dialog.form.serialize()
+    })
     dialog.hide()
     false
 
-  $('.transactions a.fedit').click ->
+  $('.transactions').on('click', 'a.fedit:not(.disabled)', ->
     row = $(@).parents('tr').first()
     dialog.form.attr('action', $(@).data('action'))
     $("##{$(@).text().trim()}_status").attr('checked', true)
     $("#comment").val(row.find('.comment').attr('title'))
     pos = $(@).position()
     dialog.show_at(pos)
+    )
 

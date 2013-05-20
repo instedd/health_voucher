@@ -20,6 +20,19 @@ table.transactions {
       content: " *"
     }
   }
+
+  tr[data-status=paid] td {
+    color: #999999;
+  }
+  tr[data-status=suspicious] td {
+    color: #ff6600;
+  }
+  tr[data-status=rejected] td {
+    color: #c90000;
+  }
+  tr[data-status=pending] td {
+    color: #1f86c8;
+  }
 }
 
 .fineprint {

@@ -1,0 +1,2 @@
+$('.transactions').find('tr[data-id=<%= @txn.id %>]').replaceWith('<%=j render partial: 'transaction', locals: { txn: @txn } %>');
+

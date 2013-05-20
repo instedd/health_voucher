@@ -11,6 +11,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :statement
 
   validates_presence_of :voucher, :authorization
+  validates_length_of :comment, :maximum => 200
 
   scope :for_listing, includes(:authorization => [:service, :card => :patient, :provider => :clinic])
 
@@ -51,5 +52,15 @@ class Transaction < ActiveRecord::Base
 
   def training?
     authorization.training?
+  end
+
+  def update_status status, comments
+    if paid?
+      errors[:base] << "Transaction status cannot be changed from paid without cancelling the statement first"
+    end
+
+    self.status = status
+    self.comment = comments
+    save
   end
 end

@@ -1,0 +1,13 @@
+%tr{:class => ('training' if txn.training?), "data-id" => txn.id, "data-status" => txn.status}
+  %td= txn.id
+  %td= txn.created_at.to_s(:transaction)
+  %td(title="#{txn.clinic.name}")= txn.clinic.name
+  %td= txn.provider.code
+  %td= txn.service.code
+  %td= txn.patient.agep_id
+  %td= card_serial_number(txn.card)
+  %td
+    %a.fedit.status{:class => ('disabled' if txn.paid?), "data-action" => update_status_transaction_path(txn)}
+      = txn.status
+  %td.comment(title="#{txn.comment}")= txn.comment
+

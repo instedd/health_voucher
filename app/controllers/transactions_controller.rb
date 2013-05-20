@@ -7,6 +7,6 @@ class TransactionsController < ApplicationController
 
   def update_status
     @txn = Transaction.find(params[:id])
-    @txn.update_status! params[:status], params[:comments]
+    @txn.update_status params[:status], params[:comment]
   end
 end
