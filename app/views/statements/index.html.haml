@@ -33,4 +33,4 @@
           %td= number_to_currency(stmt.total_amount, unit: '')
           %td= stmt.status
           %td
-
+  = paginate @statements

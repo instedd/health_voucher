@@ -1,2 +1,32 @@
 %h1 Batches
 
+.tablewrapp
+  %table.GralTable.w-pagination
+    %colgroup
+      %col(style="width: auto")
+      %col(style="width: 90px")
+      %col(style="width: 70px")
+      %col(style="width: 70px")
+      %col(style="width: 70px")
+      %col(style="width: 70px")
+      %col(style="width: 140px")
+    %tbody
+      %tr
+        %th Batch identification
+        %th Generated
+        %th Initial SN
+        %th Quantity
+        %th In Stock
+        %th In Sites
+        %th
+      - @batches.each do |batch|
+        %tr
+          %td= batch.name
+          %td= batch.created_at.to_s(:date)
+          %td= batch.initial_serial_number
+          %td.number= batch.quantity
+          %td.number= batch.cards_available.count
+          %td.number= batch.quantity - batch.cards_available.count
+          %td
+            %a.fexport Export CSV
+  = paginate @batches
