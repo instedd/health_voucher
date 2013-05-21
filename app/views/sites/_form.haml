@@ -6,11 +6,14 @@
     = f.text_field :name, :class => 'w30', :autofocus => true, :maxlength => 100
 
   .field
+    = f.check_box :training
     = f.label :training, 'Training Site'
     %p Transactions from providers or cards assigned to this site will not be included in any statement.
-    = f.check_box :training
 
   .actions
     = f.button nil, :class => 'white'
-    = link_to 'Back', sites_path
+    - if @site.persisted?
+      = link_to 'Back', @site
+    - else
+      = link_to 'Back', sites_path
 

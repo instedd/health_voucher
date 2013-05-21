@@ -1,29 +1,31 @@
-%h2 Edit #{resource_name.to_s.humanize}
+= devise_error_messages! :class => 'w30 centered'
 
-= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
-  = devise_error_messages!
+.box.centered.w30
+  %h2 Edit #{resource_name.to_s.humanize}
 
-  .field
-    = f.label :email
-    = f.email_field :email, :autofocus => true
+  = form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f|
 
-  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-    %div Currently waiting confirmation for: #{resource.unconfirmed_email}
+    .field.w30
+      = f.label :email
+      = f.email_field :email, :autofocus => true
 
-  .field
-    = f.label :password
-    %p (leave blank if you don't want to change it)
-    = f.password_field :password, :autocomplete => "off"
+    - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+      %div Currently waiting confirmation for: #{resource.unconfirmed_email}
 
-  .field
-    = f.label :password_confirmation
-    = f.password_field :password_confirmation
+    .field.w30
+      = f.label :password
+      %p (leave blank if you don't want to change it)
+      = f.password_field :password, :autocomplete => "off"
 
-  .field
-    = f.label :current_password
-    %p (we need your current password to confirm your changes)
-    = f.password_field :current_password
+    .field.w30
+      = f.label :password_confirmation
+      = f.password_field :password_confirmation
 
-  .actions
-    = f.button "Update", :class => 'white'
+    .field.w30
+      = f.label :current_password
+      %p (we need your current password to confirm your changes)
+      = f.password_field :current_password
+
+    .actions
+      = f.button "Update", :class => 'white'
 
