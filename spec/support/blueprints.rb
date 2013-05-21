@@ -39,6 +39,10 @@ Site.blueprint do
   training { false }
 end
 
+Site.blueprint(:training) do
+  training { true }
+end
+
 Clinic.blueprint do
   site { Site.make! }
   name { "Clinic" }
