@@ -68,13 +68,14 @@ class MentorsController < SiteController
   end
 
   def move_patients
-    @mentor = Mentor.find(params[:target_id])
+    @target_mentor = Mentor.find(params[:target_id])
     Patient.transaction do
       ids = params[:patient_ids].split(',')
       ids.each do |id|
-        Patient.find(id).update_attribute :mentor, @mentor
+        patient = Patient.find(id)
+        patient.update_attribute :mentor, @target_mentor
       end
-      flash[:notice] = "#{ids.count} AGEP IDs moved to #{@mentor.name}"
+      flash[:notice] = "#{ids.count} AGEP IDs moved to #{@target_mentor.name}"
     end
     redirect_to site_mentor_path(@site, @mentor)
   end

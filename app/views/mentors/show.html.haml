@@ -108,7 +108,7 @@
     %span
       %a.fright Move selected to another mentor
     .ux-content.move_dialog
-      = form_tag move_patients_site_mentors_path(@site) do
+      = form_tag move_patients_site_mentor_path(@site, @mentor) do
         = hidden_field_tag "patient_ids"
         .field.w30
           = label_tag :target_id, 'Select another mentor'

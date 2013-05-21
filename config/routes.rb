@@ -30,13 +30,10 @@ EVoucher::Application.routes.draw do
     end
 
     resources :mentors do
-      collection do
-        post 'move_patients'
-      end
-
       member do
         post 'add_patients'
         post 'auto_assign'
+        post 'move_patients'
       end
     end
   end
