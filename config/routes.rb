@@ -69,6 +69,10 @@ EVoucher::Application.routes.draw do
   end
 
   resources :statements, :only => [:index, :show] do
+    collection do
+      get 'generate'
+      post 'do_generate'
+    end
   end
 
   # for instedd-platform-rails

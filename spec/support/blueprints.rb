@@ -78,7 +78,13 @@ end
 Transaction.blueprint do 
   voucher { Voucher.make! }
   authorization { Authorization.make! }
-  status { :pending }
+  status { :unpaid }
+end
+
+Statement.blueprint do
+  clinic { Clinic.make! }
+  status { :unpaid }
+  self.until { Time.now }
 end
 
 Mentor.blueprint do

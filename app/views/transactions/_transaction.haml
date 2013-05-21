@@ -6,8 +6,9 @@
   %td= txn.service.code
   %td= txn.patient.agep_id
   %td= card_serial_number(txn.card)
+  %td= txn.statement_id
   %td
-    %a.fedit.status{:class => ('disabled' if txn.paid? || txn.training?), "data-action" => update_status_transaction_path(txn)}
+    %a.fedit.status{:class => ('disabled' unless txn.updatable?), "data-action" => update_status_transaction_path(txn)}
       = txn.status
   %td.comment(title="#{txn.comment}")= txn.comment
 

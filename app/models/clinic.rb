@@ -7,6 +7,7 @@ class Clinic < ActiveRecord::Base
   has_many :enabled_services, :through => :clinic_services, :source => 'service',
     :conditions => { 'clinic_services.enabled' => true }
   has_many :providers
+  has_many :statements
 
   validates_presence_of :name
   validates_length_of :name, :maximum => 80

@@ -1,0 +1,40 @@
+%h1 Statement
+
+.box.w60
+  %p
+    Clinic: #{@stmt.clinic.name}
+  %p
+    Date: #{@stmt.created_at.to_s(:date)}
+  %p
+    Includes transactions until: #{@stmt.until.to_time.to_s(:date)}
+
+%br
+.tablewrapp.w60
+  %table.GralTable
+    %colgroup
+      %col(style="width: 55px")
+      %col(style="width: 150px")
+      %col(style="width: 65px")
+      %col(style="width: 60px")
+      %col(style="width: 95px")
+      %col(style="width: 80px")
+      %col(style="width: auto")
+    %tbody
+      %tr
+        %th Txn ID
+        %th Date
+        %th Provider
+        %th Service
+        %th AGEP ID
+        %th Voucher
+        %th Amount
+      - @stmt.transactions.for_listing.each do |txn|
+        %tr
+          %td= txn.id
+          %td= txn.created_at.to_s(:transaction)
+          %td= txn.provider.code
+          %td= txn.service.code
+          %td= txn.patient.agep_id
+          %td= card_serial_number(txn.card)
+          %td.number= number_to_currency(txn.amount, unit: '')
+

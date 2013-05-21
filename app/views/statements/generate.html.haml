@@ -1,0 +1,22 @@
+%h1 Generate Statements
+
+= errors_for @form
+
+= form_for @form, :url => do_generate_statements_path do |f|
+  .field.w30
+    = f.label :site_id
+    = f.select :site_id, non_training_sites_for_select(@form.site_id), { :include_blank => true }, :class => 'w30 site'
+  .field.w30
+    = f.label :clinic_id
+    = f.select :clinic_id, [], { :include_blank => 'All Clinics' }, :class => 'w30 clinic'
+  .field.w30
+    = f.label :until, 'Unpaid services until'
+    %p (mm/dd/yyyy format)
+    = f.text_field :until, :class => 'ux-datepicker w20'
+  .actions
+    = button_tag 'Generate', :class => 'white'
+
+:javascript
+  var Clinics = #{clinics_by_site.to_json.gsub('/>', '\/>')};
+  $(function() { onStatementGenerate(); });
+

@@ -1,4 +1,12 @@
 module SitesHelper
+  def sites_for_select(current = nil)
+    options_from_collection_for_select(Site.order(:name).all, :id, :name, current)
+  end
+
+  def non_training_sites_for_select(current = nil)
+    options_from_collection_for_select(Site.where(:training => false).order(:name).all, :id, :name, current)
+  end
+
   def options_for_site_selector(path_helper, current = nil)
     sites = Site.order(:name).all.map do |site|
       path = Rails.application.routes.url_helpers.send(path_helper, site)

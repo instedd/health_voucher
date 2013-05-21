@@ -101,3 +101,7 @@ td.number {
   text-align: right;
 }
 
+.field_with_errors select {
+  border: 2px solid #ff6600;
+}
+

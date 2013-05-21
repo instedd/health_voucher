@@ -50,15 +50,23 @@ class Transaction < ActiveRecord::Base
     card.patient
   end
 
+  def amount
+    clinic.clinic_services.where(:service_id => service.id).first.cost
+  end
+
   def training?
     authorization.training?
+  end
+
+  def updatable?
+    !training? && statement_id.nil?
   end
 
   def update_status status, comments
     if training?
       errors[:base] << "Can't change status for training transactions"
-    elsif paid?
-      errors[:base] << "Transaction status cannot be changed from paid without cancelling the statement first"
+    elsif statement_id.present?
+      errors[:base] << "Transaction status cannot be changed when the transaction is in a statement"
     end
     return if errors.any?
 
