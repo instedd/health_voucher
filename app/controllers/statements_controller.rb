@@ -1,5 +1,6 @@
 class StatementsController < ApplicationController
   before_filter :authenticate_admin!
+  before_filter :load_statement, :only => [:show, :destroy, :toggle_status]
   before_filter :add_breadcrumbs
 
   def index
@@ -7,8 +8,22 @@ class StatementsController < ApplicationController
   end
 
   def show
-    @stmt = Statement.find(params[:id])
-    add_breadcrumb @stmt.id, @stmt
+    add_breadcrumb "ID ##{@stmt.id}", @stmt
+  end
+
+  def destroy
+    @stmt.destroy
+    redirect_to statements_path, :notice => 'Statement deleted'
+  end
+
+  def toggle_status
+    @stmt.toggle_status!
+    if @stmt.paid?
+      flash[:notice] = 'Statement marked as paid'
+    else
+      flash[:notice] = 'Statement marked as unpaid'
+    end
+    redirect_to @stmt
   end
 
   def generate
@@ -32,5 +47,9 @@ class StatementsController < ApplicationController
   def add_breadcrumbs
     @show_breadcrumb = true
     add_breadcrumb 'Statements', statements_path
+  end
+
+  def load_statement
+    @stmt = Statement.find(params[:id])
   end
 end

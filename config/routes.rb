@@ -68,10 +68,13 @@ EVoucher::Application.routes.draw do
     end
   end
 
-  resources :statements, :only => [:index, :show] do
+  resources :statements, :only => [:index, :show, :destroy] do
     collection do
       get 'generate'
       post 'do_generate'
+    end
+    member do
+      post 'toggle_status'
     end
   end
 

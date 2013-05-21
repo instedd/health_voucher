@@ -1,3 +1,9 @@
-// Place all the styles related to the statements controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.statement {
+  width: 620px !important;
+  td {
+    padding: 6px;
+  }
+  tr:nth-child(even) td {
+    background-color: #f8f8f8;
+  }
+}

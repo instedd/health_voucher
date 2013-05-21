@@ -8,6 +8,9 @@ class Statement < ActiveRecord::Base
 
   belongs_to :clinic
   
+  # this needs to be before has_many :dependent
+  before_destroy :mark_unpaid_all_transactions
+
   has_many :transactions, :dependent => :nullify
 
   validates_presence_of :clinic
@@ -29,4 +32,24 @@ class Statement < ActiveRecord::Base
       where('clinic_services.service_id = authorizations.service_id').
       sum('clinic_services.cost')
   end
+
+  def toggle_status!
+    self.class.transaction do
+      if paid?
+        update_attribute :status, :unpaid
+        transactions.update_all :status => :unpaid
+      else
+        update_attribute :status, :paid
+        transactions.update_all :status => :paid
+      end
+    end 
+  end
+
+  private
+
+  def mark_unpaid_all_transactions
+    transactions.update_all :status => :unpaid
+    true
+  end
 end
+

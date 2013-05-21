@@ -1,15 +1,30 @@
-%h1 Statement
+%h1
+  Statement ##{@stmt.id}
+  %span.fineprint (#{@stmt.status})
 
 .box.w60
-  %p
-    Clinic: #{@stmt.clinic.name}
-  %p
-    Date: #{@stmt.created_at.to_s(:date)}
-  %p
-    Includes transactions until: #{@stmt.until.to_time.to_s(:date)}
+  .right
+    - if @stmt.paid?
+      = link_to 'Mark as unpaid', toggle_status_statement_path(@stmt), :method => :post, :class => 'fclose'
+    - else
+      = link_to 'Mark as paid', toggle_status_statement_path(@stmt), :method => :post, :class => 'faccept'
+    %br
+    = link_to 'Export CSV', @stmt, :class => 'fexport'
+  %div
+    Clinic: 
+    %span= @stmt.clinic.name
+    %br
+    Date:
+    %span= @stmt.created_at.to_s(:date)
+    %br
+    Includes transactions until: 
+    %span= @stmt.until.to_time.to_s(:date)
+    %br
+    Total amount: 
+    %span= number_to_currency(@stmt.compute_total, unit: '')
 
 %br
-.tablewrapp.w60
+.tablewrapp.statement
   %table.GralTable
     %colgroup
       %col(style="width: 55px")
@@ -37,4 +52,8 @@
           %td= txn.patient.agep_id
           %td= card_serial_number(txn.card)
           %td.number= number_to_currency(txn.amount, unit: '')
+
+%br
+.actions
+  = link_to 'Delete Statement', @stmt, :method => :delete, :confirm => 'Are you sure?', :class => 'fdelete'
 
