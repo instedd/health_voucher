@@ -37,3 +37,19 @@ td.cost {
   text-align: right;
 }
 
+span.service_type {
+  font-size: 75%;
+  color: #444444;
+  background-color: #dddddd;
+  border-radius: 2px;
+  padding: 2px 4px;
+  margin-left: 4px;
+  position: relative;
+  top: -2px;
+
+  &.secondary {
+    color: #666666;
+    background-color: #f0f0f0;
+  }
+}
+

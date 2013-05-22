@@ -2,6 +2,12 @@
 
 .clinic_services
   %table.GralTable
+    %colgroup
+      %col(style="width: 55px;")
+      %col(style="width: auto;")
+      %col(style="width: 70px;")
+      %col(style="width: 70px;")
+      %col(style="width: 40px;")
     %tbody
       %tr
         %th Code
@@ -10,8 +16,14 @@
         %th(colspan="2") Cost
       - @clinic.all_clinic_services.each do |cs|
         %tr
-          %td= cs.service.code
-          %td= cs.service.description
+          %td
+            = cs.service.code
+            %span.service_type(class="#{cs.service.service_type}")
+              - if cs.service.primary?
+                P
+              - else
+                S
+          %td(title="#{cs.service.description}")= cs.service.short_description
           %td
             = check_box_tag "enabled", cs.service.id, cs.enabled, :data => { :remote => true, :method => :post, :url => toggle_service_site_clinic_path(@site, @clinic), :params => "service_id=#{cs.service.id}" }, :class => 'service_enable'
           %td.cost= number_to_currency(cs.cost, unit: '')
