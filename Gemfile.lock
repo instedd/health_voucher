@@ -98,9 +98,6 @@ GEM
     net-ssh (2.6.7)
     net-ssh-gateway (1.2.0)
       net-ssh (>= 2.6.5)
-    nuntium_api (0.21)
-      json
-      rest-client
     orm_adapter (0.4.0)
     polyglot (0.3.3)
     rack (1.4.5)
@@ -128,8 +125,6 @@ GEM
     rake (10.0.4)
     rdoc (3.12.2)
       json (~> 1.4)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -185,7 +180,6 @@ DEPENDENCIES
   machinist
   mocha
   mysql2
-  nuntium_api (~> 0.19)
   rails (= 3.2.13)
   rspec-rails
   rvm-capistrano (~> 1.2.7)
