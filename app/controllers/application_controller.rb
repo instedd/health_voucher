@@ -15,4 +15,16 @@ class ApplicationController < ActionController::Base
   def permission_denied
     render :file => "public/401", :status => :unauthorized, :layout => false
   end
+  
+  # Monkey patch add_breadcrumb to escape HTML entities in the breadcrumb
+  # name
+
+  alias_method :old_add_breadcrumb, :add_breadcrumb
+
+  def add_breadcrumb(name, path = nil, options = {})
+    if name.is_a?(String) && !name.html_safe?
+      name = ERB::Util.html_escape(name)
+    end
+    old_add_breadcrumb name, path, options
+  end
 end

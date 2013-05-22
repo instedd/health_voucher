@@ -26,7 +26,6 @@ class SitesController < ApplicationController
   end
 
   def edit
-    add_breadcrumb @site.name, nil
   end
 
   def update
@@ -34,7 +33,6 @@ class SitesController < ApplicationController
     if @site.save
       redirect_to @site, notice: 'Site was updated successfully'
     else
-      add_breadcrumb @site.name, nil
       render :edit
     end
   end
