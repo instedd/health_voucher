@@ -2,15 +2,10 @@ class ProvidersController < ApplicationController
   before_filter :authenticate_admin!
 
   def create
-    @clinic = Clinic.find(params[:clinic_id])
-    @provider = Provider.new(params[:provider])
-    @provider.clinic = @clinic
+    @provider = Provider.new(params[:provider], :as => :creator)
     if @provider.save
       flash[:notice] = "The provider was added"
-    else
-      flash[:alert] = "Error adding provider: #{@provider.errors.full_messages.join(', ')}"
     end
-    redirect_to site_clinic_path(@clinic.site, @clinic)
   end
 
   def destroy

@@ -4,20 +4,21 @@ class ClinicsController < SiteController
 
   def index
     @clinics = @site.clinics.order(:name)
+    @clinic = Clinic.new
+    @clinic.site = @site
   end
 
   def create
     @clinic = @site.clinics.create(params[:clinic])
     if @clinic.valid?
-      redirect_to site_clinic_path(@site, @clinic), notice: 'Clinic was created'
-    else
-      redirect_to site_clinics_path(@site), 
-        alert: "Error creating clinic: #{@clinic.errors.full_messages.join(', ')}"
+      flash[:notice] = 'Clinic created'
     end
   end
 
   def show
     @clinic = @site.clinics.find(params[:id])
+    @provider = Provider.new
+    @provider.clinic = @clinic
     add_breadcrumb @clinic.name, site_clinic_path(@site, @clinic)
   end
 

@@ -1,34 +1,29 @@
 %h1 Sites
 
-.tablewrapp
-  %table.GralTable.sites
+.tablewrapp.w60
+  %table.GralTable.sites.ItemTable
     %colgroup
-      %col(style="width: 250px")
+      %col(style="width: auto")
       %col(style="width: 75px")
-      %col(style="width: 180px")
       %col(style="width: 130px")
       %col(style="width: 130px")
-      %col(style="width: 130px")
+      %col(style="width: 40px")
     %tbody
       %tr
         %th Site identification
         %th Training?
-        %th Manager
-        %th Mentors
         %th AGEP IDs
         %th Unassigned cards
         %th
       - @sites.each do |site|
-        %tr
+        %tr(data-action="#{site_path(site)}")
           %td
-            = link_to site.name, site
+            = site.name
           %td
             - if site.training?
               %input(type="checkbox" disabled="true" checked="true")
             - else
               %input(type="checkbox" disabled="true")
-          %td= site.manager.try(:email)
-          %td= site.mentors.count
           %td= site.patients.count
           %td= site.unassigned_cards.count
           %td
@@ -36,13 +31,15 @@
 
       - if @sites.empty?
         %tr
-          %td.emptyTable(colspan="7")
+          %td.emptyTable(colspan="5")
             There are no sites defined.
             %br
             = link_to 'Register a new site', new_site_path
             to start using the application.
-
-%br
-.actions
-  = link_to 'Register new site', new_site_path, :class => 'fadd'
+      - else
+        %tr.add(data-action="#{new_site_path}")
+          %td(colspan="4")
+            Register new site
+          %td
+            = link_to '', new_site_path, :class => 'cadd'
 

@@ -18,9 +18,20 @@
   padding-top: 100px;
   vertical-align: middle;
   font-style: italic;
+  background-color: transparent !important;
 
   a {
     text-decoration: underline;
+  }
+}
+
+.ItemTable {
+  td, th {
+    cursor: default;
+  }
+
+  tr:hover td {
+    background-color: #ededed;
   }
 }
 

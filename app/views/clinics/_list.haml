@@ -1,0 +1,25 @@
+%table.GralTable.ItemTable.clinics
+  %colgroup
+    %col(style="width: auto")
+    %col(style="width: 80px")
+    %col(style="width: 80px")
+    %col(style="width: 140px")
+  %tbody
+    %tr
+      %th Name
+      %th Providers
+      %th Services
+      %th
+    - @clinics.each do |clinic|
+      %tr(data-action="#{site_clinic_path(@site, clinic)}")
+        %td= clinic.name
+        %td= clinic.providers.count
+        %td= clinic.enabled_clinic_services.count
+        %td
+          = link_to '', site_clinic_path(@site, clinic), :class => 'farrow'
+          - if clinic.providers.count == 0
+            = link_to 'Remove', site_clinic_path(@site, clinic), :method => :delete, :class => 'fdelete'
+          - else
+            %a.fdelete.disabled(title="Clinic can't be removed while it has providers") Remove
+    = render partial: 'new_clinic_form'
+

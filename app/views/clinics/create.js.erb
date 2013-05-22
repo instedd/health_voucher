@@ -1,0 +1,6 @@
+<% if @clinic.valid? %>
+  window.location.href = '<%=j site_clinics_path(@site); %>';
+<% else %>
+  $('#new_clinic').replaceWith('<%=j render partial: 'new_clinic_form' %>');
+  $.status.showError('<%=j raw(error_messages_for(@clinic)) %>');
+<% end %>

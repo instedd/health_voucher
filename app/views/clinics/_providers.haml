@@ -3,7 +3,7 @@
 .providers
   %table.GralTable
     %colgroup
-      %col(style="width: 45px;")
+      %col(style="width: 55px;")
       %col(style="width: auto;")
       %col(style="width: 70px;")
       %col(style="width: 100px;")
@@ -22,22 +22,7 @@
           %td
             - if provider.transactions.empty?
               = link_to 'Remove', provider_path(provider), :method => :delete, :class => 'fdelete'
+            - else
+              %a.fdelete.disabled(title="Provider can't be removed because it has transactions registered") Remove
+    = render partial: '/providers/new_provider'
 
-%br
-.w30.ux-collapsible.collapsed(data-on-expanded="")
-  %span
-    %a.fadd Add new provider
-  .ux-content
-    = form_tag providers_path do
-      = hidden_field_tag 'clinic_id', @clinic.id
-
-      .field
-        = label_tag 'provider[code]', 'Code'
-        = text_field_tag 'provider[code]', nil, maxlength: 3, size: 3
-
-      .field
-        = label_tag 'provider[name]', 'Name'
-        = text_field_tag 'provider[name]', nil, maxlength: 100, :class => 'w30'
-
-      .actions
-        = button_tag 'Add Provider', :class => 'white'

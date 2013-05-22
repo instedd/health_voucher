@@ -1,0 +1,7 @@
+<% if @provider.valid? %>
+  window.location.href = '<% site_clinic_path(@provider.clinic.site, @provider.clinic) %>';
+<% else %>
+  $('#new_provider').replaceWith('<%=j render partial: 'new_provider' %>');
+  $.status.showError('<%=j raw(error_messages_for(@provider)) %>');
+<% end %>
+
