@@ -1,0 +1,3 @@
+$('.clinic_services').find('tr[data-service-id=<%= @clinic_service.service.id %>]').replaceWith('<%=j render partial: 'clinic_service', locals: { cs: @clinic_service } %>');
+
+

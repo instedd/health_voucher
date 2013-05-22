@@ -1,0 +1,15 @@
+%tr(data-service-id="#{cs.service.id}")
+  %td
+    = cs.service.code
+    = service_type_span(cs.service)
+  %td(title="#{cs.service.description}")= cs.service.short_description
+  %td
+    = check_box_tag "enabled", cs.service.id, cs.enabled, 
+      :data => { :remote => true, :method => :post, 
+        :url => toggle_service_site_clinic_path(@site, @clinic), 
+        :params => "service_id=#{cs.service.id}" },
+      :class => 'service_enable'
+  %td.cost= number_to_currency(cs.cost, unit: '')
+  %td
+    %a.set_cost.fedit(data-action="#{set_service_cost_site_clinic_path(@site, @clinic)}" data-service-id="#{cs.service.id}")
+

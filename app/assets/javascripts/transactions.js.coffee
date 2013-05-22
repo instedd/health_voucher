@@ -18,5 +18,5 @@
     $("#comment").val(row.find('.comment').attr('title'))
     pos = $(@).position()
     dialog.show_at(pos)
-    )
+  )
 

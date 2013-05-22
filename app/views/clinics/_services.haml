@@ -15,20 +15,7 @@
         %th Enabled?
         %th(colspan="2") Cost
       - @clinic.all_clinic_services.each do |cs|
-        %tr
-          %td
-            = cs.service.code
-            %span.service_type(class="#{cs.service.service_type}")
-              - if cs.service.primary?
-                P
-              - else
-                S
-          %td(title="#{cs.service.description}")= cs.service.short_description
-          %td
-            = check_box_tag "enabled", cs.service.id, cs.enabled, :data => { :remote => true, :method => :post, :url => toggle_service_site_clinic_path(@site, @clinic), :params => "service_id=#{cs.service.id}" }, :class => 'service_enable'
-          %td.cost= number_to_currency(cs.cost, unit: '')
-          %td
-            %span.set_cost.fedit(data-action="#{set_service_cost_site_clinic_path(@site, @clinic)}" data-service-id="#{cs.service.id}")
+        = render partial: 'clinic_service', locals: { cs: cs }
 
   .dialog#cost_dialog
     .box.grey.w20
@@ -39,7 +26,7 @@
           = hidden_field_tag :service_id, nil
           .field.w20
             %label(for="cost") Cost
-            %input.w20#cost(name="cost" type="number" value="" data-focus="true")
+            %input.w20#cost(name="cost" type="number" value="" min="0" data-focus="true")
           .actions
             %button.white(type="submit") Set
 
