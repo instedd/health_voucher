@@ -9,6 +9,12 @@ class TransactionsController < ApplicationController
   def update_status
     @txn = Transaction.find(params[:id])
     @txn.update_status params[:status], params[:comment]
+    respond_to do |format|
+      format.js
+      format.html {
+        redirect_to transactions_path
+      }
+    end
   end
 
   private

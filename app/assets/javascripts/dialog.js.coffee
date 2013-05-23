@@ -7,6 +7,19 @@ class @FloatingDialog
     @focus = @div.find('[data-focus]')
     @visible = false
 
+    $(document).click (evt) =>
+      if @visible && $(evt.target).closest(@div).length == 0
+        if evt.target.dialog_opened == @
+          evt.target.dialog_opened = null
+        else
+          # HACK to avoid closing the dialog when clicking in the jQuery datepicker
+          targetClass = evt.target.getAttribute('class') || ''
+          if !targetClass.match(/ui-datepicker/) && $(evt.target).closest('#ui-datepicker-div').length == 0
+            @hide()
+    $(document).keydown (evt) =>
+      if @visible && evt.keyCode == 27
+        @hide()
+
   show: ->
     @div.css('display', 'block')
     @visible = true
@@ -31,8 +44,9 @@ class @RowDialog extends @FloatingDialog
       @form.submit =>
         @hide()
 
-  setup_and_show: (source) ->
-    source = $(source)
+  setup_and_show: (event) ->
+    event.target.dialog_opened = @
+    source = $(event.target)
     if @visible
       @hide()
       

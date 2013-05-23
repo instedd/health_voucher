@@ -15,6 +15,12 @@ class MentorsController < SiteController
     if @mentor.valid?
       flash[:notice] = "Mentor added"
     end
+    respond_to do |format|
+      format.js
+      format.html {
+        redirect_to site_mentors_path(@site)
+      }
+    end
   end
 
   def destroy

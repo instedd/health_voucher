@@ -3,14 +3,14 @@
   start = new RowDialog($('#start_dialog'))
   report = new RowDialog($('#report_dialog'))
 
-  $('table.patients').on('click', '.assign_action:not(.disabled)', ->
+  $('table.patients').on('click', '.assign_action:not(.disabled)', (evt) ->
     assign.form.find('.serial_number').val(NextSerialNumber)
-    assign.setup_and_show(@)
-  ).on('click', '.start_action', ->
-    start.setup_and_show(@)
-  ).on('click', '.report_action', ->
+    assign.setup_and_show(evt)
+  ).on('click', '.start_action', (evt) ->
+    start.setup_and_show(evt)
+  ).on('click', '.report_action', (evt) ->
     report.div.find('.serial_number').text($(@).data('serial-number'))
-    report.setup_and_show(@)
+    report.setup_and_show(evt)
   )
 
   move_dialog = $('.move_dialog')
@@ -30,6 +30,8 @@
     if $(@).hasClass('disabled')
       evt.stopImmediatePropagation()
   )
+
+  $('#start_dialog .ux-datepicker').datepicker('option', 'showOn', 'none')
 
 @nextSerialNumberUpdated = ->
   $('#initial_serial_number').val(NextSerialNumber)

@@ -47,6 +47,12 @@ class ClinicsController < SiteController
     @clinic_service = @clinic.clinic_service_for(@service)
     @clinic_service.cost = params[:cost]
     @clinic_service.save || @clinic_service.reload
+    respond_to do |format|
+      format.js
+      format.html {
+        redirect_to site_clinic_path(@site, @clinic)
+      }
+    end
   end
 
   private

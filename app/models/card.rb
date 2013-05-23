@@ -21,6 +21,7 @@ class Card < ActiveRecord::Base
   validates_format_of :serial_number, :with => /\A[0-9]+\z/
   validates_length_of :serial_number, :is => SERIAL_NUMBER_LENGTH
   validate :valid_check_digit
+  validate :validity_check
 
   def self.valid_serial_number?(sn)
     sn.length == SERIAL_NUMBER_LENGTH + 1 &&
@@ -69,11 +70,41 @@ class Card < ActiveRecord::Base
     end
   end
 
+  def validity=(value)
+    begin
+      if value.nil?
+        new_value = nil
+      elsif value.is_a?(String)
+        if value.include?('/')
+          # FIXME: parameterize date format
+          new_value = Date.strptime(value, "%m/%d/%Y")
+        else
+          new_value = Date.parse(value)
+        end
+      elsif value.is_a?(Date) or value.is_a?(Time)
+        new_value = value
+      else
+        raise ArgumentError, "invalid date value"
+      end
+      @invalid_date = false
+      write_attribute :validity, new_value
+    rescue
+      @invalid_date = true
+      write_attribute :validity, nil
+    end
+  end
+
   private
 
   def valid_check_digit
     unless check_digit == Card::Damm.generate(serial_number)
       errors[:check_digit] << "is invalid"
+    end
+  end
+
+  def validity_check
+    if @invalid_date
+      errors[:validity] << "is invalid"
     end
   end
 end

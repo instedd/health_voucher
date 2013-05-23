@@ -7,10 +7,15 @@ class CardsController < ApplicationController
       return
     end
 
-    # FIXME: parameterize date format
-    @card.validity = Date.strptime(params[:validity], "%m/%d/%Y") rescue Date.today
+    @card.validity = params[:validity]
     @card.save
     @patient = @card.patient
+    respond_to do |format|
+      format.js
+      format.html {
+        redirect_to site_mentor_path(@patient.site, @patient.mentor)
+      }
+    end
   end
 
   private

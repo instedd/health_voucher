@@ -6,6 +6,13 @@ class ProvidersController < ApplicationController
     if @provider.save
       flash[:notice] = "The provider was added"
     end
+    respond_to do |format|
+      format.js
+      format.html {
+        @clinic = @provider.clinic
+        redirect_to site_clinic_path(@clinic.site, @clinic)
+      }
+    end
   end
 
   def destroy
