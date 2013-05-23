@@ -1,0 +1,15 @@
+%tr(data-id="#{patient.id}")
+  %td
+    = check_box_tag nil, patient.id
+  %td= patient.agep_id
+  %td= card_serial_number(patient.current_card)
+  %td= card_validity(patient.current_card)
+  %td
+    - if patient.current_card.nil?
+      %a.fadd.assign_action(data-action="#{assign_card_patient_path(patient)}")
+        Assign card
+    - elsif patient.current_card.validity.nil?
+      %a.fplay.start_action(data-action="#{start_validity_card_path(patient.current_card)}") Start validity
+    - else
+      %a.fclaim.report_action(data-action="#{lost_card_patient_path(patient)}" data-serial-number="#{card_serial_number(patient.current_card)}") Report lost
+

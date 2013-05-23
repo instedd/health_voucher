@@ -1,9 +1,6 @@
 @onClinicsShow = ->
   cost_dialog = new RowDialog($('#cost_dialog'))
 
-  cost_dialog.form.submit ->
-    cost_dialog.hide()
-
   $('.clinic_services table').on('click', 'a.fedit', ->
     row = $(@).parents('tr').first()
 

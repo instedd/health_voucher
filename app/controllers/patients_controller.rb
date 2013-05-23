@@ -6,20 +6,14 @@ class PatientsController < ApplicationController
     if @card
       @patient.current_card = @card
       @patient.save
-      flash[:notice] = "Card assigned"
-    else
-      flash[:alert] = "Card not found or already assigned"
     end
-    redirect_to site_mentor_path(@site, @mentor)
   end
   
   def lost_card
     @card = @patient.current_card
     if @card
       @patient.report_lost_card!
-      flash[:notice] = "Card was reported lost"
     end
-    redirect_to site_mentor_path(@site, @mentor)
   end
 
   private

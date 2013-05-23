@@ -1,0 +1,8 @@
+$('.patients').find('tr[data-id=<%= @patient.id %>]').replaceWith('<%=j render partial: '/mentors/patient', locals: { patient: @patient } %>');
+<% if @patient.current_card.nil? %>
+  $.status.showError('Card not found or already assigned');
+<% else %>
+  $.status.showNotice('Card assigned', 2000);
+  NextSerialNumber = '<%= first_unassigned_card_serial_number(@site) %>';
+  nextSerialNumberUpdated();
+<% end %>

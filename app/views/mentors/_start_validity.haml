@@ -3,7 +3,7 @@
     %span
       %a.fplay Start validity
     .ux-content
-      = form_tag nil, :method => "post" do
+      = form_tag nil, :method => "post", :remote => true do
         .field.w20
           %label(for="validity") Card is valid from
           %p (mm/dd/yyyy format)

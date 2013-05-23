@@ -3,7 +3,7 @@
     %span
       %a.fclaim Report lost
     .ux-content
-      = form_tag nil, :method => "post" do
+      = form_tag nil, :method => "post", :remote => true do
         %p Please confirm the patient's card was lost or stolen
         %p
           Serial Number

@@ -1,0 +1,12 @@
+.w20.ux-collapsible.collapsed(data-on-expanded="box grey")
+  %span.auto_assign_action
+    %a.fsettings Assign cards automatically
+  .ux-content
+    = form_tag auto_assign_site_mentor_path(@site, @mentor) do
+      .field.w20
+        = label_tag :initial_serial_number, 'Initial Serial Number'
+        = text_field_tag :initial_serial_number, nil,
+          :class => 'serial_number', :autofocus => true
+      .actions
+        = button_tag 'Assign', :class => 'grey'
+

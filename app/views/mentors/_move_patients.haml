@@ -1,0 +1,12 @@
+.w30.ux-collapsible.collapsed(data-on-expanded="box grey")
+  %span
+    %a.fright Move selected to another mentor
+  .ux-content.move_dialog
+    = form_tag move_patients_site_mentor_path(@site, @mentor) do
+      = hidden_field_tag "patient_ids"
+      .field.w30
+        = label_tag :target_id, 'Select another mentor'
+        = select_tag :target_id, target_mentors_for_select(@site, @mentor), include_blank: true, class: 'w30', autofocus: true
+      .actions
+        = button_tag 'Move', :class => 'grey', :disabled => true
+

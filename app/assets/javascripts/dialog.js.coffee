@@ -25,6 +25,12 @@ class @FloatingDialog
       @onHide()
 
 class @RowDialog extends @FloatingDialog
+  constructor: (@div) ->
+    super(@div)
+    if @form.attr('data-remote')
+      @form.submit =>
+        @hide()
+
   setup_and_show: (source) ->
     source = $(source)
     if @visible
