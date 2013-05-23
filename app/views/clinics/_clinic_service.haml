@@ -2,7 +2,7 @@
   %td
     = cs.service.code
     = service_type_span(cs.service)
-  %td(title="#{cs.service.description}")= cs.service.short_description
+  %td(title="#{cs.service.description}")= cs.service.description
   %td
     = check_box_tag "enabled", cs.service.id, cs.enabled, 
       :data => { :remote => true, :method => :post, 

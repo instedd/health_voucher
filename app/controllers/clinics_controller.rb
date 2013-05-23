@@ -1,5 +1,6 @@
 class ClinicsController < SiteController
   before_filter :authenticate_admin!
+  before_filter :load_clinic, :except => [:index, :create]
   before_filter :add_breadcrumbs
 
   def index
@@ -16,14 +17,14 @@ class ClinicsController < SiteController
   end
 
   def show
-    @clinic = @site.clinics.find(params[:id])
     @provider = Provider.new
     @provider.clinic = @clinic
-    add_breadcrumb @clinic.name, site_clinic_path(@site, @clinic)
+  end
+
+  def services
   end
 
   def destroy
-    @clinic = @site.clinics.find(params[:id])
     @clinic.destroy
     if @clinic.destroyed?
       flash[:notice] = "The clinic was removed"
@@ -34,7 +35,6 @@ class ClinicsController < SiteController
   end
 
   def toggle_service
-    @clinic = @site.clinics.find(params[:id])
     @service = Service.find(params[:service_id])
     @clinic_service = @clinic.clinic_service_for(@service)
     @clinic_service.enabled = params[:enabled].present?
@@ -43,7 +43,6 @@ class ClinicsController < SiteController
   end
 
   def set_service_cost
-    @clinic = @site.clinics.find(params[:id])
     @service = Service.find(params[:service_id])
     @clinic_service = @clinic.clinic_service_for(@service)
     @clinic_service.cost = params[:cost]
@@ -52,10 +51,17 @@ class ClinicsController < SiteController
 
   private
 
+  def load_clinic
+    @clinic = @site.clinics.find(params[:id])
+  end
+
   def add_breadcrumbs
     @show_breadcrumb = true
     add_breadcrumb 'Sites', sites_path
     add_breadcrumb @site.name, @site
     add_breadcrumb 'Clinics', site_clinics_path(@site)
+    unless @clinic.nil?
+      add_breadcrumb @clinic.name, site_clinic_path(@site, @clinic)
+    end
   end
 end

@@ -4,7 +4,7 @@
     %span.training (Training Site)
 %br
 
-%ul.tabs.top
+%ul.site-tabs.tabs.top
   %li.overview
     = link_to "Overview", @site
   %li.assign_cards
@@ -21,5 +21,5 @@
 .tabsline
 
 :javascript
-  $('.tabs').find('.#{active_tab}').addClass('active');
+  $('.site-tabs').find('.#{active_tab}').addClass('active');
 

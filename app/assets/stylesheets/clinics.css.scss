@@ -11,26 +11,8 @@
   }
 }
 
-.providers {
-  max-height: 340px;
-  overflow: auto;
-
-  table {
-    width: 100%;
-  }
-}
-
-.clinic_services {
-  height: 340px;
-  overflow: auto;
-
-  table {
-    width: 100%;
-  }
-}
-
-.clinics-span {
-  height: 400px;
+.providers-list {
+  min-height: 340px;
 }
 
 td.cost {

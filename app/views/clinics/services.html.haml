@@ -1,9 +1,9 @@
 = render partial: '/sites/tabs', locals: { active_tab: 'clinics' }
 
-= render partial: 'clinic_header', locals: { active_tab: 'providers' }
+= render partial: 'clinic_header', locals: { active_tab: 'services' }
 
 .box.tab.w60
-  = render partial: 'providers'
+  = render partial: 'services'
 
 :javascript
   $(function() { onClinicsShow() })

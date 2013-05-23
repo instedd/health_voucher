@@ -10,10 +10,9 @@ class Provider < ActiveRecord::Base
   has_many :authorizations
   has_many :transactions, :through => :authorizations
 
-  validates_presence_of :name, :code, :clinic
+  validates_presence_of :name, :clinic
   validates_uniqueness_of :code
-  validates_format_of :code, :with => /\A[0-9]+\z/
-  validates_length_of :code, :is => PROVIDER_CODE_LENGTH
+  validates_format_of :code, :with => /\A[0-9]{#{PROVIDER_CODE_LENGTH}}\z/
   validates_length_of :name, :maximum => 100
 
   before_destroy :check_no_transactions

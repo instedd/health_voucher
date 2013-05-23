@@ -1,0 +1,14 @@
+%h1
+  = link_to '', site_clinics_path(@site), :class => 'fleft'
+  = @clinic.name
+
+%br
+%ul.clinic-tabs.tabs.top
+  %li.providers
+    = link_to 'Providers', site_clinic_path(@site, @clinic)
+  %li.services
+    = link_to 'Services & Costs', services_site_clinic_path(@site, @clinic)
+
+:javascript
+  $('.clinic-tabs').find('.#{active_tab}').addClass('active');
+

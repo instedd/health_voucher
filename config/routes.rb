@@ -24,6 +24,7 @@ EVoucher::Application.routes.draw do
 
     resources :clinics do
       member do
+        get 'services'
         post 'toggle_service'
         post 'set_service_cost'
       end
