@@ -3,12 +3,18 @@
 - else
   %h1= @site.name
 
-%h1= @mentor.name
+%h1
+  = link_to '', site_mentors_path(@site), :class => 'fleft'
+  = @mentor.name
 
-.tablewrapp
+.tablewrapp.w60
   %table.GralTable.patients
     %colgroup
-      %col(style="width: 30px")
+      %col(style="width: 35px")
+      %col(style="width: auto")
+      %col(style="width: 120px")
+      %col(style="width: 120px")
+      %col(style="width: 120px")
     %tr
       %th
       %th AGEP ID
@@ -31,43 +37,9 @@
           - else
             %a.fclaim.report_action(data-action="#{lost_card_patient_path(patient)}" data-serial-number="#{card_serial_number(patient.current_card)}") Report lost
 
-  .dialog#assign_dialog
-    .box.grey.w20
-      %span
-        %a.fadd Assign card
-      .ux-content
-        = form_tag nil, :method => "post" do
-          .field.w20
-            %label(for="assign_sn") Serial Number
-            %input.w20.serial_number#assign_sn(name="serial_number" type="text" data-focus="true" value="#{first_unassigned_card_serial_number(@site)}")
-          .actions
-            %button.white(type="submit") Assign
-
-  .dialog#start_dialog
-    .box.grey.w20
-      %span
-        %a.fplay Start validity
-      .ux-content
-        = form_tag nil, :method => "post" do
-          .field.w20
-            %label(for="validity") Card is valid from
-            %p (mm/dd/yyyy format)
-            %input.w20.ux-datepicker#validity(name="validity" type="text" data-focus="true" value="#{Time.now.to_s(:date)}")
-          .actions
-            %button.white(type="submit") Set
-
-  .dialog#report_dialog
-    .box.grey.w20
-      %span
-        %a.fclaim Report lost
-      .ux-content
-        = form_tag nil, :method => "post" do
-          %p Please confirm the patient's card was lost or stolen
-          %p
-            Serial Number
-            %b.serial_number
-          .actions
-            %button.white(type="submit") Confirm Report
+  = render partial: 'assign_card'
+  = render partial: 'start_validity'
+  = render partial: 'report_lost'
 
   
 
@@ -83,7 +55,7 @@
           %p (you can enter several AGEP IDs separated by spaces or new lines)
           = text_area_tag :agep_ids, '', rows: 5, :autofocus => true
         .actions
-          = button_tag 'Add', :class => 'white'
+          = button_tag 'Add', :class => 'grey'
 
   - if @site.unassigned_cards.count > 0
     .w20.ux-collapsible.collapsed(data-on-expanded="box grey")
@@ -97,7 +69,7 @@
               first_unassigned_card_serial_number(@site), 
               :class => 'serial_number', :autofocus => true
           .actions
-            = button_tag 'Assign', :class => 'white'
+            = button_tag 'Assign', :class => 'grey'
   - else
     .w20
       %span
@@ -114,7 +86,7 @@
           = label_tag :target_id, 'Select another mentor'
           = select_tag :target_id, target_mentors_for_select(@site, @mentor), include_blank: true, class: 'w30', autofocus: true
         .actions
-          = button_tag 'Move', :class => 'white', :disabled => true
+          = button_tag 'Move', :class => 'grey', :disabled => true
 
 :javascript
   $(function() { onMentorShow() })

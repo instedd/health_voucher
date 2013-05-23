@@ -6,7 +6,7 @@
 %h1 Mentors
 
 .tablewrapp.mentors.w60
-  %table.GralTable
+  %table.GralTable.ItemTable
     %colgroup
       %col(style="width: auto")
       %col(style="width: 120px")
@@ -17,9 +17,9 @@
         %th AGEP IDs (without card)
         %th
       - @site.mentors.each do |mentor|
-        %tr
+        %tr(data-action="#{site_mentor_path(@site, mentor)}")
           %td
-            = link_to mentor.name, site_mentor_path(@site, mentor)
+            = mentor.name
           %td
             = mentor.patients.count
             - if mentor.patients.without_card.any?
@@ -28,17 +28,7 @@
             = link_to '', site_mentor_path(@site, mentor), :class => 'farrow'
             - if mentor.patients.count == 0
               = link_to 'Remove', site_mentor_path(@site, mentor), :method => :delete, :class => 'fdelete'
-
-%br
-.w30.ux-collapsible.collapsed(data-on-expanded="box grey")
-  %span
-    %a.fadd Add new Mentor
-  .ux-content
-    = form_tag site_mentors_path(@site) do
-      .field
-        = label_tag "mentor[name]", 'Name'
-        = text_field_tag "mentor[name]", '', :class => 'w30'
-      .actions
-        = button_tag 'Add', :class => 'white'
-
+            - else
+              %a.fdelete.disabled(title="Mentor can't be removed while she has patients assigned") Remove
+      = render partial: 'new_mentor'
 

@@ -1,5 +1,6 @@
 .box.centered.w30
-  %h2 Sign in
+  %h2 Log In
+  %hr.shadow
 
   = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
     .field.w30
@@ -18,4 +19,7 @@
     .actions
       = f.button "Sign in", :class => 'white'
 
+  %br
+  %hr
+  %br
   = render "devise/shared/links"

@@ -1,0 +1,7 @@
+<% if @mentor.valid? %>
+  window.location.href = '<%=j site_mentors_path(@site); %>';
+<% else %>
+  $('#new_mentor').replaceWith('<%=j render partial: 'new_mentor' %>');
+  $.status.showError('<%=j raw(error_messages_for(@mentor)) %>');
+<% end %>
+

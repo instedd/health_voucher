@@ -3,21 +3,17 @@
 
 = render partial: 'tabs', locals: { active_tab: 'assign_cards' }
 
-%h1 Add Cards to Site Manager
+%h1 Unassigned cards in Site's stock
 
-.left
-  .box.w30
+.right
+  .box.grey.w30
     = render partial: 'add_from_batch'
 
   %br
-  .box.w30
+  .box.grey.w30
     = render partial: 'add_individual'
 
-.right
-  .box.w50
-    = render partial: 'unassigned_cards'
-
-.cards-span
+= render partial: 'unassigned_cards'
 
 :javascript
   var availability = #{cards_availability(@batches).to_json.gsub('</', '<\/')};

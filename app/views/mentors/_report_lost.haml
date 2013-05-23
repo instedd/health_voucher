@@ -1,0 +1,14 @@
+.dialog#report_dialog
+  .box.grey.w20
+    %span
+      %a.fclaim Report lost
+    .ux-content
+      = form_tag nil, :method => "post" do
+        %p Please confirm the patient's card was lost or stolen
+        %p
+          Serial Number
+          %b.serial_number
+        .actions
+          %button.orange(type="submit") Confirm Report
+
+

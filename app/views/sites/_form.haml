@@ -11,7 +11,7 @@
     %p Transactions from providers or cards assigned to this site will not be included in any statement.
 
   .actions
-    = f.button nil, :class => 'white'
+    = f.button nil, :class => 'grey'
     - if @site.persisted?
       = link_to 'Back', @site
     - else

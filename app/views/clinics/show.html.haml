@@ -1,6 +1,8 @@
 = render partial: '/sites/tabs', locals: { active_tab: 'clinics' }
 
-%h1= @clinic.name
+%h1
+  = link_to '', site_clinics_path(@site), :class => 'fleft'
+  = @clinic.name
 
 .left.box.w40
   = render partial: 'providers'

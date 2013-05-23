@@ -1,12 +1,10 @@
-%h3 Unassigned cards in site's stock
-
 = form_tag return_cards_site_path(@site) do
-  .unassigned_cards
+  .tablewrapp.w40
     %table.GralTable
       %colgroup
-        %col(style="width: 30px;")
-        %col
-        %col(style="width: 10em;")
+        %col(style="width: 35px;")
+        %col(style="width: auto;")
+        %col(style="width: 120px;")
       %tbody
         %tr
           %th
@@ -18,7 +16,9 @@
             %td
               = check_box_tag "return_ids[]", card.id, false, :class => 'return_card'
             %td= card.batch.name
-            %td= card.serial_number
+            %td= card_serial_number(card)
+
+  %br
   .actions
     = button_tag 'Return selected cards to PopCouncil stock', :class => 'white'
 

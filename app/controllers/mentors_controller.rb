@@ -3,17 +3,17 @@ class MentorsController < SiteController
   before_filter :add_breadcrumbs
 
   def index
+    @mentor = Mentor.new
+    @mentor.site = @site
   end
 
   def show
   end
 
   def create
-    @mentor = @site.mentors.new(params[:mentor])
-    if @mentor.save
-      redirect_to site_mentor_path(@site, @mentor), notice: 'Mentor was added'
-    else
-      redirect_to site_mentors_path(@site), alert: "Error adding mentor: #{@mentor.errors.full_messages.join(', ')}"
+    @mentor = @site.mentors.create(params[:mentor])
+    if @mentor.valid?
+      flash[:notice] = "Mentor added"
     end
   end
 
