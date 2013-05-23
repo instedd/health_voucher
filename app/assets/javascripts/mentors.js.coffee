@@ -1,23 +1,17 @@
 @onMentorShow = ->
-  assign = new FloatingDialog($('#assign_dialog'))
-  start = new FloatingDialog($('#start_dialog'))
-  report = new FloatingDialog($('#report_dialog'))
+  assign = new RowDialog($('#assign_dialog'))
+  start = new RowDialog($('#start_dialog'))
+  report = new RowDialog($('#report_dialog'))
 
   $('.assign_action').click ->
-    assign.form.attr('action', $(@).data('action'))
-    pos = $(@).position()
-    assign.show_at(pos)
+    assign.setup_and_show(@)
 
   $('.start_action').click ->
-    start.form.attr('action', $(@).data('action'))
-    pos = $(@).position()
-    start.show_at(pos)
+    start.setup_and_show(@)
 
   $('.report_action').click ->
-    report.form.attr('action', $(@).data('action'))
     report.div.find('.serial_number').text($(@).data('serial-number'))
-    pos = $(@).position()
-    report.show_at(pos)
+    report.setup_and_show(@)
 
   move_dialog = $('.move_dialog')
   move_dialog.find('select').change ->

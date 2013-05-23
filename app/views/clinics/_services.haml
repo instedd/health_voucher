@@ -20,7 +20,7 @@
       %span
         %a.fedit Set Service Cost
       .ux-content
-        = form_tag nil, :method => "post" do
+        = form_tag nil, :method => "post", :remote => true do
           = hidden_field_tag :service_id, nil
           .field.w20
             %label(for="cost") Cost

@@ -35,7 +35,7 @@
       %span
         %a.fedit Change Status
       .ux-content
-        = form_tag nil, :method => "post" do
+        = form_tag nil, :method => "post", :remote => true do
           %p
             Set to
             %br
