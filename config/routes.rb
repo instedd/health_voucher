@@ -20,6 +20,7 @@ EVoucher::Application.routes.draw do
       
       get :edit_manager
       post :update_manager
+      delete :destroy_manager
     end
 
     resources :clinics do

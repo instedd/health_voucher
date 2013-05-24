@@ -92,6 +92,15 @@ class SitesController < ApplicationController
     end
   end
 
+  def destroy_manager
+    @user = @site.user
+    if @user
+      @user.destroy
+      flash[:notice] = 'Site manager was removed'
+    end
+    redirect_to site_path(@site)
+  end
+
   private
 
   def load_site
