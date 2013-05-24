@@ -16,7 +16,7 @@
         %th Name
         %th AGEP IDs (without card)
         %th
-      - @site.mentors.each do |mentor|
+      - @mentors.each do |mentor|
         %tr(data-action="#{site_mentor_path(@site, mentor)}")
           %td
             = mentor.name

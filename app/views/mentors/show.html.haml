@@ -22,7 +22,7 @@
       %th Current card
       %th Valid from
       %th
-    - @mentor.patients.each do |patient|
+    - @patients.each do |patient|
       = render partial: 'patient', locals: { patient: patient }
 
   = render partial: 'assign_card'

@@ -3,11 +3,13 @@ class MentorsController < SiteController
   before_filter :add_breadcrumbs
 
   def index
+    @mentors = @site.mentors.order(:name)
     @mentor = Mentor.new
     @mentor.site = @site
   end
 
   def show
+    @patients = @mentor.patients.order(:agep_id)
   end
 
   def create

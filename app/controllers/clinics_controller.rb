@@ -17,6 +17,7 @@ class ClinicsController < SiteController
   end
 
   def show
+    @providers = @clinic.providers.order(:name)
     @provider = Provider.new
     @provider.clinic = @clinic
   end

@@ -4,7 +4,7 @@ class SitesController < ApplicationController
   before_filter :add_breadcrumbs
 
   def index
-    @sites = Site.all
+    @sites = Site.order(:name).all
   end
 
   def show

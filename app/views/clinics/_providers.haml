@@ -11,7 +11,7 @@
         %th Name
         %th Enabled?
         %th
-      - @clinic.providers.each do |provider|
+      - @providers.each do |provider|
         %tr
           %td= provider.code
           %td= provider.name

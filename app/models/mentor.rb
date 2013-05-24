@@ -3,7 +3,7 @@ class Mentor < ActiveRecord::Base
 
   belongs_to :site
 
-  has_many :patients, :order => [:agep_id]
+  has_many :patients
 
   validates_presence_of :name, :site
   validates_length_of :name, :maximum => 80
