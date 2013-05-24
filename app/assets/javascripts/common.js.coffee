@@ -43,3 +43,30 @@ $ ->
     some_checked = root.find(check_selector).filter(':checked').length > 0
     callback(all_checked, some_checked)
 
+
+class @Collapsable
+  constructor: (@root, @group) ->
+    @root.find('.cancel_action').click =>
+      @collapse()
+    @root.find('span:first-child > a').click (evt) =>
+      evt.stopImmediatePropagation()
+      @toggle() unless $(evt.target).hasClass('disabled')
+
+  collapse: ->
+    @root.addClass('collapsed')
+    @root.removeClass(@root.data('on-expanded'))
+
+  expand: ->
+    @root.removeClass('collapsed')
+    @root.addClass(@root.data('on-expanded'))
+    if @group
+      $.each(@group, (idx, other) =>
+        other.collapse() unless other == @
+      )
+
+  toggle: ->
+    if @root.hasClass('collapsed')
+      @expand()
+    else
+      @collapse()
+

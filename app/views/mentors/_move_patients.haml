@@ -9,4 +9,5 @@
         = select_tag :target_id, target_mentors_for_select(@site, @mentor), include_blank: true, class: 'w30', autofocus: true
       .actions
         = button_tag 'Move', :class => 'grey', :disabled => true
+        %a.cancel_action Cancel
 
