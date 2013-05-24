@@ -12,7 +12,39 @@ class TransactionsController < ApplicationController
     list = list.where('transactions.status = ?', params[:status]) if params[:status].present?
     list = list.where('transactions.created_at >= ?', since_date) if since_date.present?
     list = list.where('transactions.created_at <= ?', until_date) if until_date.present?
-    @transactions = list.order('transactions.id DESC').page params[:page]
+
+    direction = if %w(asc desc).include?(params[:direction]) 
+                  params[:direction] 
+                else 
+                  'desc'
+                end
+    sort = case params[:sort]
+           when 'id'
+             'transactions.id'
+           when 'date'
+             'transactions.created_at'
+           when 'clinic'
+             'clinics.name'
+           when 'provider'
+             'providers.code'
+           when 'service'
+             'services.code'
+           when 'agep_id'
+             'patients.agep_id'
+           when 'card'
+             'cards.serial_number'
+           when 'statement'
+             'transactions.statement_id'
+           when 'status'
+             'transactions.status'
+           else
+             'transactions.id'
+           end
+    if sort.present?
+      list = list.reorder("#{sort} #{direction}")
+    end
+
+    @transactions = list.page params[:page]
   end
 
   def update_status

@@ -9,25 +9,25 @@
     %colgroup
       %col(style="width: 45px")
       %col(style="width: 150px")
-      %col(style="width: 160px")
-      %col(style="width: 45px")
-      %col(style="width: 40px")
+      %col(style="width: auto")
+      %col(style="width: 55px")
+      %col(style="width: 50px")
       %col(style="width: 100px")
       %col(style="width: 80px")
-      %col(style="width: 45px")
+      %col(style="width: 55px")
       %col(style="width: 100px")
       %col(style="width: auto")
     %tbody
       %tr
-        %th ID#
-        %th Date
-        %th Clinic
-        %th Prov
-        %th Svc
-        %th AGEP ID
-        %th Voucher
-        %th Stmt
-        %th Status
+        = sort_header('id', 'ID#')
+        = sort_header('date')
+        = sort_header('clinic')
+        = sort_header('provider', 'Prov')
+        = sort_header('service', 'Svc')
+        = sort_header('agep_id', 'AGEP ID')
+        = sort_header('card', 'Voucher')
+        = sort_header('statement', 'Stmt')
+        = sort_header('status')
         %th Comment
       - @transactions.each do |txn|
         = render partial: 'transaction', locals: { txn: txn }
