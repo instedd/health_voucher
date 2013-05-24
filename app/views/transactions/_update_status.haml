@@ -1,0 +1,23 @@
+.dialog#update_status_dialog
+  .box.grey.w40
+    %span
+      %a.fedit Change Status
+    .ux-content
+      = form_tag nil, :method => "post", :remote => true do
+        %p
+          Set to
+          %br
+          %input#unpaid_status(type="radio" name="status" value="unpaid")
+          %label(for="unpaid_status") Unpaid
+          %br
+          %input#pending_status(type="radio" name="status" value="pending")
+          %label(for="pending_status") Pending
+          %br
+          %input#rejected_status(type="radio" name="status" value="rejected")
+          %label(for="rejected_status") Rejected
+        .field.w40
+          %label(for="comment") Comments
+          %textarea#comment(rows="4" name="comment" maxlength="200")
+        .actions
+          %button.grey(type="submit") Update
+

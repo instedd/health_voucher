@@ -1,40 +1,7 @@
 %h1 Transactions
 %p.fineprint (Transactions marked with * are from training sites and will not be included in any statement)
 
-.ux-collapsible(data-on-expanded="box grey"){:class => (filter_empty? and 'collapsed' or 'box grey')}
-  %span
-    %a.fconfiguration Filter these results
-  .ux-content
-    = form_tag transactions_path, :method => :get do
-      %table.txn-filter
-        %colgroup
-          %col(style="width: 225px;")
-          %col(style="width: 225px;")
-          %col(style="width: 125px;")
-          %col(style="width: auto;")
-          %col(style="width: 120px;")
-        %tr
-          %td
-            %label(for="site_id") Sites
-            %br
-            = select_tag :site_id, sites_filter_options(params[:site_id]), :class => 'w20'
-          %td
-            %label(for="clinic_id") Clinics
-            %br
-            = select_tag :clinic_id, clinics_filter_options(params[:site_id], params[:clinic_id]), :class => 'w20'
-          %td
-            %label(for="status") Status
-            %br
-            = select_tag :status, status_filter_options(params[:status]), :class => 'w10'
-          %td
-            %label(for="since") Date range
-            %br
-            = text_field_tag :since, params[:since], :class => 'ux-datepicker w10'
-            %span to
-            = text_field_tag :until, params[:until], :class => 'ux-datepicker w10'
-          %td
-            = button_tag 'Filter', :class => 'grey'
-            = link_to 'Clear', clear_filter_transactions_path, :class => 'button white'
+= render partial: 'filter_form'
 
 %br
 .tablewrapp
@@ -66,28 +33,7 @@
         = render partial: 'transaction', locals: { txn: txn }
   = paginate @transactions
 
-  .dialog#update_status_dialog
-    .box.grey.w40
-      %span
-        %a.fedit Change Status
-      .ux-content
-        = form_tag nil, :method => "post", :remote => true do
-          %p
-            Set to
-            %br
-            %input#unpaid_status(type="radio" name="status" value="unpaid")
-            %label(for="unpaid_status") Unpaid
-            %br
-            %input#pending_status(type="radio" name="status" value="pending")
-            %label(for="pending_status") Pending
-            %br
-            %input#rejected_status(type="radio" name="status" value="rejected")
-            %label(for="rejected_status") Rejected
-          .field.w40
-            %label(for="comment") Comments
-            %textarea#comment(rows="4" name="comment" maxlength="200")
-          .actions
-            %button.grey(type="submit") Update
+  = render partial: 'update_status'
   
 :javascript
   var Clinics = #{clinics_by_site.to_json.gsub('</', '<\/')};
