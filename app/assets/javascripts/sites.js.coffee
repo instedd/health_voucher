@@ -24,23 +24,6 @@ $ ->
   $('#serial_number').keyup ->
     one_submit.attr('disabled', !@value)
 
-  last_clicked = null
-  $('.return_card').click (evt) ->
-    if evt.shiftKey and last_clicked and last_clicked != this
-      checks = $('.return_card')
-      inside = false
-      clicked = this
-      checks = checks.filter ->
-        if inside
-          inside = (this != clicked) && (this != last_clicked)
-        else
-          inside = (this == clicked) || (this == last_clicked)
-        inside
-      checks.attr 'checked', clicked.checked
-    else
-      last_clicked = @
-    $('.check_all').attr('checked', $('.return_card:not(:checked)').length == 0)
-
-  $('.check_all').click ->
-    $('.return_card').attr('checked', @checked)
+  @wireCheckboxGroup $('.unassigned-cards'), '.return_card', '.check_all', (all, some) ->
+    $('.return_button').attr('disabled', !some)
 

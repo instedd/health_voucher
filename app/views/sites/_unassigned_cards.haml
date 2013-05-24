@@ -1,6 +1,6 @@
 = form_tag return_cards_site_path(@site) do
   .tablewrapp.w40
-    %table.GralTable
+    %table.GralTable.unassigned-cards
       %colgroup
         %col(style="width: 35px;")
         %col(style="width: auto;")
@@ -20,5 +20,5 @@
 
   %br
   .actions
-    = button_tag 'Return selected cards to PopCouncil stock', :class => 'white'
+    = button_tag 'Return selected cards to PopCouncil stock', :class => 'white return_button', :disabled => true
 

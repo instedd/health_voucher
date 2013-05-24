@@ -20,18 +20,30 @@
     else
       move_dialog.find('button').attr('disabled', true)
   move_dialog.find('form').submit ->
-    ids = $('.patients input:checked').map(-> @value).toArray().join()
+    ids = $('.patient_check:checked').map(-> @value).toArray().join()
     $('#patient_ids').val(ids)
     true
 
   nextSerialNumberUpdated()
 
-  $('.fsettings').on('click', (evt) ->
-    if $(@).hasClass('disabled')
-      evt.stopImmediatePropagation()
-  )
+  $('.auto_assign_action .fsettings, .move_patients_action .fright').
+    on('click', (evt) ->
+      if $(@).hasClass('disabled')
+        evt.stopImmediatePropagation()
+    )
 
   $('#start_dialog .ux-datepicker').datepicker('option', 'showOn', 'none')
+
+  toggleMove = (v) ->
+    has_other_mentors = $('#target_id option').length > 1
+    button = $('.move_patients_action .fright')
+    if v && has_other_mentors
+      button.removeClass('disabled')
+    else
+      button.addClass('disabled')
+
+  @wireCheckboxGroup $('.patients'), '.patient_check', '.check_all', (all_checked, some_checked) ->
+    toggleMove(some_checked)
 
 @nextSerialNumberUpdated = ->
   $('#initial_serial_number').val(NextSerialNumber)
@@ -39,3 +51,4 @@
   if (!NextSerialNumber)
     $('table.patients').find('.assign_action').addClass('disabled')
     $('.auto_assign_action .fsettings').addClass('disabled')
+

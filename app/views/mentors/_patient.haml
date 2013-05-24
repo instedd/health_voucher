@@ -1,6 +1,6 @@
 %tr(data-id="#{patient.id}")
   %td
-    = check_box_tag nil, patient.id
+    = check_box_tag nil, patient.id, false, :class => 'patient_check'
   %td= patient.agep_id
   %td= card_serial_number(patient.current_card)
   %td= card_validity(patient.current_card)

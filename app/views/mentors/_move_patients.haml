@@ -1,6 +1,6 @@
 .w30.ux-collapsible.collapsed(data-on-expanded="box grey")
-  %span
-    %a.fright Move selected to another mentor
+  %span.move_patients_action
+    %a.fright.disabled Move selected to another mentor
   .ux-content.move_dialog
     = form_tag move_patients_site_mentor_path(@site, @mentor) do
       = hidden_field_tag "patient_ids"
