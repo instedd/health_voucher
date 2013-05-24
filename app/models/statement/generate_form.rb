@@ -22,16 +22,14 @@ class Statement::GenerateForm
   end
 
   def until=(value)
-    # FIXME: parameterize this
-    @until = Date.strptime(value, "%m/%d/%Y") rescue nil
+    @until = Date.parse_human_param(value) rescue nil
   end
 
   def until(format = nil)
     if format == :date || @until.nil?
       @until
     else
-      # FIXME: parameterize
-      @until.strftime('%m/%d/%Y')
+      @until.to_date.to_human_param
     end
   end
 

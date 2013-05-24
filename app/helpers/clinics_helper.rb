@@ -7,6 +7,10 @@ module ClinicsHelper
     end]
   end
 
+  def clinics_for_select(site, current = nil)
+    options_from_collection_for_select(site.clinics.order(:name).all, :id, :name, current)
+  end
+
   def service_type_span(service)
     content = case service.service_type
               when "primary"

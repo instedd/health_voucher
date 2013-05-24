@@ -75,12 +75,7 @@ class Card < ActiveRecord::Base
       if value.nil?
         new_value = nil
       elsif value.is_a?(String)
-        if value.include?('/')
-          # FIXME: parameterize date format
-          new_value = Date.strptime(value, "%m/%d/%Y")
-        else
-          new_value = Date.parse(value)
-        end
+        new_value = Date.parse_human_param(value) rescue Date.parse(value)
       elsif value.is_a?(Date) or value.is_a?(Time)
         new_value = value
       else

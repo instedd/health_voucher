@@ -11,12 +11,12 @@
     = f.select :clinic_id, [], { :include_blank => 'All Clinics' }, :class => 'w30 clinic'
   .field.w30
     = f.label :until, 'Unpaid services until'
-    %p (mm/dd/yyyy format)
+    %p (#{Date::HUMAN_DISPLAY_FORMAT} format)
     = f.text_field :until, :class => 'ux-datepicker w20'
   .actions
     = button_tag 'Generate', :class => 'white'
 
 :javascript
-  var Clinics = #{clinics_by_site.to_json.gsub('/>', '\/>')};
+  var Clinics = #{clinics_by_site.to_json.gsub('</', '<\/')};
   $(function() { onStatementGenerate(); });
 

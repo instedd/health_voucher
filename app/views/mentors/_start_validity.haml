@@ -6,8 +6,8 @@
       = form_tag nil, :method => "post", :remote => true do
         .field.w20
           %label(for="validity") Card is valid from
-          %p (mm/dd/yyyy format)
-          %input.w20.ux-datepicker#validity(name="validity" type="text" data-focus="true" value="#{Time.now.to_s(:date)}" autocomplete="off")
+          %p (#{Date::HUMAN_DISPLAY_FORMAT} format)
+          %input.w20.ux-datepicker#validity(name="validity" type="text" data-focus="true" value="#{Date.today.to_human_param}" autocomplete="off")
         .actions
           %button.grey(type="submit") Set
 
