@@ -37,6 +37,11 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 
+  # Set time zone for testing
+  config.before(:each) do
+    Time.zone = 'Auckland'
+  end
+
   # Timecop reset after each test
   config.after(:each) do
     Timecop.return

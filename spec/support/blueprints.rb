@@ -88,7 +88,7 @@ end
 Statement.blueprint do
   clinic { Clinic.make! }
   status { :unpaid }
-  self.until { Time.now }
+  self.until { Date.today }
 end
 
 Mentor.blueprint do

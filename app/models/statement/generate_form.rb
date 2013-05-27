@@ -18,7 +18,7 @@ class Statement::GenerateForm
     ATTRIBUTES.each do |attribute|
       send("#{attribute}=", attributes[attribute])
     end
-    @until ||= Time.now
+    @until ||= Date.today
   end
 
   def until=(value)

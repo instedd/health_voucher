@@ -9,8 +9,8 @@ class Authorization < ActiveRecord::Base
   validates_presence_of :card, :provider, :service
 
   scope :today, lambda {
-    where("authorizations.created_at >= ?", Time.now.beginning_of_day).
-      where("authorizations.created_at <= ?", Time.now)
+    where("authorizations.created_at >= ?", Time.zone.now.beginning_of_day).
+      where("authorizations.created_at <= ?", Time.zone.now)
   }
 
   scope :by_card, lambda { |card| where(:card_id => card.id) }

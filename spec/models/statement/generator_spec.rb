@@ -59,6 +59,14 @@ describe Statement::Generator do
 
       @generator.find_transactions.should_not include(@txn3)
     end
+
+    it "should find transactions made at the end of until date" do
+      Timecop.travel(@until.to_time_in_current_zone.end_of_day.ago(1.minute)) do
+        @txn = make_transaction provider: @provider
+      end
+
+      @generator.find_transactions.should_not include(@txn3)
+    end
   end
 
   describe "generate" do

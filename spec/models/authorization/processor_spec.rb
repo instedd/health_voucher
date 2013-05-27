@@ -83,6 +83,16 @@ describe Authorization::Processor do
       @processor.current_pending_authorizations_for(@clinic).should_not include(@auth1)
       @processor.current_pending_authorizations_for(@clinic).should include(@auth2)
     end
+
+    it "should return authorizations made at the beginning of the day" do
+      Timecop.travel(Time.zone.now.beginning_of_day) do
+        @auth3 = Authorization.make! card: @card, provider: @provider, service: @service3
+      end
+
+      Timecop.travel(Time.zone.now.end_of_day.ago(1.minute)) do
+        @processor.current_pending_authorizations_for(@clinic).should include(@auth3, @auth2, @auth1)
+      end
+    end
   end
 
   describe "count available vouchers" do

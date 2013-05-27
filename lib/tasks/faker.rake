@@ -3,11 +3,12 @@ namespace :faker do
   task :gentxn, [:n] => :environment do |t, args|
     n = args[:n].to_i
 
-    Timecop.travel (5 * n).minutes.ago
+    start_time = Transaction.order('created_at DESC').first.created_at rescue (30 * n).minutes.ago
+    Timecop.travel start_time
 
     puts "Trying to generate #{n} transactions..."
     n.times.each do
-      Timecop.travel rand(4..6).minutes
+      Timecop.travel rand(15..45).minutes
       provider = Provider.where(:enabled => true).to_a.sample
       patient = Patient.with_card.to_a.sample
       card = patient.current_card

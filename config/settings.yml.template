@@ -1,4 +1,5 @@
 defaults: &defaults
+  time_zone: Buenos Aires     # See rake time:zones:all for a list of valid values
   basic_auth_name: COMPLETE
   basic_auth_pwd: COMPLETE
   default_url_options:
