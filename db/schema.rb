@@ -11,7 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130515124542) do
+ActiveRecord::Schema.define(:version => 20130527172108) do
+
+  create_table "activities", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "object_class"
+    t.integer  "object_id"
+    t.text     "description"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "activities", ["created_at"], :name => "index_activities_on_created_at"
+  add_index "activities", ["object_class"], :name => "index_activities_on_object_class"
+  add_index "activities", ["object_id"], :name => "index_activities_on_object_id"
+  add_index "activities", ["user_id"], :name => "index_activities_on_user_id"
 
   create_table "authorizations", :force => true do |t|
     t.integer  "card_id"
