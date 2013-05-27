@@ -19,7 +19,7 @@ module CardsHelper
 
   def card_validity(card)
     if card && card.validity
-      card.validity.to_time.to_s(:date)
+      card.validity.to_time_in_current_zone.to_s(:date)
     else
       ''
     end

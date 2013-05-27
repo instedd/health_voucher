@@ -18,7 +18,7 @@
     %span= @stmt.created_at.to_s(:date)
     %br
     Includes transactions until: 
-    %span= @stmt.until.to_time.to_s(:date)
+    %span= @stmt.until.to_time_in_current_zone.to_s(:date)
     %br
     Total amount: 
     %span= number_to_currency(@stmt.compute_total, unit: '')

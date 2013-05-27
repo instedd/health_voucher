@@ -28,7 +28,7 @@
           %td= stmt.created_at.to_s(:transaction)
           %td= stmt.site.name
           %td= stmt.clinic.name
-          %td= stmt.until.to_time.to_s(:date)
+          %td= stmt.until.to_time_in_current_zone.to_s(:date)
           %td.number= stmt.transactions.count
           %td.number= number_to_currency(stmt.total, unit: '')
           %td= stmt.status
