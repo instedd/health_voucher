@@ -1,0 +1,27 @@
+%h1 Activity Log
+
+%br
+.tablewrapp
+  %table.GralTable.w-pagination.activities
+    %colgroup
+      %col(style="width: 150px")
+      %col(style="width: 180px")
+      %col(style="width: 100px")
+      %col(style="width: 60px")
+      %col(style="width: auto")
+    %tbody
+      %tr
+        = sort_header('date')
+        = sort_header('user')
+        = sort_header('object_class', 'Subject')
+        = sort_header('object_id', 'ID#')
+        %th Description
+      - @activities.each do |activity|
+        %tr
+          %td= activity.created_at.to_s(:transaction)
+          %td(title="#{activity.user.try(:email)}")= activity.user.try(:email)
+          %td= activity.object_class
+          %td= activity.object_id
+          %td(title="#{activity.description}")= activity.description
+  = paginate @activities
+
