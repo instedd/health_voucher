@@ -50,6 +50,9 @@ class TransactionsController < ApplicationController
   def update_status
     @txn = Transaction.find(params[:id])
     @txn.update_status params[:status], params[:comment]
+
+    log_activity @txn, "Status changed to '#{@txn.status}', comment set to '#{@txn.comment}'"
+
     respond_to do |format|
       format.js
       format.html {

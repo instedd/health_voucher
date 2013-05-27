@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 
   has_one :user
   has_one :site, :dependent => :nullify
+  has_many :activities, :dependent => :nullify
 
   def update_for_site_manager(params)
     if params[:password].blank? && params[:password_confirmation].blank?
@@ -19,5 +20,9 @@ class User < ActiveRecord::Base
     end
 
     update_attributes params
+  end
+
+  def log_activity(object, description)
+    activities.create! object_class: object.class.name, object_id: object.id, description: description
   end
 end

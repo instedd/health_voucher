@@ -34,4 +34,8 @@ class ApplicationController < ActionController::Base
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
+
+  def log_activity(object, description)
+    current_user.log_activity object, description
+  end
 end

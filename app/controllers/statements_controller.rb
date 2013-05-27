@@ -12,12 +12,20 @@ class StatementsController < ApplicationController
   end
 
   def destroy
+    txns = @stmt.transactions.map(&:id)
+
     @stmt.destroy
+
+    log_activity @stmt, "Statement destroyed (Date #{@stmt.created_at.to_s(:transaction)}, Site '#{@stmt.site.name}', Clinic '#{@stmt.clinic.name}', Until #{@stmt.until.to_time_in_current_zone.to_s(:date)}, Transactions #{txns.join(',')})"
+
     redirect_to statements_path, :notice => 'Statement deleted'
   end
 
   def toggle_status
     @stmt.toggle_status!
+
+    log_activity @stmt, "Status changed to '#{@stmt.status}'"
+
     if @stmt.paid?
       flash[:notice] = 'Statement marked as paid'
     else
@@ -35,6 +43,11 @@ class StatementsController < ApplicationController
     @form = Statement::GenerateForm.new(params[:statement_generate_form])
     if @form.valid?
       stmts = @form.generate
+
+      stmts.each do |stmt|
+        log_activity stmt, "Statement generated for site '#{stmt.site.name}', clinic '#{stmt.clinic.name}'"
+      end
+
       redirect_to statements_path, notice: "#{stmts.count} statements generated"
     else
       add_breadcrumb 'Generate', generate_statements_path
