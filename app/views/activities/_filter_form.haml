@@ -1,0 +1,37 @@
+.ux-collapsible(data-on-expanded="box grey"){:class => (activities_filter_empty? and 'collapsed' or 'box grey')}
+  %span
+    %a.fconfiguration Filter these results
+  .ux-content
+    = form_tag activities_path, :method => :get do
+      = hidden_field_tag :sort, params[:sort]
+      = hidden_field_tag :direction, params[:direction]
+      %table.filter-container
+        %colgroup
+          %col(style="width: 225px;")
+          %col(style="width: 225px;")
+          %col(style="width: 125px;")
+          %col(style="width: auto;")
+          %col(style="width: 120px;")
+        %tr
+          %td
+            %label(for="user_id") Users
+            %br
+            = select_tag :user_id, users_filter_options(params[:user_id]), :class => 'w20'
+          %td
+            %label(for="object_class") Subject
+            %br
+            = select_tag :object_class, object_class_filter_options(params[:object_class]), :class => 'w20'
+          %td
+            %label(for="object_id") ID #
+            %br
+            = text_field_tag :object_id, params[:object_id], :class => 'w10'
+          %td
+            %label(for="since") Date range
+            %br
+            = text_field_tag :since, params[:since], :class => 'ux-datepicker w10', :autocomplete => 'off'
+            %span to
+            = text_field_tag :until, params[:until], :class => 'ux-datepicker w10', :autocomplete => 'off'
+          %td
+            = button_tag 'Filter', :class => 'grey'
+            = link_to 'Clear', clear_filter_activities_path, :class => 'button white'
+

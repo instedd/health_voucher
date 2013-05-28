@@ -11,6 +11,14 @@ module ClinicsHelper
     options_from_collection_for_select(site.clinics.order(:name).all, :id, :name, current)
   end
 
+  def clinics_filter_options(site_id, current = nil)
+    result = options_for_select([['(All Clinics)', '']])
+    if site_id.present?
+      result << clinics_for_select(Site.find(site_id), current)
+    end
+    result
+  end
+
   def service_type_span(service)
     content = case service.service_type
               when "primary"

@@ -7,6 +7,18 @@ class TransactionsController < ApplicationController
     until_date = Date.parse_human_param(params[:until]).end_of_day rescue nil
 
     list = Transaction.for_listing
+
+    if params[:txn_id].present?
+      if params[:txn_id].match /\d*-\d*/
+        lower, upper = params[:txn_id].split('-')
+        list = list.where('transactions.id >= ?', lower) if lower.present?
+        list = list.where('transactions.id <= ?', upper) if upper.present?
+      else
+        ids = params[:txn_id].split(',')
+        list = list.where('transactions.id' => ids)
+      end
+    end
+
     list = list.where('clinics.site_id = ?', params[:site_id]) if params[:site_id].present?
     list = list.where('clinics.id = ?', params[:clinic_id]) if params[:clinic_id].present?
     list = list.where('transactions.status = ?', params[:status]) if params[:status].present?

@@ -20,8 +20,9 @@
   load_clinics = (id) ->
     clinic_select.empty()
     clinic_select.append(default_options.clone())
-    $.each(Clinics[id], (index, clinic) ->
-      option = $('<option>').attr('value', clinic[0]).text(clinic[1])
-      clinic_select.append(option)
-    )
+    if Clinics[id]
+      $.each(Clinics[id], (index, clinic) ->
+        option = $('<option>').attr('value', clinic[0]).text(clinic[1])
+        clinic_select.append(option)
+      )
 

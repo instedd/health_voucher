@@ -27,21 +27,3 @@ table.transactions {
   }
 }
 
-table.txn-filter {
-  height: 45px;
-  position: relative;
-  z-index: 100;
-  table-layout: fixed;
-  width: 100%;
-
-  td {
-    white-space: nowrap;
-    padding-bottom: 3px;
-  }
-
-  td:last-child {
-    text-align: right;
-    vertical-align: bottom;
-    padding-bottom: 0;
-  }
-}
