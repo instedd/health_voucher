@@ -40,7 +40,11 @@ EVoucher::Application.routes.draw do
     end
   end
 
-  resources :batches, :only => [:index]
+  resources :batches, :only => [:index] do
+    member do
+      get 'export'
+    end
+  end
 
   resources :cards, :only => [] do
     member do

@@ -28,5 +28,5 @@
           %td.number= batch.cards_available.count
           %td.number= batch.quantity - batch.cards_available.count
           %td
-            %a.fexport Export CSV
+            = link_to 'Export CSV', export_batch_path(batch), :class => 'fexport'
   = paginate @batches
