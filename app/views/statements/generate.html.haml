@@ -12,9 +12,9 @@
   .field.w30
     = f.label :until, 'Unpaid services until'
     %p (#{Date::HUMAN_DISPLAY_FORMAT} format)
-    = f.text_field :until, :class => 'ux-datepicker w20'
+    = f.text_field :until, :class => 'ux-datepicker w20', :autocomplete => 'off'
   .actions
-    = button_tag 'Generate', :class => 'white'
+    = button_tag 'Generate', :class => 'grey'
 
 :javascript
   var Clinics = #{clinics_by_site.to_json.gsub('</', '<\/')};

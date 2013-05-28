@@ -1,13 +1,17 @@
+@onStatementsIndex = ->
+  setup_site_clinic_combos($('#site_id'), $('#clinic_id'))
+
 @onStatementGenerate = ->
-  site_select = $('select.site')
-  clinic_select = $('select.clinic')
+  setup_site_clinic_combos($('select.site'), $('select.clinic'))
+
+
+setup_site_clinic_combos = (site_select, clinic_select) ->
+  default_options = clinic_select.children().first().clone()
 
   site_select.change ->
-    load_clinics(@value)
+    load_clinics(@value, default_options)
 
-  default_options = clinic_select.children().clone()
-
-  load_clinics = (id) ->
+  load_clinics = (id, default_options) ->
     clinic_select.empty()
     clinic_select.append(default_options.clone())
     if Clinics[id]

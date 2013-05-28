@@ -4,7 +4,53 @@ class StatementsController < ApplicationController
   before_filter :add_breadcrumbs
 
   def index
-    @statements = Statement.for_listing.order('id DESC').page params[:page]
+    since_date = Date.parse_human_param(params[:since]).beginning_of_day rescue nil
+    until_date = Date.parse_human_param(params[:until]).end_of_day rescue nil
+
+    list = Statement.for_listing
+
+    if params[:stmt_id].present?
+      if params[:stmt_id].match /\d*-\d*/
+        lower, upper = params[:stmt_id].split('-')
+        list = list.where('statements.id >= ?', lower) if lower.present?
+        list = list.where('statements.id <= ?', upper) if upper.present?
+      else
+        ids = params[:stmt_id].split(',')
+        list = list.where('statements.id' => ids)
+      end
+    end
+
+    list = list.where('clinics.site_id = ?', params[:site_id]) if params[:site_id].present?
+    list = list.where('statements.clinic_id = ?', params[:clinic_id]) if params[:clinic_id].present?
+    list = list.where('statements.status = ?', params[:status]) if params[:status].present?
+    list = list.where('statements.created_at >= ?', since_date) if since_date.present?
+    list = list.where('statements.created_at <= ?', until_date) if until_date.present?
+
+    direction = if %w(asc desc).include?(params[:direction]) 
+                  params[:direction] 
+                else 
+                  'desc'
+                end
+    sort = case params[:sort]
+           when 'id'
+             'statements.id'
+           when 'date'
+             'statements.created_at'
+           when 'site'
+             'sites.name'
+           when 'clinic'
+             'clinics.name'
+           when 'until'
+             'statements.until'
+           when 'status'
+             'statements.status'
+           else
+             'statements.created_at'
+           end
+    if sort.present?
+      list = list.reorder("#{sort} #{direction}")
+    end
+    @statements = list.page params[:page]
   end
 
   def show
