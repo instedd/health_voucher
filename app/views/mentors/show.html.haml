@@ -1,21 +1,21 @@
 - if current_user.admin?
   = render partial: '/sites/tabs', locals: { active_tab: 'mentors' }
 - else
-  %h1= @site.name
+  %h1.site= @site.name
 
-%h1
+%h2.mentor
   = link_to '', site_mentors_path(@site), :class => 'fleft'
   = @mentor.name
 
 .tablewrapp.w60
   %table.GralTable.patients
     %colgroup
-      %col(style="width: 35px")
+      %col.noprint(style="width: 35px")
       %col(style="width: 110px")
       %col(style="width: 95px")
       %col(style="width: 100px")
-      %col(style="width: 120px")
-      %col(style="width: auto")
+      %col.noprint(style="width: 120px")
+      %col.noprint(style="width: auto")
     %tr
       %th
         %input.check_all(type="checkbox")
@@ -41,7 +41,7 @@
   .column.w30
     = link_to 'Export CSV', site_mentor_path(@site, @mentor, :format => 'csv'), :class => 'fexport'
     %br
-    %a.fexport.disabled(title="Not implemented yet") Print sheet
+    %a.fexport.print_self Print sheet
 
 :javascript
   var NextSerialNumber = '#{first_unassigned_card_serial_number(@site)}';

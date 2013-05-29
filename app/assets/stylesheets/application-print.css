@@ -1,0 +1,74 @@
+/*
+ *= require_self
+ */
+
+html, body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 11pt;
+}
+
+#toolbar, #footer-span, #header .BreadCrumb, #ui-datepicker-div, .dialog, .actions, #feedlyMiniIcon {
+  display: none !important;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+.tabs {
+  display: none;
+}
+
+col.noprint {
+  visibility: collapse;
+}
+
+td.noprint, th.noprint {
+  display: none;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.w60 table {
+  width: 60%;
+}
+
+table.GralTable th {
+  border-bottom: 2px solid black;
+  text-align: left;
+  padding: 4px 8px;
+}
+
+table.GralTable td {
+  border-bottom: 1px dotted black;
+  padding: 4px 8px;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+h1.site:before {
+  content: "Site: ";
+}
+
+h2.mentor:before {
+  content: "Mentor: ";
+}
+
+h2.clinic:before {
+  content: "Clinic: ";
+}
+
+table.GralTable tr.add {
+  display: none;
+}
+
+table tr.inline_new_form {
+  display: none;
+}
+

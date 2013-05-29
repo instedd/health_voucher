@@ -7,6 +7,15 @@ $ ->
       window.location.href = url
   )
 
+  $('table').each (index, table) ->
+    $('col', table).each (index, col) ->
+      if $(col).hasClass('noprint')
+        $("tr td:nth-child(#{index + 1}), tr th:nth-child(#{index + 1})", table).addClass('noprint')
+
+  $(document).on('click', '.print_self', ->
+    window.print();
+  )
+
 @wireCheckboxGroup = (root, check_selector, all_check_selector, callback) ->
   root = root || $(document)
   check_selector = check_selector || 'input[type=checkbox]'

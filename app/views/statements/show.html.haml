@@ -3,7 +3,7 @@
   %span.fineprint (#{@stmt.status})
 
 .box.w60
-  .right
+  .right.actions
     - if @stmt.paid?
       = link_to 'Mark as unpaid', toggle_status_statement_path(@stmt), :method => :post, :class => 'fclose'
     - else

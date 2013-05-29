@@ -1,8 +1,7 @@
-%h1
+%h2.clinic
   = link_to '', site_clinics_path(@site), :class => 'fleft'
   = @clinic.name
 
-%br
 %ul.clinic-tabs.tabs.top
   %li.providers
     = link_to 'Providers', site_clinic_path(@site, @clinic)
