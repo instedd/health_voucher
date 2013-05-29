@@ -1,0 +1,14 @@
+.dialog#unassign_dialog
+  .box.grey.w20
+    %span
+      %a.fremove Unassign card
+    .ux-content
+      = form_tag nil, :method => "post", :remote => true do
+        %p Please confirm you want to unassign the patient's card. It will be returned to the site's stock.
+        %p
+          Serial Number
+          %b.serial_number
+        .actions
+          %button.orange(type="submit") Confirm Unassign
+
+

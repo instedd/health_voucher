@@ -11,23 +11,26 @@
   %table.GralTable.patients
     %colgroup
       %col(style="width: 35px")
+      %col(style="width: 110px")
+      %col(style="width: 95px")
+      %col(style="width: 100px")
+      %col(style="width: 120px")
       %col(style="width: auto")
-      %col(style="width: 120px")
-      %col(style="width: 120px")
-      %col(style="width: 120px")
     %tr
       %th
         %input.check_all(type="checkbox")
       %th AGEP ID
       %th Current card
       %th Valid from
-      %th
+      %th(colspan="2")
     - @patients.each do |patient|
       = render partial: 'patient', locals: { patient: patient }
 
   = render partial: 'assign_card'
   = render partial: 'start_validity'
   = render partial: 'report_lost'
+  = render partial: 'unassign_card'
+  = render partial: 'destroy_patient'
 
 %br
 .actions

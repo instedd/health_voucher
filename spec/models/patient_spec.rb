@@ -58,4 +58,63 @@ describe Patient do
       @card.reload.patient.should eq(@patient)
     end
   end
+
+  describe "unassign card" do
+    before(:each) do
+      @card = Card.make!(:with_vouchers)
+      @patient = Patient.make!
+      @patient.current_card = @card
+      @patient.save!
+    end
+
+    it "should set patient's current card to nil" do
+      @patient.unassign_card!
+      @patient.current_card.should be_nil
+    end
+
+    it "should unlink the card from the patient" do
+      @patient.unassign_card!
+      @card.patient.should be_nil
+    end
+
+    it "should not unassign if the card already has a validity date" do
+      @card.update_attribute :validity, Date.today
+
+      @patient.unassign_card!
+      @patient.current_card.should eq(@card)
+      @card.patient.should eq(@patient)
+    end
+
+    it "should not unassign if the card has any voucher used" do
+      @card.vouchers.first.update_attribute :used, true
+
+      @patient.unassign_card!
+      @patient.current_card.should eq(@card)
+      @card.patient.should eq(@patient)
+    end
+  end
+
+  describe "report lost card" do
+    before(:each) do
+      @card = Card.make!
+      @patient = Patient.make!
+      @patient.current_card = @card
+      @patient.save!
+    end
+
+    it "should set the patient's current card to nil" do
+      @patient.report_lost_card!
+      @patient.current_card.should be_nil
+    end
+
+    it "should not unlink the card from the patient" do
+      @patient.report_lost_card!
+      @card.patient.should eq(@patient)
+    end
+
+    it "should change the card's status to lost" do
+      @patient.report_lost_card!
+      @card.should be_lost
+    end
+  end
 end

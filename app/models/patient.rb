@@ -17,6 +17,7 @@ class Patient < ActiveRecord::Base
 
   validate :check_current_card
   after_save :assign_current_card
+  before_destroy :check_no_cards
 
   def report_lost_card!
     if current_card
@@ -28,8 +29,23 @@ class Patient < ActiveRecord::Base
     end
   end
 
+  def unassign_card!
+    if current_card && !current_card.used?
+      transaction do
+        current_card.patient = nil
+        current_card.save!
+        self.current_card = nil
+        save!
+      end
+    end
+  end
+
   def self.valid_agep_id?(agep_id)
     agep_id =~ AGEP_ID_REGEX
+  end
+
+  def can_be_destroyed?
+    cards.empty?
   end
 
   private
@@ -45,5 +61,14 @@ class Patient < ActiveRecord::Base
   def assign_current_card
     current_card.update_attribute :patient, self unless current_card.nil?
     true
+  end
+
+  def check_no_cards
+    if cards.count > 0
+      errors[:base] << "The provider has (or has had) cards assigned"
+      false
+    else
+      true
+    end
   end
 end

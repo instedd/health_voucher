@@ -1,0 +1,7 @@
+<% if @patient.destroyed? %>
+  $('.patients').find('tr[data-id=<%= @patient.id %>]').remove();
+  $.status.showNotice('Patient was removed', 2000);
+<% else %>
+  $('.patients').find('tr[data-id=<%= @patient.id %>]').replaceWith('<%=j render partial: '/mentors/patient', locals: { patient: @patient } %>');
+  $.status.showError('The patient could not be removed (has cards already assigned)');
+<% end %>

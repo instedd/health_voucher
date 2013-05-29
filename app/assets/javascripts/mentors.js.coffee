@@ -3,6 +3,8 @@
   assign = new RowDialog($('#assign_dialog'))
   start = new RowDialog($('#start_dialog'))
   report = new RowDialog($('#report_dialog'))
+  unassign = new RowDialog($('#unassign_dialog'))
+  destroy = new RowDialog($('#destroy_dialog'))
 
   # Floating dialogs activation
   $('table.patients').on('click', '.assign_action:not(.disabled)', (evt) ->
@@ -13,6 +15,11 @@
   ).on('click', '.report_action', (evt) ->
     report.div.find('.serial_number').text($(@).data('serial-number'))
     report.setup_and_show(evt)
+  ).on('click', '.unassign_action', (evt) ->
+    unassign.div.find('.serial_number').text($(@).data('serial-number'))
+    unassign.setup_and_show(evt)
+  ).on('click', '.destroy_action', (evt) ->
+    destroy.setup_and_show(evt)
   )
 
   # Customize datepicker for validity dialog

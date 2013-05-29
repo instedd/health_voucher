@@ -14,12 +14,29 @@ class PatientsController < ApplicationController
       }
     end
   end
+
+  def unassign_card
+    @patient.unassign_card!
+    respond_to do |format|
+      format.js
+      format.html {
+        redirect_to site_mentor_path(@site, @mentor)
+      }
+    end
+  end
   
   def lost_card
-    @card = @patient.current_card
-    if @card
-      @patient.report_lost_card!
+    @patient.report_lost_card!
+    respond_to do |format|
+      format.js
+      format.html {
+        redirect_to site_mentor_path(@site, @mentor)
+      }
     end
+  end
+
+  def destroy
+    @patient.destroy if @patient.can_be_destroyed?
     respond_to do |format|
       format.js
       format.html {

@@ -1,0 +1,11 @@
+.dialog#destroy_dialog
+  .box.grey.w20
+    %span
+      %a.fdelete Remove
+    .ux-content
+      = form_tag nil, :method => "delete", :remote => true do
+        %p Please confirm the removal of the patient from the system.
+        .actions
+          %button.orange(type="submit") Confirm Remove
+
+

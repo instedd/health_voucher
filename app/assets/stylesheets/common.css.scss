@@ -52,7 +52,7 @@
 }
 
 .tablewrapp {
-  z-index: 100;
+  z-index: 50;
 }
 
 #footer {
@@ -62,7 +62,7 @@
 .dialog {
   position: absolute;
   display: none;
-  z-index: 100;
+  z-index: 60;
 }
 
 .grey input.ux-datepicker {
@@ -115,7 +115,7 @@ a.disabled, span.disabled {
 
 .filter-container {
   position: relative;
-  z-index: 100;
+  z-index: 50;
   table-layout: fixed;
   width: 100%;
 

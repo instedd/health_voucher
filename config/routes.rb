@@ -58,9 +58,10 @@ EVoucher::Application.routes.draw do
     end
   end
 
-  resources :patients, :only => [] do
+  resources :patients, :only => [:destroy] do
     member do
       post 'assign_card'
+      post 'unassign_card'
       post 'lost_card'
     end
   end

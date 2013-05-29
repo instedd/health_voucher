@@ -70,6 +70,10 @@ class Card < ActiveRecord::Base
     end
   end
 
+  def used?
+    validity.present? || vouchers.where(:used => true).any?
+  end
+
   def validity=(value)
     begin
       if value.nil?
