@@ -11,19 +11,19 @@ EVoucher::Application.routes.draw do
 
   root :to => 'home#index'
 
-  resources :sites do
+  resources :sites, except: [:destroy] do
     member do
       get :assign_cards
       post :batch_assign_cards
       post :assign_individual_card
       post :return_cards
       
-      get :edit_manager
-      post :update_manager
-      delete :destroy_manager
+      get 'manager' => :edit_manager
+      put 'manager' => :update_manager
+      delete 'manager' => :destroy_manager
     end
 
-    resources :clinics do
+    resources :clinics, except: [:new, :edit, :update] do
       member do
         get 'services'
         post 'toggle_service'
@@ -31,7 +31,7 @@ EVoucher::Application.routes.draw do
       end
     end
 
-    resources :mentors do
+    resources :mentors, except: [:new, :update, :edit] do
       member do
         post 'add_patients'
         post 'auto_assign'

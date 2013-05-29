@@ -76,7 +76,7 @@ class SitesController < ApplicationController
   end
 
   def edit_manager
-    add_breadcrumb 'Manager', edit_manager_site_path(@site)
+    add_breadcrumb 'Manager', manager_site_path(@site)
     @user = @site.user || @site.build_user
   end
 
@@ -87,7 +87,7 @@ class SitesController < ApplicationController
       @site.update_attribute :user, @user
       redirect_to @site, notice: 'Site manager was updated'
     else
-      add_breadcrumb 'Manager', edit_manager_site_path(@site)
+      add_breadcrumb 'Manager', manager_site_path(@site)
       render 'edit_manager'
     end
   end

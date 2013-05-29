@@ -5,7 +5,7 @@
 = errors_for @user
 %br
 
-= form_for @user, :url => update_manager_site_path(@site), :method => :post do |f|
+= form_for @user, :url => manager_site_path(@site), :method => :put do |f|
   .field
     = f.label :email
     = f.email_field :email, :autofocus => true
@@ -23,6 +23,6 @@
   .actions
     = f.button "Update", :class => 'grey'
     - if @user.persisted?
-      = link_to "Remove manager", destroy_manager_site_path(@site), :method => :delete, :confirm => 'Are you sure?', :class => 'white button'
+      = link_to "Remove manager", manager_site_path(@site), :method => :delete, :confirm => 'Are you sure?', :class => 'white button'
     = link_to "Back", @site
 
