@@ -1,9 +1,9 @@
-.w40.ux-collapsible.collapsed(data-on-expanded="box grey")
+.w30.ux-collapsible.collapsed(data-on-expanded="box grey")
   %span
     %a.fadd Add new AGEP IDs to this group
   .ux-content
     = form_tag add_patients_site_mentor_path(@site, @mentor) do
-      .field.w40
+      .field.w30
         = label_tag :agep_ids, 'AGEP IDs'
         %p (you can enter several AGEP IDs separated by spaces or new lines)
         = text_area_tag :agep_ids, '', rows: 5, :autofocus => true

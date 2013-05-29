@@ -9,7 +9,16 @@ class MentorsController < SiteController
   end
 
   def show
-    @patients = @mentor.patients.order(:agep_id)
+    respond_to do |format|
+      format.html {
+        @patients = @mentor.patients.order(:agep_id)
+      }
+      format.csv {
+        exporter = Mentor::CsvExporter.new(@mentor)
+        filename = "#{@mentor.name}-#{Time.current.strftime('%Y%m%d%H%M')}.csv"
+        render_csv exporter.export, filename
+      }
+    end
   end
 
   def create

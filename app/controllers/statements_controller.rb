@@ -1,6 +1,6 @@
 class StatementsController < ApplicationController
   before_filter :authenticate_admin!
-  before_filter :load_statement, :only => [:show, :destroy, :toggle_status, :export]
+  before_filter :load_statement, :only => [:show, :destroy, :toggle_status]
   before_filter :add_breadcrumbs
 
   def index
@@ -55,6 +55,14 @@ class StatementsController < ApplicationController
 
   def show
     add_breadcrumb "ID ##{@stmt.id}", @stmt
+    respond_to do |format|
+      format.html
+      format.csv {
+        @exporter = Statement::CsvExporter.new(@stmt)
+        filename = "#{@stmt.clinic.name}-#{@stmt.created_at.to_s(:file_date)}.csv"
+        render_csv @exporter.export, filename
+      }
+    end
   end
 
   def destroy
@@ -78,14 +86,6 @@ class StatementsController < ApplicationController
       flash[:notice] = 'Statement marked as unpaid'
     end
     redirect_to @stmt
-  end
-
-  def export
-    @exporter = Statement::CsvExporter.new(@stmt)
-    response.headers['Content-type'] = 'text/csv'
-    response.headers['Content-disposition'] = "attachment; filename=\"#{@stmt.clinic.name}-#{@stmt.created_at.to_s(:file_date)}.csv\""
-
-    render text: @exporter.export
   end
 
   def generate

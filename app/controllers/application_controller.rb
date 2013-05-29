@@ -38,4 +38,11 @@ class ApplicationController < ActionController::Base
   def log_activity(object, description)
     current_user.log_activity object, description
   end
+
+  def render_csv(content, filename = nil)
+    response.headers['Content-type'] = 'text/csv'
+    response.headers['Content-disposition'] = "attachment; filename=\"#{filename}\"" unless filename.blank?
+
+    render text: content
+  end
 end

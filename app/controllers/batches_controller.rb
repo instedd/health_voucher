@@ -6,13 +6,17 @@ class BatchesController < ApplicationController
     @batches = Batch.order('created_at ASC').page params[:page]
   end
 
-  def export
-    @batch = Batch.find(params[:id])
-    @exporter = Batch::CsvExporter.new(@batch)
-    response.headers['Content-type'] = 'text/csv'
-    response.headers['Content-disposition'] = "attachment; filename=\"#{@batch.name}.csv\""
-
-    render text: @exporter.export
+  def show
+    respond_to do |format|
+      format.html {
+        redirect_to batches_path
+      }
+      format.csv {
+        @batch = Batch.find(params[:id])
+        @exporter = Batch::CsvExporter.new(@batch)
+        render_csv @exporter.export, "#{@batch.name}.csv"
+      }
+    end
   end
 
   private

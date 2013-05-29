@@ -40,10 +40,7 @@ EVoucher::Application.routes.draw do
     end
   end
 
-  resources :batches, :only => [:index] do
-    member do
-      get 'export'
-    end
+  resources :batches, :only => [:index, :show] do
   end
 
   resources :cards, :only => [] do
@@ -79,7 +76,6 @@ EVoucher::Application.routes.draw do
     end
     member do
       post 'toggle_status'
-      get 'export'
     end
   end
 

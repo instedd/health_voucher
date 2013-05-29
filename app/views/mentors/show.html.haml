@@ -34,9 +34,14 @@
 
 %br
 .actions
-  = render partial: 'add_patients'
-  = render partial: 'auto_assign'
-  = render partial: 'move_patients'
+  .column.w30
+    = render partial: 'add_patients'
+    = render partial: 'auto_assign'
+    = render partial: 'move_patients'
+  .column.w30
+    = link_to 'Export CSV', site_mentor_path(@site, @mentor, :format => 'csv'), :class => 'fexport'
+    %br
+    %a.fexport.disabled(title="Not implemented yet") Print sheet
 
 :javascript
   var NextSerialNumber = '#{first_unassigned_card_serial_number(@site)}';

@@ -9,7 +9,7 @@
     - else
       = link_to 'Mark as paid', toggle_status_statement_path(@stmt), :method => :post, :class => 'faccept'
     %br
-    = link_to 'Export CSV', export_statement_path(@stmt), :class => 'fexport'
+    = link_to 'Export CSV', statement_path(@stmt, :format => 'csv'), :class => 'fexport'
   %div
     Clinic: 
     %span= @stmt.clinic.name
