@@ -19,6 +19,22 @@ class BatchesController < ApplicationController
     end
   end
 
+  def new
+    add_breadcrumb 'Generate', new_batch_path
+    @batch = Batch.new initial_serial_number: Batch.next_serial_number, quantity: Batch::DEFAULT_QUANTITY
+  end
+
+  def create
+    @batch = Batch.new(params[:batch])
+    if @batch.save
+      #Batch::Generator.new(@batch).generate! 
+      redirect_to batches_path, notice: 'Batch created. Card generation started in the background.'
+    else
+      add_breadcrumb 'Generate', new_batch_path
+      render :new
+    end
+  end
+
   private
 
   def add_breadcrumbs

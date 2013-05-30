@@ -40,7 +40,7 @@ EVoucher::Application.routes.draw do
     end
   end
 
-  resources :batches, :only => [:index, :show] do
+  resources :batches, :only => [:index, :show, :new, :create] do
   end
 
   resources :cards, :only => [] do

@@ -1,0 +1,22 @@
+%h1 Generate new batch
+
+= errors_for @batch
+
+= form_for @batch do |f|
+  .field.w30
+    = f.label :name
+    = f.text_field :name, :class => 'w30', :autofocus => true, :maxlength => 150
+
+  .field.w20
+    = f.label :initial_serial_number
+    = f.number_field :initial_serial_number, :class => 'w20 serial_number', :min => 0, :max => 999999
+
+  .field.w20
+    = f.label :quantity
+    = f.number_field :quantity, :class => 'w20', :min => 1, :max => 999999
+
+  .actions
+    = f.button 'Generate', :class => 'grey'
+    = link_to 'Back', batches_path
+
+

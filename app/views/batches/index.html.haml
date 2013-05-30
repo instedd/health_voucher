@@ -21,12 +21,19 @@
         %th
       - @batches.each do |batch|
         %tr
-          %td= batch.name
+          %td
+            = batch.name
+            - if batch.generating?
+              %span.generating (generating cards)
           %td= batch.created_at.to_s(:date)
           %td= batch.initial_serial_number
           %td.number= batch.quantity
           %td.number= batch.cards_available.count
-          %td.number= batch.quantity - batch.cards_available.count
+          %td.number= batch.cards_in_sites.count
           %td
             = link_to 'Export CSV', batch_path(batch, :format => 'csv'), :class => 'fexport'
   = paginate @batches
+
+%br
+.actions
+  = link_to 'Generate new batch', new_batch_path, :class => 'cadd'

@@ -10,7 +10,8 @@ describe BatchesController do
       @user = User.make!
     end
 
-    { :get => %w(index show) }.each do |method, actions|
+    { :get => %w(index show new),
+      :post => %w(create) }.each do |method, actions|
       actions.each do |action|
         describe "#{method} #{action}" do
           it "should deny a non-admin user" do
