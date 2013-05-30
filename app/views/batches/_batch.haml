@@ -1,0 +1,13 @@
+%tr(data-id="#{batch.id}" data-generating="#{batch.generating?}")
+  %td
+    = batch.name
+    - if batch.generating?
+      %span.generating (generating cards)
+  %td= batch.created_at.to_s(:date)
+  %td= batch.initial_serial_number
+  %td.quantity.number= batch.quantity
+  %td.available.number= batch.cards_available.count
+  %td.in_site.number= batch.cards_in_sites.count
+  %td
+    = link_to 'Export CSV', batch_path(batch, :format => 'csv'), :class => 'fexport'
+

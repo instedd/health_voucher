@@ -1,0 +1,5 @@
+<% @batches.each do |batch| %>
+  $('.batches tr[data-id=<%= batch.id %>]').replaceWith('<%=j render partial: 'batch', locals: { batch: batch } %>');
+<% end %>
+refreshBatches();
+

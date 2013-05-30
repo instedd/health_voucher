@@ -10,6 +10,9 @@ gem 'mysql2'
 gem 'enumerize'
 gem 'devise'
 
+gem 'delayed_job_active_record'
+gem 'daemons'
+
 
 # Gems used only for assets and not required
 # in production environments by default.

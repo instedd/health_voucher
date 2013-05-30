@@ -4,11 +4,11 @@ class Batch::Generator
   end
 
   def generate!
-    from = @batch.initial_serial_number.to_i
-    to = from + @batch.quantity - 1
-    Batch.transaction do
-      (from..to).each do |sn|
-        unless Card.find_by_serial_number(sn.to_serial_number)
+    from = @batch.first_serial_number
+    to = @batch.last_serial_number
+    (from..to).each do |sn|
+      unless Card.find_by_serial_number(sn.to_serial_number)
+        Card.transaction do
           build_card(sn)
         end
       end

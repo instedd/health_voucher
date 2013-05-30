@@ -41,6 +41,9 @@ EVoucher::Application.routes.draw do
   end
 
   resources :batches, :only => [:index, :show, :new, :create] do
+    collection do
+      get 'refresh'
+    end
   end
 
   resources :cards, :only => [] do

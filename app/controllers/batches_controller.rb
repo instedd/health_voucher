@@ -27,11 +27,21 @@ class BatchesController < ApplicationController
   def create
     @batch = Batch.new(params[:batch])
     if @batch.save
-      #Batch::Generator.new(@batch).generate! 
+      Batch::Generator.new(@batch).delay.generate! 
       redirect_to batches_path, notice: 'Batch created. Card generation started in the background.'
     else
       add_breadcrumb 'Generate', new_batch_path
       render :new
+    end
+  end
+
+  def refresh
+    @batches = Batch.where(:id => params[:ids].split(','))
+    respond_to do |format|
+      format.js
+      format.html {
+        redirect_to batches_path
+      }
     end
   end
 
