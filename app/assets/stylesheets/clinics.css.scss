@@ -13,6 +13,11 @@
 
 .providers-list {
   min-height: 340px;
+
+  .inline_new_form #provider_code {
+    width: 40px;
+    margin-left: -2px;
+  }
 }
 
 td.cost {
