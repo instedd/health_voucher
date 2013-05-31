@@ -5,24 +5,22 @@
 = errors_for @user
 %br
 
-= form_for @user, :url => manager_site_path(@site), :method => :put do |f|
-  .field
-    = f.label :email
-    = f.email_field :email, :autofocus => true
+- if @user.new_record?
+  .box.column.w30
+    %h3 Create a new user
+    = render partial: 'manager'
 
-  .field
-    = f.label :password
-    - unless @user.new_record?
-      %p (leave blank if you don't want to change it)
-    = f.password_field :password, :autocomplete => "off"
+  .column.w10
 
-  .field
-    = f.label :password_confirmation
-    = f.password_field :password_confirmation
+  .box.column.w30
+    %h3 Select a pre-existing user
+    = form_tag set_manager_site_path(@site) do
+      .field
+        = label_tag :user_id, 'User'
+        = select_tag :user_id, possible_site_managers_for_select, :include_blank => true, :class => 'w30'
+      .actions
+        = button_tag 'Set manager', :class => 'grey'
 
-  .actions
-    = f.button "Update", :class => 'grey'
-    - if @user.persisted?
-      = link_to "Remove manager", manager_site_path(@site), :method => :delete, :confirm => 'Are you sure?', :class => 'white button'
-    = link_to "Back", @site
+- else
+  = render partial: 'manager'
 

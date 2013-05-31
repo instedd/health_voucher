@@ -15,6 +15,8 @@ class User < ActiveRecord::Base
   has_many :activities, :dependent => :nullify
 
   scope :for_listing, order(:email)
+  scope :non_admins, where(:admin => false)
+  scope :possible_managers, where(:admin => false).joins('LEFT JOIN sites ON users.id = sites.user_id').where('sites.id IS NULL')
 
   def update_for_site_manager(params)
     if params[:password].blank? && params[:password_confirmation].blank?

@@ -13,14 +13,18 @@
         %th Email
         %th Last login
         %th Admin?
-        %th Site
+        %th Manages site
         %th
       - @users.each do |user|
         %tr(data-action="#{edit_user_path(user)}")
           %td= user.email
           %td= user.last_sign_in_at.try(:to_s, :long)
           %td= check_box_tag :admin, true, user.admin?, :disabled => true
-          %td= user.site.try(:name)
+          %td
+            - if user.admin?
+              %i (All Sites)
+            - else
+              = user.site.try(:name)
           %td
             = link_to '', edit_user_path(user), :class => 'farrow'
             - unless user == current_user

@@ -103,6 +103,21 @@ class SitesController < ApplicationController
     redirect_to site_path(@site)
   end
 
+  def set_manager
+    @user = User.find(params[:user_id])
+    if @user.site.present? && @user.site != @site
+      redirect_to edit_manager_path(@site), alert: 'The user is the manager of another site'
+    else
+      @site.user = @user
+      if @site.save
+        log_activity @site, "Manager #{@user.email} was set for site '#{@site.name}'"
+        redirect_to site_path(@site), notice: 'Site manager set'
+      else
+        redirect_to site_path(@site), alert: 'Error setting site manager'
+      end
+    end
+  end
+
   private
 
   def load_site

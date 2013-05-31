@@ -37,11 +37,16 @@ class UsersController < ApplicationController
 
     @user.update_attributes params[:user], :as => :admin
     if @user.save
+      if @user.admin? && @user.site
+        @user.site.update_attribute :user_id, nil
+      end
+
       message = "#{@user.email} updated, admin #{@user.admin? and 'granted' or 'revoked'}"
       if params[:user][:password].present?
         message << ", password changed"
       end
       log_activity @user, message
+
       redirect_to users_path, notice: 'User updated'
     else
       add_breadcrumb @user.email, edit_user_path(@user)

@@ -21,6 +21,7 @@ EVoucher::Application.routes.draw do
       get 'manager' => :edit_manager
       put 'manager' => :update_manager
       delete 'manager' => :destroy_manager
+      post 'set_manager'
     end
 
     resources :clinics, except: [:new, :edit, :update] do
