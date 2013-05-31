@@ -7,7 +7,8 @@ class HomeController < ApplicationController
       flash.keep
       redirect_to site_mentors_path(current_user.site)
     else
-      permission_denied
+      sign_out
+      redirect_to new_user_session_path, alert: 'Your system access has been revoked. Please contact a system administrator.'
     end
   end
 end
