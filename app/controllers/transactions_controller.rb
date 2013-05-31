@@ -63,7 +63,13 @@ class TransactionsController < ApplicationController
     @txn = Transaction.find(params[:id])
     @txn.update_status params[:status], params[:comment]
 
-    log_activity @txn, "Status changed to '#{@txn.status}', comment set to '#{@txn.comment}'"
+    message = "Status changed to '#{@txn.status}'"
+    if @txn.comment.blank?
+      message << ", comment deleted"
+    else
+      message << ", comment set to '#{@txn.comment}'"
+    end
+    log_activity @txn, message
 
     respond_to do |format|
       format.js
