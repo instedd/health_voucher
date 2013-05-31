@@ -12,7 +12,7 @@ gem 'devise'
 
 gem 'delayed_job_active_record'
 gem 'daemons'
-
+gem 'foreman'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -39,9 +39,6 @@ gem 'kaminari'
 
 # Use unicorn as the app server
 # gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
 
 # To use debugger
 # gem 'debugger'
