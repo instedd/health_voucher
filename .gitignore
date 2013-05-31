@@ -19,3 +19,7 @@
 
 # Ignore settings.yml
 /config/settings.yml
+
+# Ignore precompiled assets
+/public/assets
+
