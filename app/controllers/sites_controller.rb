@@ -85,6 +85,7 @@ class SitesController < ApplicationController
     @user.update_for_site_manager params[:user]
     if @user.save
       @site.update_attribute :user, @user
+      log_activity @site, "Manager #{@user.email} was set for site '#{@site.name}'"
       redirect_to @site, notice: 'Site manager was updated'
     else
       add_breadcrumb 'Manager', manager_site_path(@site)
@@ -95,7 +96,8 @@ class SitesController < ApplicationController
   def destroy_manager
     @user = @site.user
     if @user
-      @user.destroy
+      @site.update_attribute :user_id, nil
+      log_activity @site, "Manager #{@user.email} removed from site '#{@site.name}'"
       flash[:notice] = 'Site manager was removed'
     end
     redirect_to site_path(@site)

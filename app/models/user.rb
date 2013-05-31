@@ -8,10 +8,13 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :email, :password, :password_confirmation, :admin, :as => :admin
 
   has_one :user
   has_one :site, :dependent => :nullify
   has_many :activities, :dependent => :nullify
+
+  scope :for_listing, order(:email)
 
   def update_for_site_manager(params)
     if params[:password].blank? && params[:password_confirmation].blank?

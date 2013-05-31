@@ -8,7 +8,7 @@ module ActivitiesHelper
   end
 
   def object_class_filter_options(current = nil)
-    options_for_select([['(All)', ''], 'Statement', 'Transaction'], current)
+    options_for_select([['(All)', ''], 'Site', 'Statement', 'Transaction', 'User'], current)
   end
 
   def activities_filter_empty?

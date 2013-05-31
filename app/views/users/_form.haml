@@ -1,0 +1,28 @@
+= errors_for @user
+%br
+
+= form_for @user do |f|
+  .field
+    = f.label :email
+    = f.email_field :email, :autofocus => true
+
+  .field
+    = f.label :password
+    - unless @user.new_record?
+      %p (leave blank if you don't want to change it)
+    = f.password_field :password, :autocomplete => "off"
+
+  .field
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation
+
+  - unless @user == current_user
+    .field
+      = f.check_box :admin
+      = f.label :admin, 'Administrator user'
+      %p User will have full access to all functionality in the system
+
+  .actions
+    = f.button nil, :class => 'grey'
+    = link_to "Cancel", users_path
+
