@@ -104,6 +104,12 @@ class Card < ActiveRecord::Base
   def validity_check
     if @invalid_date
       errors[:validity] << "is invalid"
+    elsif validity.present?
+      if validity.future?
+        errors[:validity] << "cannot be in the future"
+      elsif validity.to_date < created_at.to_date
+        errors[:validity] << "cannot be before the card was created"
+      end
     end
   end
 end
