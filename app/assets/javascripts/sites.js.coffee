@@ -27,3 +27,6 @@ $ ->
   @wireCheckboxGroup $('.unassigned-cards'), '.return_card', '.check_all', (all, some) ->
     $('.return_button').attr('disabled', !some)
 
+@onEditManager = ->
+  $('select#user_id').change ->
+    $(@).parents('form').find('button').attr('disabled', !$(@).val())

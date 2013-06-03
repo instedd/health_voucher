@@ -12,7 +12,7 @@ describe SitesController do
 
     { :get => %w(index show new edit assign_cards edit_manager),
       :put => %w(update update_manager),
-      :post => %w(create batch_assign_cards assign_individual_card return_cards),
+      :post => %w(create batch_assign_cards assign_individual_card return_cards set_manager),
       :delete => %w(destroy_manager) }.each do |method, actions|
       actions.each do |action|
         describe "#{method} #{action}" do

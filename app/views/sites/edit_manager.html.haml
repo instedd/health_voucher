@@ -19,8 +19,11 @@
         = label_tag :user_id, 'User'
         = select_tag :user_id, possible_site_managers_for_select, :include_blank => true, :class => 'w30'
       .actions
-        = button_tag 'Set manager', :class => 'grey'
+        = button_tag 'Set manager', :class => 'grey', :disabled => true
 
 - else
   = render partial: 'manager'
+
+:javascript
+  $(function() { onEditManager() })
 
