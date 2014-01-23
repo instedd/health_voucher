@@ -56,7 +56,17 @@ class TransactionsController < ApplicationController
       list = list.reorder("#{sort} #{direction}")
     end
 
-    @transactions = list.page params[:page]
+    @transactions = list
+
+    respond_to do |format|
+      format.html {
+        @transactions = @transactions.page params[:page]
+      }
+      format.csv {
+        exporter = Transaction::ListCsvExporter.new(@transactions)
+        render_csv exporter.export, "transactions.csv"
+      }
+    end
   end
 
   def update_status
