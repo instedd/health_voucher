@@ -21,4 +21,12 @@ module ApplicationHelper
     })
     content_tag :th, (link_to(title, options) + '<span></span>'.html_safe), :class => css_sort_class_for(column)
   end
+
+  def humanize_boolean(value)
+    if value
+      "yes"
+    else
+      "no"
+    end
+  end
 end

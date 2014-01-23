@@ -27,8 +27,17 @@ class ClinicsController < SiteController
 
   def show
     @providers = @clinic.providers.order(:name)
-    @provider = Provider.new
-    @provider.clinic = @clinic
+
+    respond_to do |format|
+      format.html {
+        @provider = Provider.new
+        @provider.clinic = @clinic
+      }
+      format.csv {
+        exporter = Clinic::ProvidersCsvExporter.new(@providers)
+        render_csv exporter.export, "#{@site.name}-#{@clinic.name}-providers.csv"
+      }
+    end
   end
 
   def services

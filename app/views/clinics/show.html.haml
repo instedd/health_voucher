@@ -5,5 +5,9 @@
 .box.tab.w60
   = render partial: 'providers'
 
+%br
+.actions
+  = link_to 'Export CSV', site_clinic_path(@clinic, :format => 'csv'), :class => 'fexport'
+
 :javascript
   $(function() { onClinicsShow() })
