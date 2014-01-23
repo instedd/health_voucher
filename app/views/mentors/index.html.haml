@@ -32,3 +32,6 @@
               %a.fdelete.disabled(title="Mentor can't be removed while she has patients assigned") Remove
       = render partial: 'new_mentor'
 
+%br
+.actions
+  = link_to 'Export CSV', site_mentors_path(@site, :format => 'csv'), :class => 'fexport'

@@ -4,8 +4,17 @@ class MentorsController < SiteController
 
   def index
     @mentors = @site.mentors.order(:name)
-    @mentor = Mentor.new
-    @mentor.site = @site
+
+    respond_to do |format|
+      format.html {
+        @mentor = Mentor.new
+        @mentor.site = @site
+      }
+      format.csv {
+        exporter = Site::MentorsCsvExporter.new(@mentors)
+        render_csv exporter.export, "#{@site.name}-mentors.csv"
+      }
+    end
   end
 
   def show
