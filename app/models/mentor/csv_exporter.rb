@@ -1,6 +1,4 @@
-require 'csv'
-
-class Mentor::CsvExporter
+class Mentor::CsvExporter < CsvExporter
   include CardsHelper
 
   def initialize(mentor)
@@ -8,11 +6,11 @@ class Mentor::CsvExporter
   end
 
   def export
-    CSV.generate do |csv|
-      csv << ["# AGEP ID", "Current Card", "Validity"]
+    headers "# AGEP ID", "Current Card", "Validity"
+    generate do |csv|
       @mentor.patients.order(:agep_id).each do |patient|
         csv << [patient.agep_id, card_serial_number(patient.current_card), 
-                patient.current_card.try(:validity).try(:to_s)]
+                patient.current_card.try(:validity)]
       end
     end
   end

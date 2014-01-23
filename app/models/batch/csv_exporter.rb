@@ -1,15 +1,15 @@
 require 'csv'
 
-class Batch::CsvExporter
+class Batch::CsvExporter < CsvExporter
   def initialize(batch)
     @batch = batch
   end
 
   def export
-    CSV.generate do |csv|
-      csv << ["# Serial number", "Check digit",  
-              column_titles(Card::PRIMARY_SERVICES, 'primary'),
-              column_titles(Card::SECONDARY_SERVICES, 'secondary')].flatten
+    headers ["# Serial number", "Check digit",  
+             column_titles(Card::PRIMARY_SERVICES, 'primary'),
+             column_titles(Card::SECONDARY_SERVICES, 'secondary')].flatten
+    generate do |csv|
       @batch.cards_with_vouchers.each do |card|
         csv << [card.serial_number, card.check_digit,
                 card.primary_services.map(&:code),

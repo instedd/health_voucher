@@ -50,5 +50,7 @@ group :development, :test do
   gem 'mocha', :require => false
   gem 'capistrano'
   gem 'rvm-capistrano', '~> 1.2.7'
+  gem 'pry'
+  gem 'pry-debugger'
 end
 
