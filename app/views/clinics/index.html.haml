@@ -4,3 +4,8 @@
 
 .tablewrapp.w60
   = render partial: 'list'
+
+%br
+.actions
+  = link_to 'Export CSV', site_clinics_path(@site, :format => 'csv'), :class => 'fexport'
+

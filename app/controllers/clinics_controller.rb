@@ -5,8 +5,17 @@ class ClinicsController < SiteController
 
   def index
     @clinics = @site.clinics.order(:name)
-    @clinic = Clinic.new
-    @clinic.site = @site
+
+    respond_to do |format|
+      format.html {
+        @clinic = Clinic.new
+        @clinic.site = @site
+      }
+      format.csv {
+        exporter = Site::ClinicsCsvExporter.new(@clinics)
+        render_csv exporter.export, "#{@site.name}-clinics.csv"
+      }
+    end
   end
 
   def create
