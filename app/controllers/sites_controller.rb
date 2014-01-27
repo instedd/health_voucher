@@ -124,7 +124,7 @@ class SitesController < ApplicationController
         redirect_to site_path(@site)
       }
       format.csv {
-        patients = @site.patients.includes(:mentor).order("mentors.name")
+        patients = @site.patients.includes(:mentor, :current_card).order("mentors.name")
         exporter = Site::PatientsCsvExporter.new patients
         render_csv exporter.export, "#{@site.name}-patients.csv"
       }
