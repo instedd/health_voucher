@@ -1,5 +1,5 @@
 class Message::Processor
-  attr_reader :from, :body
+  attr_reader :from, :body, :message
 
   def initialize(body, from = nil)
     @body = body
@@ -7,33 +7,45 @@ class Message::Processor
   end
 
   def process
-    parser = Message::Parser.new(@body)
+    @message = Message.create! from: @from, body: @body    
 
-    case parser.parse
-    when :authorization
-      processor = Authorization::Processor.new(parser.provider, 
-                                               parser.patient, 
-                                               parser.card)
-      if processor.validate() && processor.add_services(parser.services)
-        result = processor.authorize
+    begin
+      parser = Message::Parser.new(@body)
+
+      case parser.parse
+      when :authorization
+        @message.message_type = :authorization
+        processor = Authorization::Processor.new(parser.provider, 
+                                                 parser.patient, 
+                                                 parser.card)
+        if processor.validate() && processor.add_services(parser.services)
+          @message.succeed processor.authorize
+        else
+          @message.fail processor.error_message
+        end
+
+      when :confirmation
+        @message.message_type = :confirmation
+        processor = Transaction::Processor.new(parser.service, parser.voucher)
+
+        if processor.validate()
+          @message.succeed processor.confirm
+        else
+          @message.fail processor.error_message
+        end
+
       else
-        result = processor.error_message
+        @message.set_error parser.error_message
       end
 
-    when :confirmation
-      processor = Transaction::Processor.new(parser.service, parser.voucher)
+      @message.response
 
-      if processor.validate()
-        result = processor.confirm
-      else
-        result = processor.error_message
-      end
-
-    else
-      result = parser.error_message
+    rescue Exception => e
+      @message.set_error "Exception: #{e}"
+      raise
+    ensure
+      @message.save!
     end
-
-    result
   end
 end
 
