@@ -9,6 +9,7 @@ class Transaction < ActiveRecord::Base
   belongs_to :voucher
   belongs_to :authorization
   belongs_to :statement
+  belongs_to :message
 
   validates_presence_of :voucher, :authorization
   validates_length_of :comment, :maximum => 200

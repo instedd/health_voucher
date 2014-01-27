@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140127180034) do
+ActiveRecord::Schema.define(:version => 20140127181154) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -182,9 +182,11 @@ ActiveRecord::Schema.define(:version => 20140127180034) do
     t.text     "comment"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.integer  "message_id"
   end
 
   add_index "transactions", ["authorization_id"], :name => "index_transactions_on_authorization_id"
+  add_index "transactions", ["message_id"], :name => "index_transactions_on_message_id"
   add_index "transactions", ["statement_id"], :name => "index_transactions_on_statement_id"
   add_index "transactions", ["voucher_id"], :name => "index_transactions_on_voucher_id"
 

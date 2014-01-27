@@ -7,6 +7,7 @@ class Message < ActiveRecord::Base
   attr_accessible :from, :body
 
   has_many :authorizations
+  has_one :transaction
   
   def succeed(response)
     self.status = :success
