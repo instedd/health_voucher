@@ -9,6 +9,10 @@ class Message < ActiveRecord::Base
   has_many :authorizations
   has_one :transaction
   
+  scope :for_listing
+
+  paginates_per 15
+
   def succeed(response)
     self.status = :success
     self.response = response 

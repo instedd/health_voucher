@@ -9,6 +9,8 @@ class ActivitiesController < ApplicationController
     list = Activity.for_listing
     list = list.where('activities.user_id = ?', params[:user_id]) if params[:user_id].present?
     list = list.where('activities.object_class = ?', params[:object_class]) if params[:object_class].present?
+    list = list.where('activities.created_at >= ?', since_date) if since_date.present?
+    list = list.where('activities.created_at <= ?', until_date) if until_date.present?
 
     if params[:object_id].present?
       if params[:object_id].match /\d*-\d*/

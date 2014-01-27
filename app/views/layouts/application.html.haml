@@ -8,7 +8,7 @@
       = section "Batches", batches_path, :batches
       = section "Transactions", transactions_path, :transactions
       = section "Statements", statements_path, :statements
-      = section "Activity Log", activities_path, :activities
+      = section "Logs", activities_path, :activities, [:activities, :messages]
       = section "Users", users_path, :users
     - else
       = section "Site Management", root_path, :mentors

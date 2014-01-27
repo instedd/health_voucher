@@ -1,0 +1,11 @@
+%ul.logs-tabs.tabs.top
+  %li.activities
+    = link_to "Activity Log", activities_path
+  %li.messages
+    = link_to "Incoming SMSs", messages_path
+
+.tabsline
+
+:javascript
+  $('.logs-tabs').find('.#{params[:controller]}').addClass('active');
+

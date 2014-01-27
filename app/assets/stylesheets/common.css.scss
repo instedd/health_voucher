@@ -131,3 +131,8 @@ a.disabled, span.disabled {
   }
 }
 
+.ux-collapsible.filter {
+  position: relative;
+  z-index: 20;
+}
+

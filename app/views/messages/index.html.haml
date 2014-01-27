@@ -1,0 +1,32 @@
+= render partial: 'shared/logs_tabs'
+
+= render partial: 'filter_form'
+
+%br
+.tablewrapp
+  %table.GralTable.w-pagination.messages
+    %colgroup
+      %col(style="width: 150px")
+      %col(style="width: 120px")
+      %col(style="width: auto")
+      %col(style="width: 100px")
+      %col(style="width: 70px")
+      %col(style="width: auto")
+    %tbody
+      %tr
+        = sort_header('date')
+        = sort_header('from')
+        %th Body
+        = sort_header('type')
+        = sort_header('status')
+        %th Response
+      - @messages.each do |message|
+        %tr
+          %td= message.created_at.to_s(:transaction)
+          %td= message.from
+          %td(title="#{message.body}")= message.body
+          %td= message.message_type
+          %td= message.status
+          %td(title="#{message.response}")= message.response
+  = paginate @messages
+

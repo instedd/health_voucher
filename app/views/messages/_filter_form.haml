@@ -1,0 +1,38 @@
+.ux-collapsible.filter(data-on-expanded="box grey"){:class => (messages_filter_empty? and 'collapsed' or 'box grey')}
+  %span
+    %a.fconfiguration Filter these results
+  .ux-content
+    = form_tag messages_path, :method => :get do
+      = hidden_field_tag :sort, params[:sort]
+      = hidden_field_tag :direction, params[:direction]
+      %table.filter-container
+        %colgroup
+          %col(style="width: 170px;")
+          %col(style="width: 170px;")
+          %col(style="width: 170px;")
+          %col(style="width: auto;")
+          %col(style="width: 120px;")
+        %tr
+          %td
+            %label(for="from") From
+            %br
+            = text_field_tag :from, params[:from], :class => 'w15'
+          %td
+            %label(for="type") Message Type
+            %br
+            = select_tag :type, message_type_filter_options(params[:type]), :class => 'w15'
+          %td
+            %label(for="status") Status
+            %br
+            = select_tag :status, message_status_filter_options(params[:status]), :class => 'w15'
+          %td
+            %label(for="timestamp") Date range
+            %br
+            = text_field_tag :since, params[:since], :class => 'ux-datepicker w10', :autocomplete => 'off'
+            %span to
+            = text_field_tag :until, params[:until], :class => 'ux-datepicker w10', :autocomplete => 'off'
+          %td
+            = button_tag 'Filter', :class => 'grey'
+            = link_to 'Clear', clear_filter_messages_path, :class => 'button white'
+
+
