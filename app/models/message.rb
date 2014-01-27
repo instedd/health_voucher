@@ -1,13 +1,13 @@
 class Message < ActiveRecord::Base
   extend Enumerize
 
-  validates_presence_of :body
-
   enumerize :message_type, in: [:unknown, :authorization, :confirmation], default: :unknown, predicates: true
   enumerize :status, in: [:success, :failure, :error], predicates: true
 
   attr_accessible :from, :body
 
+  has_many :authorizations
+  
   def succeed(response)
     self.status = :success
     self.response = response 

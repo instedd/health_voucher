@@ -4,6 +4,7 @@ class Authorization < ActiveRecord::Base
   belongs_to :card
   belongs_to :provider
   belongs_to :service
+  belongs_to :message
   has_one :transaction
 
   validates_presence_of :card, :provider, :service
