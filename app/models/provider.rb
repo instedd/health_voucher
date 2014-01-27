@@ -1,5 +1,5 @@
 class Provider < ActiveRecord::Base
-  PROVIDER_CODE_LENGTH = 3
+  PROVIDER_CODE_LENGTH = 4
 
   attr_accessible :code, :name
   attr_accessible :clinic_id, :code, :name, :as => :creator
