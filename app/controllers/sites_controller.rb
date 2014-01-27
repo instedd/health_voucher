@@ -118,6 +118,32 @@ class SitesController < ApplicationController
     end
   end
 
+  def patients
+    respond_to do |format|
+      format.html {
+        redirect_to site_path(@site)
+      }
+      format.csv {
+        patients = @site.patients.includes(:mentor).order("mentors.name")
+        exporter = Site::PatientsCsvExporter.new patients
+        render_csv exporter.export, "#{@site.name}-patients.csv"
+      }
+    end
+  end
+
+  def providers
+    respond_to do |format|
+      format.html {
+        redirect_to site_path(@site)
+      }
+      format.csv {
+        providers = @site.providers.includes(:clinic).order("clinics.name")
+        exporter = Site::ProvidersCsvExporter.new providers
+        render_csv exporter.export, "#{@site.name}-providers.csv"
+      }
+    end
+  end
+
   private
 
   def load_site

@@ -26,3 +26,10 @@
     #{@site.patients.count} AGEP IDs
   = link_to 'Manage Mentors', site_mentors_path(@site), :class => 'farrow'
 
+%br
+%br
+.actions
+  = link_to 'Export Patients CSV', patients_site_path(@site, :format => 'csv'), :class => 'fexport'
+  %br
+  = link_to 'Export Providers CSV', providers_site_path(@site, :format => 'csv'), :class => 'fexport'
+
