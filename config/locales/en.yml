@@ -4,7 +4,7 @@
 en:
   errors:
     invalid_message: "Invalid message. Only digits and the separators + or * are allowed."
-    missing_separators: "Invalid message. Please send provider 3 digit code, separator (+ or *) and the rest of the message."
+    missing_separators: "Invalid message. Please send provider 4 digit code, separator (+ or *) and the rest of the message."
     provider_invalid: "Provider code %{provider_code} is Invalid. Please look at the provider code list and send the message again."
     provider_disabled: "Provider code %{provider_code} is not authorized to perform the service."
     missing_2nd_sep: "Invalid message. Please send Voucher code after the AGEP ID."

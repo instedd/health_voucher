@@ -120,7 +120,7 @@ end
 
 def _provider_code
   begin
-    code = rand(1..999).to_s.rjust(3, '0')
+    code = rand(1..9999).to_s.rjust(4, '0')
   end while Provider.find_by_code(code)
   code
 end

@@ -93,15 +93,16 @@ describe Message::Parser do
       parser_error("#{@pc}").should eq(:missing_separators)
     end
 
-    it "Provider code doesn't have exact 3 digits" do
+    it "Provider code doesn't have exact 4 digits" do
       parser_error("3*4222332").should eq(:provider_invalid)
       # 2 digits and 2 tokens are interpreted as confirmation message
       parser_error("33*4222332*878879").should eq(:provider_invalid)
-      parser_error("3333*4222332").should eq(:provider_invalid)
+      parser_error("333*4222332").should eq(:provider_invalid)
+      parser_error("33333*4222332").should eq(:provider_invalid)
     end
 
     it "Provider code not valid or disabled" do
-      parser_error("000*4222332").should eq(:provider_disabled)
+      parser_error("0000*4222332").should eq(:provider_disabled)
       @provider.update_attribute :enabled, false
       parser_error("#{@pc}*4222332").should eq(:provider_disabled)
     end

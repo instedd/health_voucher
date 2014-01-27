@@ -2,7 +2,7 @@
   = form_for @provider, :url => providers_path, :remote => true do |f|
     = f.hidden_field :clinic_id
     %td
-      = f.text_field :code, maxlength: 3, size: 3, :placeholder => 'Code'
+      = f.text_field :code, maxlength: 4, size: 4, :placeholder => 'Code'
 
     %td(colspan="2")
       = f.text_field :name, maxlength: 100, :placeholder => 'Provider name', :style => "width: 99%"
