@@ -20,7 +20,7 @@ class MentorsController < SiteController
   def show
     respond_to do |format|
       format.html {
-        @patients = @mentor.patients.order(:agep_id)
+        @patients = @mentor.patients.includes(:current_card => :used_vouchers).order(:agep_id)
       }
       format.csv {
         exporter = Mentor::CsvExporter.new(@mentor)

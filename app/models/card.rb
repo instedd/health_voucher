@@ -9,6 +9,7 @@ class Card < ActiveRecord::Base
 
   has_many :vouchers, :dependent => :destroy
   has_many :authorizations
+  has_many :used_vouchers, :conditions => ["vouchers.used = 1"], :class_name => "Voucher"
 
   belongs_to :patient
   belongs_to :site
@@ -71,7 +72,7 @@ class Card < ActiveRecord::Base
   end
 
   def used?
-    validity.present? || vouchers.where(:used => true).any?
+    used_vouchers.any?
   end
 
   def validity=(value)

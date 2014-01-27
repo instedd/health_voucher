@@ -39,4 +39,21 @@ describe Card do
       @card.should_not be_valid
     end
   end
+
+  describe "used?" do
+    before(:each) do
+      @card = Card.make!(:with_vouchers)
+    end
+
+    it "should be false if no vouchers are used" do
+      @card.should_not be_used
+      @card.validity = Date.today
+      @card.should_not be_used
+    end
+
+    it "should be true if any vouchers are used" do
+      @card.vouchers.first.update_attribute :used, true
+      @card.should be_used
+    end
+  end
 end

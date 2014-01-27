@@ -77,12 +77,12 @@ describe Patient do
       @card.patient.should be_nil
     end
 
-    it "should not unassign if the card already has a validity date" do
+    it "should reset card validity" do
       @card.update_attribute :validity, Date.today
 
       @patient.unassign_card!
-      @patient.current_card.should eq(@card)
-      @card.patient.should eq(@patient)
+      @patient.current_card.should be_nil
+      @card.validity.should be_nil
     end
 
     it "should not unassign if the card has any voucher used" do

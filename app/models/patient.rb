@@ -30,9 +30,10 @@ class Patient < ActiveRecord::Base
   end
 
   def unassign_card!
-    if current_card && !current_card.used?
+    if can_unassign?
       transaction do
         current_card.patient = nil
+        current_card.validity = nil
         current_card.save!
         self.current_card = nil
         save!
@@ -46,6 +47,10 @@ class Patient < ActiveRecord::Base
 
   def can_be_destroyed?
     cards.empty?
+  end
+
+  def can_unassign?
+    current_card.present? && !current_card.used?
   end
 
   private
@@ -65,7 +70,7 @@ class Patient < ActiveRecord::Base
 
   def check_no_cards
     if cards.count > 0
-      errors[:base] << "The provider has (or has had) cards assigned"
+      errors[:base] << "The patient has (or has had) cards assigned"
       false
     else
       true

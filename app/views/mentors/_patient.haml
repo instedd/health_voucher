@@ -15,6 +15,6 @@
   %td
     - if patient.current_card.nil? && patient.can_be_destroyed?
       %a.fdelete.destroy_action(data-action="#{patient_path(patient)}") Remove
-    - elsif patient.current_card.present? && patient.current_card.validity.nil?
+    - elsif patient.can_unassign?
       %a.fremove.unassign_action(data-action="#{unassign_card_patient_path(patient)}" data-serial-number="#{card_serial_number(patient.current_card)}") Unassign card
 
