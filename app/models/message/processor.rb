@@ -7,7 +7,7 @@ class Message::Processor
   end
 
   def process
-    parser = MessageParser.new(@body)
+    parser = Message::Parser.new(@body)
 
     case parser.parse
     when :authorization

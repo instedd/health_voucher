@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe MessageParser do
+describe Message::Parser do
   before(:each) do
     @service1 = Service.make!
     @service2 = Service.make!
@@ -23,25 +23,25 @@ describe MessageParser do
 
   describe "token split" do
     it "should strip leading and trailing whitespace" do
-      p = MessageParser.new('  12*32  ')
+      p = Message::Parser.new('  12*32  ')
       p.parse
       p.tokens.should eq(['12', '32'])
     end
 
     it "should accept either + or * as separator" do
-      p = MessageParser.new('12*34+56')
+      p = Message::Parser.new('12*34+56')
       p.parse
       p.tokens.should eq(['12', '34', '56'])
     end
 
     it "should strip whitespace between separators" do
-      p = MessageParser.new('12 *34+ 56 * 78')
+      p = Message::Parser.new('12 *34+ 56 * 78')
       p.parse
       p.tokens.should eq(['12', '34', '56', '78'])
     end
 
     it "should ignore multiple consecutive separators" do
-      p = MessageParser.new('12**34++56+*78')
+      p = Message::Parser.new('12**34++56+*78')
       p.parse
       p.tokens.should eq(['12', '34', '56', '78'])
     end
@@ -53,13 +53,13 @@ describe MessageParser do
        "#{@pc}*#{@a10}*#{@sn}*#{@s1}",
        "#{@pc}*#{@a10}*#{@sn}*#{@s1}*#{@s2}",
        "#{@pc}*#{@a7}*#{@sn}*#{@s1}*#{@s2}*#{@s3}"].each do |body|
-        MessageParser.new(body).parse.should eq(:authorization), "#{@body} should be a valid authorization"
+        Message::Parser.new(body).parse.should eq(:authorization), "#{@body} should be a valid authorization"
       end
     end
 
     it "should recognize valid confirmation messages" do
       ["#{@s1}*#{@pin}"].each do |body|
-        MessageParser.new(body).parse.should eq(:confirmation), "#{body} should be a valid confirmation"
+        Message::Parser.new(body).parse.should eq(:confirmation), "#{body} should be a valid confirmation"
       end
     end
 
@@ -71,14 +71,14 @@ describe MessageParser do
        "123*1234567*1234567*1",
        "123*1234567*1234567*111",
        "123*1234567*1234567*11*222"].each do |body|
-        MessageParser.new(body).parse.should be_nil, "#{body} expected invalid"
+        Message::Parser.new(body).parse.should be_nil, "#{body} expected invalid"
       end
     end
   end
 
   describe "error messages conditions" do
     def parser_error(body)
-      parser = MessageParser.new(body)
+      parser = Message::Parser.new(body)
       parser.parse.should be_nil, "#{body} expected invalid"
       parser.error
     end

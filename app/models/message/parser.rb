@@ -1,4 +1,4 @@
-class MessageParser
+class Message::Parser
   attr_reader :error, :error_options
   attr_accessor :tokens
 
