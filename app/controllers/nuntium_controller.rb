@@ -1,31 +1,8 @@
 class NuntiumController < BasicAuthController
   def receive
     begin
-      parser = MessageParser.new(params[:body])
-      
-      case parser.parse
-      when :authorization
-        processor = Authorization::Processor.new(parser.provider, 
-                                                 parser.patient, 
-                                                 parser.card)
-        if processor.validate() && processor.add_services(parser.services)
-          result = processor.authorize
-        else
-          result = processor.error_message
-        end
-
-      when :confirmation
-        processor = Transaction::Processor.new(parser.service, parser.voucher)
-        
-        if processor.validate()
-          result = processor.confirm
-        else
-          result = processor.error_message
-        end
-
-      else
-        result = parser.error_message
-      end
+      processor = Message::Processor.new(params[:body], params[:from])
+      result = processor.process
 
     rescue Exception => e
       Rails.logger.error "exception while processing Nuntium message: #{e}"
