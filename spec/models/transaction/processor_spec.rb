@@ -33,6 +33,15 @@ describe Transaction::Processor do
       @processor.error.should eq(:not_authorized)
     end
 
+    it "should validate that the authorization's card has a patient" do
+      @other_card = Card.make!(:with_vouchers)
+      @other_auth = Authorization.make! provider: @provider, service: @service1, card: @other_card
+
+      @processor = Transaction::Processor.new(@service1, @other_card.primary_services.first)
+      @processor.validate.should be_false
+      @processor.error.should eq(:not_authorized)
+    end
+
     it "should validate that the voucher is not already used" do
       @voucher1.use!
 

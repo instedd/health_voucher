@@ -15,7 +15,7 @@ class Transaction::Processor
 
   def validate
     @auth = find_authorization 
-    if @auth.nil?
+    if @auth.nil? or @auth.card.patient.nil?
       set_error :not_authorized
     elsif @voucher.used?
       set_error :voucher_already_used

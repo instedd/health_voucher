@@ -72,7 +72,7 @@ class Card < ActiveRecord::Base
   end
 
   def used?
-    used_vouchers.any?
+    used_vouchers.any? || authorizations.any?
   end
 
   def validity=(value)

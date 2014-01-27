@@ -55,5 +55,12 @@ describe Card do
       @card.vouchers.first.update_attribute :used, true
       @card.should be_used
     end
+
+    it "should be true if it has authorizations" do
+      @provider = Provider.make!
+      @service = Service.make!
+      @card.authorizations.create! provider: @provider, service: @service
+      @card.should be_used
+    end
   end
 end
