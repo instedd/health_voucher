@@ -2,11 +2,12 @@ class Authorization::Processor
   attr_reader :error, :error_options
   attr_reader :services
 
-  def initialize(provider, patient, card)
+  def initialize(provider, patient, card, message = nil)
     @provider = provider
     @patient = patient
     @card = card
     @services = []
+    @message = message
   end
 
   def error_message
@@ -122,7 +123,7 @@ class Authorization::Processor
       pending_authorizations = current_pending_authorizations_for(clinic)
       @services.each do |service|
         unless pending_authorizations.find { |auth| auth.service == service }
-          @card.authorizations.create! provider: @provider, service: service
+          @card.authorizations.create! provider: @provider, service: service, message: @message
         end
       end
 

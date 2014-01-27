@@ -42,6 +42,12 @@ describe Message::Processor do
       end.should change(Authorization, :count).by(1)
     end
 
+    it "should link the message to the authorization" do
+      @processor.process
+      message = @processor.message.reload
+      message.authorizations.count.should == 1
+    end
+
     it "should save a successful authorization message" do
       @processor.process
       message = @processor.message.reload
@@ -95,6 +101,12 @@ describe Message::Processor do
           @processor.process
         end.should change(Transaction, :count).by(1)
         @auth.reload.transaction.should_not be_nil
+      end
+
+      it "should link the message to the transaction" do
+        @processor.process
+        message = @processor.message.reload
+        message.transaction.should_not be_nil
       end
 
       it "should save a successful confirmation message" do

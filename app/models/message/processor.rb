@@ -17,7 +17,8 @@ class Message::Processor
         @message.message_type = :authorization
         processor = Authorization::Processor.new(parser.provider, 
                                                  parser.patient, 
-                                                 parser.card)
+                                                 parser.card,
+                                                 @message)
         if processor.validate() && processor.add_services(parser.services)
           @message.succeed processor.authorize
         else
@@ -26,7 +27,7 @@ class Message::Processor
 
       when :confirmation
         @message.message_type = :confirmation
-        processor = Transaction::Processor.new(parser.service, parser.voucher)
+        processor = Transaction::Processor.new(parser.service, parser.voucher, @message)
 
         if processor.validate()
           @message.succeed processor.confirm

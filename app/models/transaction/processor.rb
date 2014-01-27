@@ -2,10 +2,11 @@ class Transaction::Processor
   attr_reader :error, :error_options
   attr_reader :auth
 
-  def initialize(service, voucher)
+  def initialize(service, voucher, message = nil)
     @service = service
     @voucher = voucher
     @auth = nil
+    @message = message
   end
 
   def find_authorization
@@ -39,6 +40,7 @@ class Transaction::Processor
 
       @txn = @auth.build_transaction
       @txn.voucher = @voucher
+      @txn.message = @message
       @txn.save!
     end
 
