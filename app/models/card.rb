@@ -56,7 +56,7 @@ class Card < ActiveRecord::Base
   end
 
   def expired?
-    !validity.nil? && validity < 1.year.ago.to_date
+    validity.present? && validity < 1.year.ago.to_date
   end
 
   def report_lost!
@@ -73,6 +73,10 @@ class Card < ActiveRecord::Base
 
   def used?
     used_vouchers.any? || authorizations.any?
+  end
+
+  def validated?
+    validity.present?
   end
 
   def validity=(value)

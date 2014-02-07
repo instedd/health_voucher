@@ -33,6 +33,9 @@
   move_collapsable = $.grep(group, (coll, idx) ->
     coll.root.find('.move_patients_action').length > 0
   )[0]
+  batch_validate_collapsable = $.grep(group, (coll, idx) ->
+    coll.root.find('.batch_validate_action').length > 0
+  )[0]
 
   # Move patients dialog
   move_dialog = $('.move_dialog')
@@ -46,6 +49,13 @@
     $('#patient_ids').val(ids)
     true
 
+  # Batch validate dialog
+  batch_validate_dialog = $('.batch_validate_dialog')
+  batch_validate_dialog.find('form').submit ->
+    ids = $('.patient_check:checked').map(-> @value).toArray().join()
+    $('#validate_patient_ids').val(ids)
+    true
+
   # Connect move dialog enable to the active checkboxes
   toggleMove = (v) ->
     has_other_mentors = $('#target_id option').length > 1
@@ -55,10 +65,16 @@
     else
       button.addClass('disabled')
 
+  toggleValidate = (v) ->
+    button = $('.batch_validate_action .fplay')
+    if v then button.removeClass('disabled') else button.addClass('disabled')
+
   @wireCheckboxGroup $('.patients'), '.patient_check', '.check_all',
     (all_checked, some_checked) ->
       toggleMove(some_checked)
+      toggleValidate(some_checked)
       move_collapsable.collapse() unless some_checked || !move_collapsable
+      batch_validate_collapsable.collapse() unless some_checked || !batch_validate_collapsable
 
   # Auto assign toggle enable
   nextSerialNumberUpdated()

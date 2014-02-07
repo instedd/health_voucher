@@ -2,6 +2,8 @@ class MentorsController < SiteController
   before_filter :load_mentor
   before_filter :add_breadcrumbs
 
+  include ActionView::Helpers::TextHelper
+
   def index
     @mentors = @site.mentors.order(:name)
 
@@ -102,6 +104,43 @@ class MentorsController < SiteController
         patient.update_attribute :mentor, @target_mentor
       end
       flash[:notice] = "#{ids.count} AGEP IDs moved to #{@target_mentor.name}"
+    end
+    redirect_to site_mentor_path(@site, @mentor)
+  end
+
+  def batch_validate
+    Patient.transaction do
+      success_count = 0
+      error_count = 0
+
+      ids = params[:patient_ids].split(',')
+      ids.each do |id|
+        card = Patient.find(id).current_card
+        next if card.nil? or card.validated?
+        card.validity = params[:validity]
+        if card.save
+          success_count += 1
+        else
+          error_count += 1
+        end
+      end
+
+      notices = []
+      notices << "#{pluralize(success_count, "card")} successfully validated." if success_count > 0
+      notices << "#{pluralize(error_count, "card")} could not be validated." if error_count > 0
+      if success_count == 0 and error_count == 0
+        notices << "No cards were validated."
+      end
+      notice = notices.join(' ')
+      if error_count > 0
+        if success_count > 0
+          flash[:alert] = notice
+        else
+          flash[:error] = notice
+        end
+      else
+        flash[:notice] = notice
+      end
     end
     redirect_to site_mentor_path(@site, @mentor)
   end

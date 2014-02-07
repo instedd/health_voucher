@@ -40,6 +40,7 @@ EVoucher::Application.routes.draw do
         post 'add_patients'
         post 'auto_assign'
         post 'move_patients'
+        post 'batch_validate'
       end
     end
   end
