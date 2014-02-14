@@ -43,6 +43,10 @@ class Transaction < ActiveRecord::Base
     authorization.service
   end
 
+  def service_id
+    authorization.service_id
+  end
+
   def card
     authorization.card
   end

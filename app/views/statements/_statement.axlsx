@@ -3,7 +3,7 @@ wb.styles do |s|
   date_style = s.add_style :format_code => 'MM/DD/YY HH:MM AM/PM'
   amount_style = s.add_style :format_code => '#0.00'
 
-  sheet.add_row ["Statement #{stmt.id}"], :style => header
+  sheet.add_row ["Statement ##{stmt.id}"], :style => header
   sheet.add_row ["#{stmt.clinic.name}"], :style => header
   sheet.add_row
 

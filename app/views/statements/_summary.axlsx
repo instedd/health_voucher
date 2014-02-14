@@ -36,4 +36,3 @@ wb.styles do |s|
   sheet.column_widths 30, 55, 10, 10, 10
 end
 
-
