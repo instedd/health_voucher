@@ -81,6 +81,7 @@ EVoucher::Application.routes.draw do
     collection do
       get 'generate'
       post 'do_generate'
+      post 'export'
     end
     member do
       post 'toggle_status'

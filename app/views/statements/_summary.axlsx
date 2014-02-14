@@ -1,0 +1,39 @@
+wb.styles do |s|
+  header = s.add_style :b => true, :alignment => { :horizontal => :left }
+  date_style = s.add_style :format_code => 'MM/DD/YY HH:MM AM/PM'
+  amount_style = s.add_style :format_code => '#0.00'
+
+  sheet.add_row [
+    "Clinic", 
+    "Service", 
+    "Cost",
+    "Visits", 
+    "Amount"
+  ], :style => header
+
+  row = 2
+  @clinics.each do |clinic|
+    clinic.clinic_services.each do |cs|
+      visits = @visits[clinic.id][cs.service_id]
+      cost = cs.cost || 0
+      sheet.add_row [
+        clinic.name,
+        cs.service.description,
+        cost,
+        visits,
+        "=C#{row}*D#{row}"
+      ], :style => [
+        nil,
+        nil,
+        amount_style,
+        nil,
+        amount_style
+      ]
+      row += 1
+    end
+  end
+
+  sheet.column_widths 30, 55, 10, 10, 10
+end
+
+

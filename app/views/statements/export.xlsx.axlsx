@@ -1,0 +1,14 @@
+wb = xlsx_package.workbook
+
+wb.styles.fonts.first.name = 'Calibri'
+
+wb.add_worksheet(name: "Summary") do |sheet|
+  render partial: 'summary', locals: { sheet: sheet, wb: wb }
+end
+
+@statements.each do |stmt|
+  wb.add_worksheet(name: "Statement - #{stmt.clinic.name}") do |sheet|
+    render partial: 'statement', locals: { sheet: sheet, stmt: stmt, wb: wb }
+  end
+end
+

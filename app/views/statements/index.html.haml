@@ -26,8 +26,10 @@
         = sort_header('status')
         %th
       - @statements.each do |stmt|
-        %tr(data-action="#{statement_path(stmt)}")
-          %td= stmt.id
+        %tr(data-action="#{statement_path(stmt)}" data-id="#{stmt.id}")
+          %td.no-link
+            = check_box_tag "stmt-#{stmt.id}", stmt.id, false, :class => 'stmt_check'
+            = label_tag "stmt-#{stmt.id}", stmt.id
           %td= stmt.created_at.to_s(:transaction)
           %td= stmt.site.name
           %td= stmt.clinic.name
@@ -41,4 +43,13 @@
 
 %br
 .actions
+  %a.fexport.disabled(data-action="#{export_statements_path}") Export selected with summary as XLSX
+  %br
   = link_to 'Generate Statements', generate_statements_path, :class => 'cadd'
+
+= form_tag export_statements_path, :id => 'export_stmts' do 
+  = hidden_field_tag 'stmt_ids'
+
+:javascript
+  $(function() { onStatementsIndex() });
+

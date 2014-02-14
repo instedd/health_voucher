@@ -109,6 +109,24 @@ class StatementsController < ApplicationController
     end
   end
 
+  def export
+    ids = params[:stmt_ids].split(',')
+    @statements = Statement.where(:id => ids)
+    @clinics = @statements.map(&:clinic).uniq
+    @visits = Hash[@clinics.map do |clinic|
+      services = Hash[clinic.clinic_services.map do |cs|
+        [cs.service_id, 0]
+      end]
+      [clinic.id, services]
+    end]
+    @statements.each do |stmt|
+      stmt.transactions.includes(:authorization).each do |txn|
+        @visits[stmt.clinic_id][txn.service.id] += 1
+      end
+    end
+    render xlsx: 'export', filename: 'statements.xlsx', disposition: 'attachment'
+  end
+
   private
 
   def add_breadcrumbs

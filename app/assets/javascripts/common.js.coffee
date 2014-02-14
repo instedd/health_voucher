@@ -1,6 +1,7 @@
 $ ->
   $('.ItemTable').on('click', 'tr', (evt) ->
-    if evt.target.tagName in ['A', 'BUTTON']
+    if evt.target.tagName in ['A', 'BUTTON', 'INPUT', 'SELECT', 'LABEL'] or \
+        $(evt.target).hasClass('no-link')
       return
     url = $(@).data('action')
     if url

@@ -30,6 +30,7 @@ gem 'haml'
 gem 'jquery-rails', '~> 2.0.2'
 gem 'instedd-rails'
 gem 'kaminari'
+gem 'axlsx_rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
