@@ -97,6 +97,12 @@ EVoucher::Application.routes.draw do
   resources :messages, :only => [:index] do
   end
 
+  scope 'reports', :as => 'reports', :controller => :reports do
+    get '/', to: redirect('/reports/agep_ids')
+    get :agep_ids
+    get :voucher_usage
+  end
+
   # for instedd-platform-rails
   match 'terms_and_conditions' => redirect("http://instedd.org/terms-of-service/")
 end

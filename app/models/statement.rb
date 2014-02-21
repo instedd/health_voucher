@@ -17,8 +17,8 @@ class Statement < ActiveRecord::Base
   validates_presence_of :until
 
   scope :for_listing, includes(:clinic => :site).joins(:transactions).group('statements.id').
-    select(['statements.*', 'count(transactions.id) AS txn_count', 
-            'max(transactions.created_at) AS txn_to', 'min(transactions.created_at) AS txn_from'])
+    select(['statements.*', 'COUNT(transactions.id) AS txn_count', 
+            'MAX(transactions.created_at) AS txn_to', 'MIN(transactions.created_at) AS txn_from'])
 
   paginates_per 15
 

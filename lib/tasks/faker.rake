@@ -3,7 +3,7 @@ namespace :faker do
   task :gentxn, [:n] => :environment do |t, args|
     n = args[:n].to_i
 
-    start_time = Transaction.order('created_at DESC').first.created_at rescue (30 * n).minutes.ago
+    start_time = (45 * n).minutes.ago
     Timecop.travel start_time
 
     puts "Trying to generate #{n} transactions..."

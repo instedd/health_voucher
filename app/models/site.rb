@@ -18,4 +18,11 @@ class Site < ActiveRecord::Base
   def unassigned_cards
     cards.where(:patient_id => nil).order(:serial_number)
   end
+
+  def self.with_patient_counts
+    scoped.joins(:patients).group('sites.id').
+      select(['sites.*', 
+              'COUNT(patients.id) AS patient_count', 
+              'COUNT(CASE WHEN patients.current_card_id IS NULL THEN 1 END) AS patients_without_card'])
+  end
 end

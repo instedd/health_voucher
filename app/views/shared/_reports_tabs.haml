@@ -1,0 +1,12 @@
+%br
+%ul.reports-tabs.tabs.top
+  %li.agep_ids
+    = link_to "AGEP IDs", reports_agep_ids_path
+  %li.voucher_usage
+    = link_to "Voucher Usage", reports_voucher_usage_path
+
+.tabsline
+
+:javascript
+  $('.reports-tabs').find('.#{params[:action]}').addClass('active');
+

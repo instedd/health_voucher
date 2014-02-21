@@ -1,0 +1,26 @@
+.report-table {
+  td {
+    padding: 10px 8px;
+  }
+
+  td.number, th.number {
+    text-align: right;
+  }
+
+  td:first-child {
+    text-align: left;
+  }
+
+  tr.totals td {
+    font-weight: bold;
+    background-color: #f8f8f8;
+    font-size: 110%;
+  }
+
+  .percentage {
+    color: #888;
+    font-size: 80%;
+    display: inline-block;
+    width: 70px;
+  }
+}
