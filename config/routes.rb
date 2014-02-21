@@ -101,6 +101,8 @@ EVoucher::Application.routes.draw do
     get '/', to: redirect('/reports/agep_ids')
     get :agep_ids
     get :voucher_usage
+    get :txns_per_clinic
+    get :txns_per_site
   end
 
   # for instedd-platform-rails

@@ -3,7 +3,7 @@ class ReportsController < ApplicationController
   before_filter :add_breadcrumbs
 
   def agep_ids
-    sites = Site.with_patient_counts
+    sites = Site.with_patient_counts.order(:name)
     @data = sites.map do |site|
       { 
         :name => site.name,
@@ -23,7 +23,7 @@ class ReportsController < ApplicationController
       uniq.
       select(['patients.id', 'mentors.site_id AS site_id'])
     sites_for_uses = patients_with_recent_uses.map(&:site_id)
-    sites = Site.with_patient_counts
+    sites = Site.with_patient_counts.order(:name)
     @data = sites.map do |site|
       {
         :name => site.name,
@@ -32,6 +32,61 @@ class ReportsController < ApplicationController
       }
     end
     @totals = totalize @data, [:patients_with_card, :patients_with_recent_card_uses]
+  end
+
+  def txns_per_site
+    since_when = 30.days.ago
+    patients_with_recent_visits = Patient.
+      joins(:current_card => {:authorizations => [:transaction, :provider => :clinic]}).
+      where('transactions.created_at > ?', since_when).
+      uniq.
+      select(['patients.id', 'clinics.site_id AS site_id'])
+    site_visits = patients_with_recent_visits.map do |patient| patient.site_id end
+    transactions = Transaction.
+      joins(:authorization => [:provider => :clinic]).
+      where('transactions.created_at > ?', since_when).
+      select(['clinics.site_id AS site_id', 'COUNT(*) AS txn_count']).
+      group('site_id')
+    txns_per_site = Hash[transactions.map do |txn|
+      [txn.site_id, txn.txn_count]
+    end]
+    sites = Site.order(:name)
+    @data = sites.map do |site|
+      {
+        :site_name => site.name,
+        :txn_count => txns_per_site[site.id] || 0,
+        :unique_visits => site_visits.count { |id| id == site.id }
+      }
+    end
+    @totals = totalize @data, [:unique_visits, :txn_count]
+  end
+
+  def txns_per_clinic
+    since_when = 30.days.ago
+    patients_with_recent_visits = Patient.
+      joins(:current_card => {:authorizations => [:transaction, :provider]}).
+      where('transactions.created_at > ?', since_when).
+      uniq.
+      select(['patients.id', 'providers.clinic_id AS clinic_id'])
+    visited_clinics = patients_with_recent_visits.map do |patient| patient.clinic_id end
+    transactions = Transaction.
+      joins(:authorization => [:provider]).
+      where('transactions.created_at > ?', since_when).
+      select(['providers.clinic_id AS clinic_id', 'COUNT(*) AS txn_count']).
+      group('clinic_id')
+    txns_per_clinic = Hash[transactions.map do |txn|
+      [txn.clinic_id, txn.txn_count]
+    end]
+    clinics = Clinic.joins(:site).order('sites.name').select(['clinics.*', 'sites.name AS site_name'])
+    @data = clinics.map do |clinic|
+      {
+        :site_name => clinic.site_name,
+        :clinic_name => clinic.name,
+        :txn_count => txns_per_clinic[clinic.id] || 0,
+        :unique_visits => visited_clinics.count { |id| id == clinic.id }
+      }
+    end
+    @totals = totalize @data, [:unique_visits, :txn_count]
   end
 
   private
