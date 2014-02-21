@@ -6,3 +6,31 @@
     background-color: #f8f8f8;
   }
 }
+
+.statements-filter {
+  col:first-child {
+    width: 200px;
+  }
+  col:nth-child(2) {
+    width: 220px;
+  }
+  col:nth-child(3) {
+    width: auto;
+  }
+  col:last-child {
+    width: 125px;
+  }
+  label {
+    display: inline-block;
+  }
+  td:first-child label {
+    width: 50px;
+  }
+  td:nth-child(2) label {
+    width: 50px;
+  }
+  td:nth-child(3) label {
+    width: 160px;
+  }
+}
+

@@ -5,37 +5,35 @@
     = form_tag statements_path, :method => :get do
       = hidden_field_tag :sort, params[:sort]
       = hidden_field_tag :direction, params[:direction]
-      %table.filter-container
+      %table.filter-container.statements-filter
         %colgroup
-          %col(style="width: 120px;")
-          %col(style="width: 170px;")
-          %col(style="width: 170px;")
-          %col(style="width: 125px;")
-          %col(style="width: auto;")
-          %col(style="width: 125px;")
+          %col
+          %col
+          %col
+          %col
         %tr
           %td
             %label(for="stmt_id") ID #
+            = text_field_tag :stmt_id, params[:stmt_id], :class => 'w13'
             %br
-            = text_field_tag :stmt_id, params[:stmt_id], :class => 'w10'
+            %label(for="status") Status
+            = select_tag :status, statement_status_filter_options(params[:status]), :class => 'w13'
           %td
-            %label(for="site_id") Sites
-            %br
+            %label(for="site_id") Site
             = select_tag :site_id, sites_filter_options(params[:site_id]), :class => 'w15'
-          %td
-            %label(for="clinic_id") Clinics
             %br
+            %label(for="clinic_id") Clinic
             = select_tag :clinic_id, clinics_filter_options(params[:site_id], params[:clinic_id]), :class => 'w15'
           %td
-            %label(for="status") Status
-            %br
-            = select_tag :status, statement_status_filter_options(params[:status]), :class => 'w10'
-          %td
-            %label(for="since") Date range
-            %br
+            %label(for="since") Statements generated 
             = text_field_tag :since, params[:since], :class => 'ux-datepicker w10', :autocomplete => 'off'
             %span to
             = text_field_tag :until, params[:until], :class => 'ux-datepicker w10', :autocomplete => 'off'
+            %br
+            %label(for="txn_from") With transactions made
+            = text_field_tag :txn_from, params[:txn_from], :class => 'ux-datepicker w10', :autocomplete => 'off'
+            %span to
+            = text_field_tag :txn_to, params[:txn_to], :class => 'ux-datepicker w10', :autocomplete => 'off'
           %td
             = button_tag 'Filter', :class => 'grey'
             = link_to 'Clear', clear_filter_statements_path, :class => 'button white'

@@ -8,19 +8,22 @@
     %colgroup
       %col(style="width: 50px")
       %col(style="width: 150px")
-      %col(style="width: 120px")
-      %col(style="width: 160px")
+      %col(style="width: auto")
+      %col(style="width: auto")
+      %col(style="width: 100px")
       %col(style="width: 100px")
       %col(style="width: 80px")
       %col(style="width: 90px")
       %col.noprint(style="width: 100px")
+      %col.noprint(style="width: 40px")
     %tbody
       %tr
         = sort_header('id', 'ID#')
-        = sort_header('date')
+        = sort_header('date', 'Generated')
         = sort_header('site')
         = sort_header('clinic')
-        = sort_header('until')
+        = sort_header('txn_from', 'Txns from')
+        = sort_header('txn_to', 'Txns to')
         %th # services
         %th Total cost
         = sort_header('status')
@@ -33,8 +36,9 @@
           %td= stmt.created_at.to_s(:transaction)
           %td= stmt.site.name
           %td= stmt.clinic.name
-          %td= stmt.until.to_time_in_current_zone.to_s(:date)
-          %td.number= stmt.transactions.count
+          %td= stmt.txn_from.to_s(:date)
+          %td= stmt.txn_to.to_s(:date)
+          %td.number= stmt.txn_count
           %td.number= number_to_currency(stmt.total, unit: '')
           %td= stmt.status
           %td

@@ -4,7 +4,7 @@ module StatementsHelper
   end
 
   def statements_filter_empty?
-    %w(stmt_id site_id clinic_id status since until).all? do |key|
+    %w(stmt_id site_id clinic_id status since until txn_from txn_to).all? do |key|
       params[key].blank?
     end
   end

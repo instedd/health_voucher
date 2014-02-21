@@ -7,6 +7,9 @@ class StatementsController < ApplicationController
     since_date = Date.parse_human_param(params[:since]).beginning_of_day rescue nil
     until_date = Date.parse_human_param(params[:until]).end_of_day rescue nil
 
+    txn_from_date = Date.parse_human_param(params[:txn_from]).beginning_of_day rescue nil
+    txn_to_date = Date.parse_human_param(params[:txn_to]).end_of_day rescue nil
+
     list = Statement.for_listing
 
     if params[:stmt_id].present?
@@ -26,6 +29,12 @@ class StatementsController < ApplicationController
     list = list.where('statements.created_at >= ?', since_date) if since_date.present?
     list = list.where('statements.created_at <= ?', until_date) if until_date.present?
 
+    if txn_from_date.present? or txn_to_date.present?
+      list = list.joins(:transactions).uniq
+      list = list.where('transactions.created_at >= ?', txn_from_date) if txn_from_date.present?
+      list = list.where('transactions.created_at <= ?', txn_to_date) if txn_to_date.present?
+    end
+
     direction = if %w(asc desc).include?(params[:direction]) 
                   params[:direction] 
                 else 
@@ -40,8 +49,10 @@ class StatementsController < ApplicationController
              'sites.name'
            when 'clinic'
              'clinics.name'
-           when 'until'
-             'statements.until'
+           when 'txn_from'
+             'txn_from'
+           when 'txn_to'
+             'txn_to'
            when 'status'
              'statements.status'
            else
