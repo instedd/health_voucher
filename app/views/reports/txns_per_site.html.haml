@@ -2,7 +2,7 @@
 
 = render partial: 'shared/reports_tabs'
 
-%h2 Transactions and unique patient visits per site in the last 30 days
+%h2 Transactions and unique visitors per site in the last 30 days
 
 .tablewrapp
   %table.GralTable.report-table
@@ -11,7 +11,7 @@
       %tr
         %th Site
         %th.number Transactions
-        %th.number Unique patient visits
+        %th.number Unique Visitors
       - if @data.empty?
         %tr
           %td(colspan="3") No sites registered.
@@ -20,10 +20,10 @@
           %tr
             %td= row[:site_name]
             %td.number= row[:txn_count]
-            %td.number= row[:unique_visits]
+            %td.number= row[:unique_visitors]
 
         %tr.totals
           %td Totals
           %td.number= @totals[:txn_count]
-          %td.number= @totals[:unique_visits]
+          %td.number= @totals[:unique_visitors]
 

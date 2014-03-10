@@ -6,6 +6,9 @@
   td.number, th.number {
     text-align: right;
   }
+  td.number {
+    font-size: 110%;
+  }
 
   td:first-child {
     text-align: left;
@@ -14,13 +17,19 @@
   tr.totals td {
     font-weight: bold;
     background-color: #f8f8f8;
-    font-size: 110%;
+    font-size: 120%;
   }
 
   .percentage {
     color: #888;
     font-size: 80%;
     display: inline-block;
-    width: 70px;
+    width: 60px;
+    margin-left: 20px;
+    text-align: center;
+    vertical-align: middle;
+    .percent_base {
+      font-weight: normal !important;
+    }
   }
 }

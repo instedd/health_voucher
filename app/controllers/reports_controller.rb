@@ -2,20 +2,7 @@ class ReportsController < ApplicationController
   before_filter :authenticate_admin!
   before_filter :add_breadcrumbs
 
-  def agep_ids
-    sites = Site.with_patient_counts.order(:name)
-    @data = sites.map do |site|
-      { 
-        :name => site.name,
-        :patient_count => site.patient_count,
-        :patients_with_card => site.patient_count - site.patients_without_card,
-        :patients_without_card => site.patients_without_card
-      }
-    end
-    @totals = totalize @data, [:patient_count, :patients_with_card, :patients_without_card]
-  end
-
-  def voucher_usage
+  def card_allocation
     since_when = 7.days.ago
     patients_with_recent_uses = Patient.
       joins(:current_card => {:authorizations => :transaction}, :mentor => []).
@@ -27,11 +14,18 @@ class ReportsController < ApplicationController
     @data = sites.map do |site|
       {
         :name => site.name,
+        :patient_count => site.patient_count,
         :patients_with_card => site.patient_count - site.patients_without_card,
+        :patients_without_card => site.patients_without_card,
         :patients_with_recent_card_uses => sites_for_uses.count { |id| id == site.id }
       }
     end
-    @totals = totalize @data, [:patients_with_card, :patients_with_recent_card_uses]
+    @totals = totalize @data, [
+      :patient_count,
+      :patients_with_card,
+      :patients_without_card,
+      :patients_with_recent_card_uses
+    ]
   end
 
   def txns_per_site
@@ -55,10 +49,10 @@ class ReportsController < ApplicationController
       {
         :site_name => site.name,
         :txn_count => txns_per_site[site.id] || 0,
-        :unique_visits => site_visits.count { |id| id == site.id }
+        :unique_visitors => site_visits.count { |id| id == site.id }
       }
     end
-    @totals = totalize @data, [:unique_visits, :txn_count]
+    @totals = totalize @data, [:unique_visitors, :txn_count]
   end
 
   def txns_per_clinic
@@ -83,10 +77,10 @@ class ReportsController < ApplicationController
         :site_name => clinic.site_name,
         :clinic_name => clinic.name,
         :txn_count => txns_per_clinic[clinic.id] || 0,
-        :unique_visits => visited_clinics.count { |id| id == clinic.id }
+        :unique_visitors => visited_clinics.count { |id| id == clinic.id }
       }
     end
-    @totals = totalize @data, [:unique_visits, :txn_count]
+    @totals = totalize @data, [:unique_visitors, :txn_count]
   end
 
   private

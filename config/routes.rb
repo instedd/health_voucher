@@ -98,9 +98,8 @@ EVoucher::Application.routes.draw do
   end
 
   scope 'reports', :as => 'reports', :controller => :reports do
-    get '/', to: redirect('/reports/agep_ids')
-    get :agep_ids
-    get :voucher_usage
+    get '/', to: redirect('/reports/card_allocation')
+    get :card_allocation
     get :txns_per_clinic
     get :txns_per_site
   end
