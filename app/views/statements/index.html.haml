@@ -6,15 +6,15 @@
 .tablewrapp
   %table.GralTable.w-pagination.statements.ItemTable
     %colgroup
-      %col(style="width: 50px")
+      %col(style="width: 80px")
       %col(style="width: 150px")
       %col(style="width: auto")
       %col(style="width: auto")
       %col(style="width: 100px")
       %col(style="width: 100px")
-      %col(style="width: 80px")
+      %col(style="width: 70px")
       %col(style="width: 90px")
-      %col.noprint(style="width: 100px")
+      %col.noprint(style="width: 80px")
       %col.noprint(style="width: 40px")
     %tbody
       %tr
@@ -24,7 +24,7 @@
         = sort_header('clinic')
         = sort_header('txn_from', 'Txns from')
         = sort_header('txn_to', 'Txns to')
-        %th # services
+        %th # svcs
         %th Total cost
         = sort_header('status')
         %th

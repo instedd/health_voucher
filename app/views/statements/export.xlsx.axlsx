@@ -7,7 +7,8 @@ wb.add_worksheet(name: "Summary") do |sheet|
 end
 
 @statements.each do |stmt|
-  wb.add_worksheet(name: "Statement ##{stmt.id} - #{stmt.clinic.name}") do |sheet|
+  name = "Statement ##{stmt.id} - #{stmt.clinic.name}"
+  wb.add_worksheet(name: truncate(name, length: 30)) do |sheet|
     render partial: 'statement', locals: { sheet: sheet, stmt: stmt, wb: wb }
   end
 end
