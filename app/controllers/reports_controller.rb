@@ -36,6 +36,62 @@ class ReportsController < ApplicationController
     end
   end
 
+  def services
+    default_date = 1.month.ago.beginning_of_month
+    params[:month] ||= default_date.month
+    params[:year] ||= default_date.year
+    start_date = Date.new(params[:year].to_i, params[:month].to_i, 1) rescue default_date
+    end_date = start_date.end_of_month
+
+    transactions = Transaction.
+      joins(:authorization => [:provider => :clinic]).
+      where('transactions.created_at >= ?', start_date).
+      where('transactions.created_at <= ?', end_date)
+
+    if params[:by] != 'clinic'
+      transactions = transactions.
+        select(['authorizations.service_id AS service_id', 
+                'clinics.site_id AS col_id',
+                'COUNT(*) AS txn_count']).
+        group('service_id, col_id')
+      @columns = Site.order(:name).map do |site|
+        { id: site.id, name: site.name }
+      end
+    else
+      transactions = transactions.
+        where('clinics.site_id' => params[:site_id]).
+        select(['authorizations.service_id AS service_id', 
+                'clinics.id AS col_id',
+                'COUNT(*) AS txn_count']).
+        group('service_id, col_id')
+      @columns = Clinic.where(:site_id => params[:site_id]).order(:name).map do |clinic|
+        { id: clinic.id, name: clinic.name }
+      end
+    end
+    transaction_counts = Hash[transactions.map do |txn|
+      [[txn[:service_id], txn[:col_id]], txn[:txn_count]]
+    end]
+
+    @data = Service.order(:code).map do |service|
+      cols = @columns.map do |col|
+        transaction_counts[[service.id, col[:id]]] || 0
+      end
+      {
+        id: service.id,
+        service_type: service.service_type,
+        description: service.description,
+        cols: cols,
+        row_total: cols.sum
+      }
+    end.sort_by do |row|
+      row[:row_total]
+    end.reverse
+    @totals = totalize @data, [:cols, :row_total]
+  end
+
+  def clinics
+  end
+
   private
 
   def transactions_per_site
@@ -76,8 +132,9 @@ class ReportsController < ApplicationController
       select(['patients.id', 'providers.clinic_id AS clinic_id'])
     visited_clinics = patients_with_recent_visits.map do |patient| patient.clinic_id end
     transactions = Transaction.
-      joins(:authorization => [:provider]).
+      joins(:authorization => [:provider => :clinic]).
       where('transactions.created_at > ?', since_when).
+      where('clinics.site_id' => params[:site_id]).
       select(['providers.clinic_id AS clinic_id', 'COUNT(*) AS txn_count']).
       group('clinic_id')
     txns_per_clinic = Hash[transactions.map do |txn|
@@ -99,7 +156,15 @@ class ReportsController < ApplicationController
   def totalize(data, keys)
     @data.reduce({}) do |memo, row|
       keys.each do |key|
-        memo[key] = (memo[key] || 0) + row[key]
+        if row[key].is_a?(Array)
+          if memo[key].nil?
+            memo[key] = row[key].clone
+          else
+            memo[key] = memo[key].zip(row[key]).map { |x,y| x + y }
+          end
+        else
+          memo[key] = (memo[key] || 0) + row[key]
+        end
       end
       memo
     end

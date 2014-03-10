@@ -101,8 +101,8 @@ EVoucher::Application.routes.draw do
     get '/', to: redirect('/reports/card_allocation')
     get :card_allocation
     get :transactions
-    get :txns_per_clinic
-    get :txns_per_site
+    get :services
+    get :clinics
   end
 
   # for instedd-platform-rails

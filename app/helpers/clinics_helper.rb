@@ -20,12 +20,12 @@ module ClinicsHelper
   end
 
   def service_type_span(service)
-    content = case service.service_type
+    content = case service[:service_type]
               when "primary"
                 'P'
               when "secondary"
                 'S'
               end
-    content_tag(:span, content, { :class => "service_type #{service.service_type}" })
+    content_tag(:span, content, { :class => "service_type #{service[:service_type]}" })
   end
 end
