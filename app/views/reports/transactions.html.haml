@@ -1,0 +1,22 @@
+%h1 Reports
+
+= render partial: 'shared/reports_tabs'
+
+%h2 Transactions
+
+.report-grouping
+  = form_tag reports_transactions_path, id: 'report_grouping_form', method: "get", remote: true do |f|
+    .report-grouping-option
+      %input#by_site(type="radio" name="by" value="site" checked="checked")
+      %label(for="by_site") by site
+    .report-grouping-option
+      %input#by_clinic(type="radio" name="by" value="clinic")
+      %label(for="by_clinic") by clinic in
+      = select_tag :site_id, sites_for_select(params[:site_id]), :class => 'w20 site', :disabled => params[:by] != 'clinic'
+
+#report_container
+  = render partial: @report_partial
+
+:javascript
+  $(function() { onReportsTransactions(); });
+

@@ -32,4 +32,21 @@
       font-weight: normal !important;
     }
   }
+
+  .group_by_clinic {
+    cursor: pointer;
+  }
 }
+
+.report-grouping {
+  padding: 15px 10px;
+  background: #f0f0f0;
+  border-radius: 5px;
+  margin-bottom: 20px;
+
+  .report-grouping-option {
+    display: inline-block;
+    margin-right: 20px;
+  }
+}
+

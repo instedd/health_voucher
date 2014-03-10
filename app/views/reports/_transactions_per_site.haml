@@ -1,9 +1,3 @@
-%h1 Reports
-
-= render partial: 'shared/reports_tabs'
-
-%h2 Transactions and unique visitors per site in the last 30 days
-
 .tablewrapp
   %table.GralTable.report-table
     %colgroup
@@ -16,14 +10,14 @@
         %tr
           %td(colspan="3") No sites registered.
       - else
-        - @data.each do |row|
-          %tr
-            %td= row[:site_name]
-            %td.number= row[:txn_count]
-            %td.number= row[:unique_visitors]
-
         %tr.totals
-          %td Totals
+          %td
           %td.number= @totals[:txn_count]
           %td.number= @totals[:unique_visitors]
+
+        - @data.each do |row|
+          %tr
+            %td.group_by_clinic(data-id="#{row[:site_id]}")= row[:site_name]
+            %td.number= row[:txn_count]
+            %td.number= row[:unique_visitors]
 

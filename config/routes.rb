@@ -100,6 +100,7 @@ EVoucher::Application.routes.draw do
   scope 'reports', :as => 'reports', :controller => :reports do
     get '/', to: redirect('/reports/card_allocation')
     get :card_allocation
+    get :transactions
     get :txns_per_clinic
     get :txns_per_site
   end

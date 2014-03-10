@@ -28,7 +28,17 @@ class ReportsController < ApplicationController
     ]
   end
 
-  def txns_per_site
+  def transactions
+    if params[:by] == 'clinic'
+      transactions_per_clinic
+    else
+      transactions_per_site
+    end
+  end
+
+  private
+
+  def transactions_per_site
     since_when = 30.days.ago
     patients_with_recent_visits = Patient.
       joins(:current_card => {:authorizations => [:transaction, :provider => :clinic]}).
@@ -47,15 +57,17 @@ class ReportsController < ApplicationController
     sites = Site.order(:name)
     @data = sites.map do |site|
       {
+        :site_id => site.id,
         :site_name => site.name,
         :txn_count => txns_per_site[site.id] || 0,
         :unique_visitors => site_visits.count { |id| id == site.id }
       }
     end
     @totals = totalize @data, [:unique_visitors, :txn_count]
+    @report_partial = 'transactions_per_site'
   end
 
-  def txns_per_clinic
+  def transactions_per_clinic
     since_when = 30.days.ago
     patients_with_recent_visits = Patient.
       joins(:current_card => {:authorizations => [:transaction, :provider]}).
@@ -71,19 +83,18 @@ class ReportsController < ApplicationController
     txns_per_clinic = Hash[transactions.map do |txn|
       [txn.clinic_id, txn.txn_count]
     end]
-    clinics = Clinic.joins(:site).order('sites.name').select(['clinics.*', 'sites.name AS site_name'])
+    clinics = Clinic.joins(:site).
+      where('sites.id' => params[:site_id])
     @data = clinics.map do |clinic|
       {
-        :site_name => clinic.site_name,
         :clinic_name => clinic.name,
         :txn_count => txns_per_clinic[clinic.id] || 0,
         :unique_visitors => visited_clinics.count { |id| id == clinic.id }
       }
     end
     @totals = totalize @data, [:unique_visitors, :txn_count]
+    @report_partial = 'transactions_per_clinic'
   end
-
-  private
 
   def totalize(data, keys)
     @data.reduce({}) do |memo, row|
