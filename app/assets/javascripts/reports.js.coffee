@@ -41,3 +41,14 @@
   site_combo.on 'change', submit
   $('#month, #year').on 'change', submit
 
+
+@onReportsClinics = ->
+  form = $('#report_grouping_form')
+  site_combo = $('#site_id')
+
+  submit = ->
+    form.trigger('submit.rails')
+
+  site_combo.on 'change', submit
+  $('#month, #year').on 'change', submit
+

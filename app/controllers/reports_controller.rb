@@ -90,6 +90,39 @@ class ReportsController < ApplicationController
   end
 
   def clinics
+    default_date = 1.month.ago.beginning_of_month
+    params[:month] ||= default_date.month
+    params[:year] ||= default_date.year
+    start_date = Date.new(params[:year].to_i, params[:month].to_i, 1) rescue default_date
+    end_date = start_date.end_of_month
+
+    transactions = Transaction.
+      joins(:authorization => [:provider => :clinic]).
+      where('transactions.created_at >= ?', start_date).
+      where('transactions.created_at <= ?', end_date).
+      select(['clinics.id AS clinic_id',
+              'COUNT(*) as txn_count']).
+      group('clinic_id')
+
+    transactions = transactions.where('clinics.site_id' => params[:site_id]) if params[:site_id].present?
+    transactions_count = Hash[transactions.map do |row|
+      [row[:clinic_id], row[:txn_count]]
+    end]
+
+    clinics = Clinic.includes(:site).order(:name)
+    clinics = clinics.where(:site_id => params[:site_id]) if params[:site_id].present?
+
+    @data = clinics.map do |clinic|
+      {
+        id: clinic.id,
+        name: clinic.name,
+        site_name: clinic.site.name,
+        row_count: transactions_count[clinic.id] || 0
+      }
+    end.sort_by do |row|
+      row[:row_count]
+    end.reverse
+    @totals = totalize @data, [:row_count]
   end
 
   private

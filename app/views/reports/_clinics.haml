@@ -1,0 +1,30 @@
+.tablewrapp
+  %table.GralTable.report-table
+    %colgroup
+    %tbody
+      %tr
+        %th Clinic
+        %th.number Transactions
+
+      - if @data.empty?
+        %tr
+          %td(colspan="2") No clinics registered.
+      - else
+        %tr.totals
+          %td
+          %td.number
+            = @totals[:row_count]
+            %span.percentage 100%
+
+        - @data.each do |row|
+          %tr
+            %td
+              = row[:name]
+              - if params[:site_id].blank?
+                %span.site_name
+                  (#{row[:site_name]})
+            %td.number
+              = row[:row_count]
+              %span.percentage
+                = percent_of(row[:row_count], @totals[:row_count])
+
