@@ -1,3 +1,16 @@
+.tablewrapp.wide {
+  overflow-x: auto;
+
+  table.report-table {
+    min-width: 960px;
+    width: auto;
+  }
+
+  .service-name {
+    max-width: 400px;
+  }
+}
+
 .report-table {
   td {
     padding: 10px 8px;

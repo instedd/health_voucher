@@ -1,4 +1,4 @@
-.tablewrapp
+.tablewrapp.wide
   %table.GralTable.report-table
     %colgroup
       %col(width="300px")
@@ -27,7 +27,7 @@
         
         - @data.each do |row|
           %tr
-            %td
+            %td.service-name
               = service_type_span(row)
               = row[:description]
             %td.totals.number
