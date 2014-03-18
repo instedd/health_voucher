@@ -30,7 +30,6 @@ class StatementsController < ApplicationController
     list = list.where('statements.created_at <= ?', until_date) if until_date.present?
 
     if txn_from_date.present? or txn_to_date.present?
-      list = list.joins(:transactions).uniq
       list = list.where('transactions.created_at >= ?', txn_from_date) if txn_from_date.present?
       list = list.where('transactions.created_at <= ?', txn_to_date) if txn_to_date.present?
     end
@@ -40,6 +39,11 @@ class StatementsController < ApplicationController
                 else 
                   'desc'
                 end
+    if %w(site clinic).include?(params[:sort])
+      # add joins to allow order by without losing the selected fields
+      list = list.joins('INNER JOIN clinics ON statements.clinic_id = clinics.id').
+        joins('INNER JOIN sites ON clinics.site_id = sites.id')
+    end
     sort = case params[:sort]
            when 'id'
              'statements.id'
