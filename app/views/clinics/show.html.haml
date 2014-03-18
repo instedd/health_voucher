@@ -7,7 +7,7 @@
 
 %br
 .actions
-  = link_to 'Export CSV', site_clinic_path(@clinic, :format => 'csv'), :class => 'fexport'
+  = link_to 'Export CSV', site_clinic_path(@site, @clinic, :format => 'csv'), :class => 'fexport'
 
 :javascript
   $(function() { onClinicsShow() })
