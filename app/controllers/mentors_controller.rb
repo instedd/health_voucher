@@ -26,7 +26,7 @@ class MentorsController < SiteController
       }
       format.csv {
         exporter = Mentor::CsvExporter.new(@mentor)
-        filename = "#{@mentor.name}-#{Time.current.strftime('%Y%m%d%H%M')}.csv"
+        filename = "#{@mentor.name}-AGEP_IDs.csv"
         render_csv exporter.export, filename
       }
     end
