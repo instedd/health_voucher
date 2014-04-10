@@ -15,6 +15,10 @@ class Batch::Generator
     end
   end
 
+  def vouchers_per_card
+    Card::PRIMARY_SERVICES + Card::SECONDARY_SERVICES
+  end
+
   private
 
   def build_card(serial_number)

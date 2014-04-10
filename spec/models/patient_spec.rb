@@ -6,6 +6,10 @@ describe Patient do
       Patient.make(agep_id: '1234567').should be_valid
     end
 
+    it "should validate 9 digits IDs" do
+      Patient.make(agep_id: '123456789').should be_valid
+    end
+
     it "should validate 10 digits IDs" do
       Patient.make(agep_id: '1234567890').should be_valid
     end
@@ -14,9 +18,9 @@ describe Patient do
       Patient.make(agep_id: 'ABCDEFG').should_not be_valid
     end
 
-    it "should reject IDs of length other than 7 or 10" do
+    it "should reject IDs of length other than 7, 9 or 10" do
       (0..15).each do |length|
-        unless length == 7 || length == 10
+        unless length == 7 || length == 9 || length == 10
           Patient.make(agep_id: '1'*length).should_not be_valid
         end
       end

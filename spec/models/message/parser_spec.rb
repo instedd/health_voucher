@@ -93,7 +93,7 @@ describe Message::Parser do
       parser_error("#{@pc}").should eq(:missing_separators)
     end
 
-    it "Provider code doesn't have exact 4 digits" do
+    it "Provider code doesn't have exactly 4 digits" do
       parser_error("3*4222332").should eq(:provider_invalid)
       # 2 digits and 2 tokens are interpreted as confirmation message
       parser_error("33*4222332*878879").should eq(:provider_invalid)
@@ -113,10 +113,9 @@ describe Message::Parser do
       parser_error("#{@pc}*#{@a10}").should eq(:missing_2nd_sep)
     end
 
-    it "AGEP ID doesn't have exact 7 or 10 digits" do
+    it "AGEP ID doesn't have exactly 7, 9 or 10 digits" do
       parser_error("#{@pc}*123456*0000000").should eq(:agep_id_invalid)
       parser_error("#{@pc}*12345678*0000000").should eq(:agep_id_invalid)
-      parser_error("#{@pc}*123456789*0000000").should eq(:agep_id_invalid)
       parser_error("#{@pc}*12345678901*0000000").should eq(:agep_id_invalid)
     end
 
@@ -130,7 +129,7 @@ describe Message::Parser do
       parser_error("#{@pc}*#{@a10}*#{@sn}").should eq(:missing_3rd_sep)
     end
 
-    it "Serial Number doesn't have exact 7digits" do
+    it "Serial Number doesn't have exactly 7 digits" do
       parser_error("#{@pc}*#{@a7}*123456*11").should eq(:serial_number_invalid)
       parser_error("#{@pc}*#{@a7}*12345678*11").should eq(:serial_number_invalid)
     end

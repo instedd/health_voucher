@@ -58,12 +58,11 @@ describe Batch::Generator do
         last_code = nil
         code
       end
-    end.at_least(2 * @batch.quantity * (Card::PRIMARY_SERVICES + Card::SECONDARY_SERVICES) - 1)
+    end.at_least(2 * @batch.quantity * @generator.vouchers_per_card - 1)
 
     @generator.generate!
     @batch.reload.cards.each do |card|
-      card.vouchers.select { |v| v.primary? }.count.should eq(Card::PRIMARY_SERVICES)
-      card.vouchers.select { |v| v.secondary? }.count.should eq(Card::SECONDARY_SERVICES)
+      card.vouchers.count.should eq(@generator.vouchers_per_card)
     end
   end
 end

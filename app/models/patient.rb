@@ -1,5 +1,5 @@
 class Patient < ActiveRecord::Base
-  AGEP_ID_REGEX = /\A([0-9]{7}|[0-9]{10})\z/
+  AGEP_ID_REGEX = /\A ( \d{7} | \d{10} | \d{9} )\z/x
   attr_accessible :agep_id
 
   belongs_to :mentor
