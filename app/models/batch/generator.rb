@@ -26,7 +26,7 @@ class Batch::Generator
         begin
           voucher = card.vouchers.create :service_type => type, 
             :code => Card::Code.generate_voucher_code
-        end while voucher.nil?
+        end while voucher.id.nil?
       end
     end
   end

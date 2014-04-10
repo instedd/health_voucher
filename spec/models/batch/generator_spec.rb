@@ -46,5 +46,25 @@ describe Batch::Generator do
       end
     end
   end
+
+  it "should retry voucher code generation when there are code collisions" do
+    last_code = nil
+    # fix the voucher code generation to always return a code twice
+    Card::Code.should_receive(:generate_voucher_code) do
+      if last_code.nil?
+        last_code = Card::Code.generate_with_check(Voucher::VOUCHER_CODE_LENGTH, first_non_zero: true)
+      else
+        code = last_code
+        last_code = nil
+        code
+      end
+    end.at_least(2 * @batch.quantity * (Card::PRIMARY_SERVICES + Card::SECONDARY_SERVICES) - 1)
+
+    @generator.generate!
+    @batch.reload.cards.each do |card|
+      card.vouchers.select { |v| v.primary? }.count.should eq(Card::PRIMARY_SERVICES)
+      card.vouchers.select { |v| v.secondary? }.count.should eq(Card::SECONDARY_SERVICES)
+    end
+  end
 end
 
