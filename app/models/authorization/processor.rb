@@ -36,14 +36,23 @@ class Authorization::Processor
   end
 
   def unused_vouchers_counts
-    { :primary => @card.unused_vouchers(:primary).count,
-      :secondary => @card.unused_vouchers(:secondary).count }.with_indifferent_access
+    {
+      :primary => @card.unused_vouchers(:primary).count,
+      :secondary => @card.unused_vouchers(:secondary).count,
+      :any => @card.unused_vouchers(:any).count
+    }.with_indifferent_access
   end
 
   def count_available_vouchers(clinic)
     result = unused_vouchers_counts
     current_pending_authorizations_for(clinic).each do |auth|
-      result[auth.service.service_type] -= 1
+      # subtract first from the specific service type vouchers if any
+      if result[auth.service.service_type] > 0
+        result[auth.service.service_type] -= 1
+      else
+        # use the generic vouchers otherwise
+        result[:any] -= 1
+      end
     end
     result
   end
@@ -80,18 +89,28 @@ class Authorization::Processor
         set_error :service_not_provided, service: service
 
       # and voucher availability
-      elsif available_vouchers[service.service_type] <= 0
-        case service.service_type.to_sym
-        when :primary
-          set_error :no_primary_vouchers, service: service
-        when :secondary
-          set_error :no_secondary_vouchers, service: service
-        end
-
-      else
+      elsif available_vouchers[service.service_type] > 0
         available_vouchers[service.service_type] -= 1
         auth_count += 1
         @services << service
+
+      elsif available_vouchers[:any] > 0
+        available_vouchers[:any] -= 1
+        auth_count += 1
+        @services << service
+
+      else
+        if @card.any_services.count > 0
+          # set the generic error message if the card has vouchers for any service type
+          set_error :no_available_vouchers, service: service
+        else
+          case service.service_type.to_sym
+          when :primary
+            set_error :no_primary_vouchers, service: service
+          when :secondary
+            set_error :no_secondary_vouchers, service: service
+          end
+        end
       end
     end
 

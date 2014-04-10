@@ -19,7 +19,7 @@ class Transaction::Processor
       set_error :not_authorized
     elsif @voucher.used?
       set_error :voucher_already_used
-    elsif @service.service_type != @voucher.service_type
+    elsif @service.service_type != @voucher.service_type && !@voucher.any?
       case @service.service_type.to_sym
       when :primary
         set_error :voucher_not_primary

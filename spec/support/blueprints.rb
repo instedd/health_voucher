@@ -21,12 +21,21 @@ Card.blueprint do
 end
 
 Card.blueprint(:with_vouchers) do
-  vouchers { 6.times.map { Voucher.make } + 7.times.map { Voucher.make(:secondary) } }
+  vouchers { Card::PRIMARY_SERVICES.times.map { Voucher.make(:primary) } + 
+             Card::SECONDARY_SERVICES.times.map { Voucher.make(:secondary) } }
+end
+
+Card.blueprint(:with_any_vouchers) do
+  vouchers { Card::ANY_SERVICES.times.map { Voucher.make } }
 end
 
 Voucher.blueprint do
   card { Card.make! }
   code { _pin_code }
+  service_type { :any }
+end
+
+Voucher.blueprint(:primary) do
   service_type { :primary }
 end
 

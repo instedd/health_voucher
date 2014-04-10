@@ -21,6 +21,7 @@ en:
     service_not_provided: "Service %{service_code} (%{service_short_desc}) not authorized for provider %{provider_code}. Please contact AGEP to add the service."
     no_primary_vouchers: "All Primary PIN codes have been used. Do not provide service %{service_short_desc}."
     no_secondary_vouchers: "All Primary PIN codes have been used. Do not provide service %{service_short_desc}."
+    no_available_vouchers: "All PIN codes have been used. Do not provide service %{service_short_desc}."
     agep_id_authorization_limit: "Daily authorization limit for AGEP ID %{agep_id} reached. Do not provide sevice %{services_desc}."
     voucher_code_invalid: "PIN code %{voucher_code} is invalid. PIN code should be 12 digits. Please check code and send again."
     not_authorized: "No prior authorization for %{service_short_desc} for Voucher %{serial_number}. Please re-send authorization request message."

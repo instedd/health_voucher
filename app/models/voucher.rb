@@ -5,7 +5,7 @@ class Voucher < ActiveRecord::Base
 
   attr_accessible :service_type, :code
 
-  enumerize :service_type, in: [:primary, :secondary], default: :primary, predicates: true
+  enumerize :service_type, in: [:primary, :secondary, :any], default: :any, predicates: true
 
   belongs_to :card
 

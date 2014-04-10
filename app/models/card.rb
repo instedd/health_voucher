@@ -4,6 +4,7 @@ class Card < ActiveRecord::Base
   SERIAL_NUMBER_LENGTH = 6
   PRIMARY_SERVICES = 6
   SECONDARY_SERVICES = 7
+  ANY_SERVICES = 12
 
   attr_accessible :serial_number
 
@@ -53,6 +54,10 @@ class Card < ActiveRecord::Base
 
   def secondary_services
     vouchers.select { |v| v.secondary? }
+  end
+
+  def any_services
+    vouchers.select { |v| v.any? }
   end
 
   def expired?

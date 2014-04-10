@@ -16,6 +16,10 @@ describe Transaction::Processor do
 
     @voucher1 = @card.primary_services.first
     @voucher2 = @card.secondary_services.first
+    
+    # make an "any" service voucher
+    @voucher3 = @card.primary_services.last
+    @voucher3.update_attribute :service_type, :any
   end
 
   describe "validate" do
@@ -63,6 +67,18 @@ describe Transaction::Processor do
 
       @processor.validate.should be_false
       @processor.error.should eq(:voucher_not_secondary)
+    end
+
+    it "should accept an 'any' voucher for a primary service" do
+      @processor = Transaction::Processor.new(@service1, @voucher3)
+
+      @processor.validate.should be_true
+    end
+
+    it "should accept an 'any' voucher for a secondary service" do
+      @processor = Transaction::Processor.new(@service2, @voucher3)
+
+      @processor.validate.should be_true
     end
   end
 

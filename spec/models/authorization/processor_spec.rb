@@ -98,31 +98,35 @@ describe Authorization::Processor do
   describe "count available vouchers" do
     it "should return all available vouchers if there are no authorizations for today" do
       @processor.count_available_vouchers(@clinic).should be_a(Hash)
-      @processor.count_available_vouchers(@clinic)[:primary].should eq(6)
-      @processor.count_available_vouchers(@clinic)[:secondary].should eq(7)
+      @processor.count_available_vouchers(@clinic)[:primary].should eq(Card::PRIMARY_SERVICES)
+      @processor.count_available_vouchers(@clinic)[:secondary].should eq(Card::SECONDARY_SERVICES)
+      @processor.count_available_vouchers(@clinic)[:any].should eq(0)
     end
 
     it "should not count used vouchers" do
       @card.vouchers.where(:service_type => :primary).first.update_attribute :used, true
       @card.vouchers.where(:service_type => :secondary).first.update_attribute :used, true
 
-      @processor.count_available_vouchers(@clinic)[:primary].should eq(5)
-      @processor.count_available_vouchers(@clinic)[:secondary].should eq(6)
+      @processor.count_available_vouchers(@clinic)[:primary].should eq(Card::PRIMARY_SERVICES - 1)
+      @processor.count_available_vouchers(@clinic)[:secondary].should eq(Card::SECONDARY_SERVICES - 1)
+      @processor.count_available_vouchers(@clinic)[:any].should eq(0)
     end
     
     it "should consider pending authorizations for the same clinic" do
       @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
       @auth2 = Authorization.make! card: @card, provider: @provider, service: @service2
 
-      @processor.count_available_vouchers(@clinic)[:primary].should eq(5)
-      @processor.count_available_vouchers(@clinic)[:secondary].should eq(6)
+      @processor.count_available_vouchers(@clinic)[:primary].should eq(Card::PRIMARY_SERVICES - 1)
+      @processor.count_available_vouchers(@clinic)[:secondary].should eq(Card::SECONDARY_SERVICES - 1)
+      @processor.count_available_vouchers(@clinic)[:any].should eq(0)
     end
 
     it "should ignore pending authorizations for another clinic" do
       @auth1 = Authorization.make! card: @card, provider: Provider.make!, service: @service1
 
-      @processor.count_available_vouchers(@clinic)[:primary].should eq(6)
-      @processor.count_available_vouchers(@clinic)[:secondary].should eq(7)
+      @processor.count_available_vouchers(@clinic)[:primary].should eq(Card::PRIMARY_SERVICES)
+      @processor.count_available_vouchers(@clinic)[:secondary].should eq(Card::SECONDARY_SERVICES)
+      @processor.count_available_vouchers(@clinic)[:any].should eq(0)
     end
   end
 
@@ -137,7 +141,7 @@ describe Authorization::Processor do
       @processor.services.should eq([@service1])
     end
 
-    it "should add reviously authorized services" do
+    it "should add previously authorized services" do
       @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
 
       @processor.add_services([@service1]).should be_true
@@ -170,7 +174,7 @@ describe Authorization::Processor do
     end
 
     it "should count pending authorizations as used vouchers" do
-      @card.primary_services.take(5).each do |voucher|
+      @card.primary_services.take(Card::PRIMARY_SERVICES - 1).each do |voucher|
         voucher.update_attribute :used, true
       end
       @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
@@ -321,6 +325,83 @@ describe Authorization::Processor do
       @provider.clinic.update_attribute :site, @training_site
 
       @processor.should be_training
+    end
+  end
+
+  describe "with any service voucher cards" do
+    before(:each) do
+      @card = Card.make!(:with_any_vouchers)
+      @patient.update_attribute :current_card, @card
+
+      @processor = Authorization::Processor.new(@provider, @patient, @card)
+    end
+
+    describe "count available vouchers" do
+      it "should return all available vouchers if there are no authorizations for today" do
+        @processor.count_available_vouchers(@clinic).should be_a(Hash)
+        @processor.count_available_vouchers(@clinic)[:primary].should eq(0)
+        @processor.count_available_vouchers(@clinic)[:secondary].should eq(0)
+        @processor.count_available_vouchers(@clinic)[:any].should eq(Card::ANY_SERVICES)
+      end
+
+      it "should not count used vouchers" do
+        @card.vouchers.where(:service_type => :any).first.update_attribute :used, true
+
+        @processor.count_available_vouchers(@clinic)[:primary].should eq(0)
+        @processor.count_available_vouchers(@clinic)[:secondary].should eq(0)
+        @processor.count_available_vouchers(@clinic)[:any].should eq(Card::ANY_SERVICES - 1)
+      end
+      
+      it "should consider pending authorizations for the same clinic" do
+        @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
+
+        @processor.count_available_vouchers(@clinic)[:primary].should eq(0)
+        @processor.count_available_vouchers(@clinic)[:secondary].should eq(0)
+        @processor.count_available_vouchers(@clinic)[:any].should eq(Card::ANY_SERVICES - 1)
+      end
+
+      it "should ignore pending authorizations for another clinic" do
+        @auth1 = Authorization.make! card: @card, provider: Provider.make!, service: @service1
+
+        @processor.count_available_vouchers(@clinic)[:primary].should eq(0)
+        @processor.count_available_vouchers(@clinic)[:secondary].should eq(0)
+        @processor.count_available_vouchers(@clinic)[:any].should eq(Card::ANY_SERVICES)
+      end
+    end
+
+    describe "add services" do
+      it "should validate adding available services" do
+        @processor.add_services([@service1, @service2]).should be_true
+        @processor.services.should eq([@service1, @service2])
+      end
+
+      it "should not authorize primary services when no vouchers are available" do
+        @card.vouchers.each do |voucher|
+          voucher.update_attribute :used, true
+        end
+
+        @processor.add_services([@service1]).should be_false
+        @processor.error.should eq(:no_available_vouchers)
+      end
+
+      it "should not authorize secondary services when no vouchers are available" do
+        @card.vouchers.each do |voucher|
+          voucher.update_attribute :used, true
+        end
+
+        @processor.add_services([@service2]).should be_false
+        @processor.error.should eq(:no_available_vouchers)
+      end
+
+      it "should count pending authorizations as used vouchers" do
+        @card.any_services.take(Card::ANY_SERVICES - 1).each do |voucher|
+          voucher.update_attribute :used, true
+        end
+        @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
+
+        @processor.add_services([@service3]).should be_false
+        @processor.error.should eq(:no_available_vouchers)
+      end
     end
   end
 end
