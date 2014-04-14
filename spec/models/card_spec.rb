@@ -74,6 +74,18 @@ describe Card do
 
       @card.expiration.should eq(@card.validity + 1.year)
     end
+
+    it "should be reset when the validity is set to nil" do
+      @card.validity = Date.today
+      @card.save!
+
+      @card.expiration.should_not be_nil
+
+      @card.validity = nil
+      @card.save!
+
+      @card.expiration.should be_nil
+    end
   end
 
   describe "used?" do

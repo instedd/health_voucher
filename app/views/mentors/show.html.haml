@@ -7,27 +7,31 @@
   = link_to '', site_mentors_path(@site), :class => 'fleft'
   = @mentor.name
 
-.tablewrapp.w60
+.tablewrapp.w90
   %table.GralTable.patients
     %colgroup
       %col.noprint(style="width: 35px")
       %col(style="width: 110px")
       %col(style="width: 95px")
       %col(style="width: 100px")
-      %col.noprint(style="width: 120px")
+      %col(style="width: 140px")
+      %col.noprint(style="width: 140px")
       %col.noprint(style="width: auto")
+      %col.noprint(style="width: 100px")
     %tr
       %th
         %input.check_all(type="checkbox")
       %th AGEP ID
       %th Current card
       %th Valid from
-      %th(colspan="2")
+      %th Expires
+      %th(colspan="3")
     - @patients.each do |patient|
       = render partial: 'patient', locals: { patient: patient }
 
   = render partial: 'assign_card'
   = render partial: 'start_validity'
+  = render partial: 'set_expiration'
   = render partial: 'report_lost'
   = render partial: 'unassign_card'
   = render partial: 'destroy_patient'

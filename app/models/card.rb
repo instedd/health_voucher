@@ -13,6 +13,7 @@ class Card < ActiveRecord::Base
   has_many :vouchers, :dependent => :destroy
   has_many :authorizations
   has_many :used_vouchers, :conditions => ["vouchers.used = 1"], :class_name => "Voucher"
+  has_many :unused_vouchers, :conditions => ["vouchers.used = 0"], :class_name => "Voucher"
 
   belongs_to :patient
   belongs_to :site
@@ -68,6 +69,10 @@ class Card < ActiveRecord::Base
     expiration.present? && expiration.past?
   end
 
+  def depleted?
+    !unused_vouchers.any?
+  end
+
   def report_lost!
     update_attribute :status, :lost
   end
@@ -107,6 +112,24 @@ class Card < ActiveRecord::Base
     end
   end
 
+  def expiration=(value)
+    begin
+      if value.nil?
+        new_value = nil
+      elsif value.is_a?(String)
+        new_value = Date.parse_human_param(value) rescue Date.parse(value)
+      elsif value.is_a?(Date) or value.is_a?(Time)
+        new_value = value
+      else
+        raise ArgumentError, "invalid date value"
+      end
+      @invalid_expiration = false
+      write_attribute :expiration, new_value
+    rescue
+      @invalid_expiration = true
+    end
+  end
+
   private
 
   def valid_check_digit
@@ -129,9 +152,21 @@ class Card < ActiveRecord::Base
     end
   end
 
+  def expiration_check
+    if @invalid_expiration
+      errors[:expiration] << "is invalid"
+    elsif expiration.present?
+      if expiration < validity
+        errors[:expiration] << "cannot be before validity"
+      end
+    end
+  end
+
   def set_expiration_from_validity
-    if validity.present? && expiration.nil?
-      self.expiration = validity + DEFAULT_VALIDITY
+    if validity.present?
+      self.expiration = validity + DEFAULT_VALIDITY if expiration.nil?
+    else
+      self.expiration = nil
     end
   end
 end

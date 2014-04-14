@@ -54,6 +54,7 @@ EVoucher::Application.routes.draw do
   resources :cards, :only => [] do
     member do
       post 'start_validity'
+      post 'set_expiration'
     end
   end
 

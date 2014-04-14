@@ -2,6 +2,7 @@
   # Row floating dialogs
   assign = new RowDialog($('#assign_dialog'))
   start = new RowDialog($('#start_dialog'))
+  expiration = new RowDialog($('#expiration_dialog'))
   report = new RowDialog($('#report_dialog'))
   unassign = new RowDialog($('#unassign_dialog'))
   destroy = new RowDialog($('#destroy_dialog'))
@@ -12,6 +13,9 @@
     assign.setup_and_show(evt)
   ).on('click', '.start_action', (evt) ->
     start.setup_and_show(evt)
+  ).on('click', '.set_expiration', (evt) ->
+    expiration.div.find('.expiration').val($(@).data('expiration'))
+    expiration.setup_and_show(evt)
   ).on('click', '.report_action', (evt) ->
     report.div.find('.serial_number').text($(@).data('serial-number'))
     report.setup_and_show(evt)
@@ -24,6 +28,7 @@
 
   # Customize datepicker for validity dialog
   $('#start_dialog .ux-datepicker').datepicker('option', 'showOn', 'none')
+  $('#expiration_dialog .ux-datepicker').datepicker('option', 'showOn', 'none')
 
   # Group of collapsable actions below list
   group = []

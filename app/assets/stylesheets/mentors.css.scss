@@ -8,3 +8,13 @@ a.cancel_action {
   margin-right: 20px;
 }
 
+.patients {
+  .depleted + span {
+    color: grey;
+  }
+
+  .expired + span {
+    color: #ff6800;
+  }
+}
+

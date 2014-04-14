@@ -18,6 +18,23 @@ class CardsController < ApplicationController
     end
   end
 
+  def set_expiration
+    if @card.patient.nil?
+      redirect_to root_path 
+      return
+    end
+
+    @card.expiration = params[:expiration]
+    @card.save
+    @patient = @card.patient
+    respond_to do |format|
+      format.js
+      format.html {
+        redirect_to site_mentor_path(@patient.site, @patient.mentor)
+      }
+    end
+  end
+
   private
   
   def load_card
