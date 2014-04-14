@@ -1,14 +1,19 @@
 require 'csv'
 
 class Batch::CsvImporter
-  ROW_FIELDS = 2 + Card::PRIMARY_SERVICES + Card::SECONDARY_SERVICES
-  VOUCHER_RANGE = 2..(ROW_FIELDS-1)
+  ANY_ROW_FIELDS = 2 + Card::ANY_SERVICES
+  ANY_VOUCHER_RANGE = 2..(ANY_ROW_FIELDS-1)
+
+  SPLIT_ROW_FIELDS = 2 + Card::PRIMARY_SERVICES + Card::SECONDARY_SERVICES
+  SPLIT_VOUCHER_RANGE = 2..(SPLIT_ROW_FIELDS-1)
 
   def initialize(name)
     @name = name
     @first_sn = nil
     @last_sn = nil
     @cards = []
+    @type = nil
+    @voucher_range = nil
   end
 
   def import(text)
@@ -25,8 +30,23 @@ class Batch::CsvImporter
     line = 2  # first line is the CSV header
 
     csv.each do |row|
-      unless row.size == ROW_FIELDS
-        raise RuntimeError, "CSV has invalid number of field at line #{line}"
+      if @type.nil?
+        # first row determines what type of card we get
+        if row.size == SPLIT_ROW_FIELDS
+          @type = :split
+          @voucher_range = SPLIT_VOUCHER_RANGE
+        else
+          @type = :any
+          @voucher_range = ANY_VOUCHER_RANGE
+        end
+      elsif @type == :split
+        unless row.size == SPLIT_ROW_FIELDS
+          raise RuntimeError, "CSV has invalid number of field at line #{line}"
+        end
+      else
+        unless row.size == ANY_ROW_FIELDS
+          raise RuntimeError, "CSV has invalid number of field at line #{line}"
+        end
       end
 
       serial_number = row[0].to_i
@@ -45,7 +65,7 @@ class Batch::CsvImporter
       end
 
       codes = []
-      VOUCHER_RANGE.each do |index|
+      @voucher_range.each do |index|
         code = row[index]
         if vouchers.include?(code)
           raise RuntimeError, "duplicate voucher code detected at line #{line}"
@@ -65,7 +85,7 @@ class Batch::CsvImporter
 
     qty = @last_sn - @first_sn + 1
     raise RuntimeError, "inconsistency in the number of cards" if qty != @cards.count
-    raise RuntimeError, "inconsistency in the number of vouchers" if vouchers.count != 13 * qty
+    raise RuntimeError, "inconsistency in the number of vouchers" if vouchers.count != @voucher_range.count * qty
   end
 
   def create_batch
@@ -76,15 +96,30 @@ class Batch::CsvImporter
       batch = Batch.create! name: @name, initial_serial_number: sn, quantity: qty
       @cards.each do |codes|
         card = batch.cards.create! serial_number: sn
-        codes[0..Card::PRIMARY_SERVICES - 1].each do |code|
-          card.vouchers.create! :service_type => :primary, :code => code
-        end
-        codes[Card::PRIMARY_SERVICES..-1].each do |code|
-          card.vouchers.create! :service_type => :secondary, :code => code
+        case @type
+        when :split
+          create_split_vouchers(card, codes)
+        when :any
+          create_any_vouchers(card, codes)
         end
         sn += 1
       end
       batch
+    end
+  end
+
+  def create_any_vouchers(card, codes)
+    codes[0..Card::ANY_SERVICES - 1].each do |code|
+      card.vouchers.create! :service_type => :any, :code => code
+    end
+  end
+
+  def create_split_vouchers(card, codes)
+    codes[0..Card::PRIMARY_SERVICES - 1].each do |code|
+      card.vouchers.create! :service_type => :primary, :code => code
+    end
+    codes[Card::PRIMARY_SERVICES..-1].each do |code|
+      card.vouchers.create! :service_type => :secondary, :code => code
     end
   end
 end

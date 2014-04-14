@@ -13,15 +13,16 @@ class CsvExporter
   # Overrides Ruby's CSV to force quoting string fields that look like numbers.
   # This is for better compatibility with Excel CSV import.
   class QuotingCSV < CSV
-    DEFAULT_OPTIONS = { write_headers: true }
+    DEFAULT_OPTIONS = { write_headers: true, excel_quotes: true }
     NUMBER_REGEXP = /\A-?\d+(\.\d*)?\z/
 
     def self.generate(options = {})
       super DEFAULT_OPTIONS.merge(options)
     end
 
-    def initialize(*args)
-      super *args
+    def initialize(data, options = Hash.new)
+      @excel_quotes = options.delete(:excel_quotes)
+      super data, options
 
       do_quote = lambda do |field|
         field = String(field)
@@ -42,7 +43,7 @@ class CsvExporter
                      # add quotes if field was a string but looks like a number
                      if field.empty? or field.count(quotable_chars).nonzero?
                        do_quote.call(field)
-                     elsif field =~ NUMBER_REGEXP and was_string
+                     elsif @excel_quotes && field =~ NUMBER_REGEXP and was_string
                        # prefix with = to force Excel to stop converting the field to a number
                        '=' + do_quote.call(field)
                      else
