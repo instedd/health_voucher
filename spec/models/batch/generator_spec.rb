@@ -29,20 +29,39 @@ describe Batch::Generator do
     end.should_not raise_error
   end
 
-  it "should generate complete cards" do
-    @generator.generate!
-    @batch.reload.cards.each do |card|
-      card.vouchers.select { |v| v.primary? }.count.should eq(Card::PRIMARY_SERVICES)
-      card.vouchers.select { |v| v.secondary? }.count.should eq(Card::SECONDARY_SERVICES)
-    end
-  end
-
   it "should generate valid cards" do
     @generator.generate!
     @batch.reload.cards.each do |card|
       card.check_digit.should eq(Card::Damm.generate(card.serial_number))
       card.vouchers.each do |voucher|
         Card::Code.check(voucher.code).should be_true
+      end
+    end
+  end
+
+  describe "with split vouchers" do
+    before(:each) do
+      @generator = Batch::Generator.new(@batch, :split)
+    end
+      
+    it "should generate complete cards" do
+      @generator.generate!
+      @batch.reload.cards.each do |card|
+        card.vouchers.select { |v| v.primary? }.count.should eq(Card::PRIMARY_SERVICES)
+        card.vouchers.select { |v| v.secondary? }.count.should eq(Card::SECONDARY_SERVICES)
+      end
+    end
+  end
+
+  describe "with any vouchers" do
+    before(:each) do
+      @generator = Batch::Generator.new(@batch, :any)
+    end
+      
+    it "should generate complete cards" do
+      @generator.generate!
+      @batch.reload.cards.each do |card|
+        card.vouchers.count.should eq(Card::ANY_SERVICES)
       end
     end
   end

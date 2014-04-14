@@ -1,6 +1,7 @@
 class Batch::Generator
-  def initialize(batch)
+  def initialize(batch, type = :any)
     @batch = batch
+    @type = type
   end
 
   def generate!
@@ -16,16 +17,29 @@ class Batch::Generator
   end
 
   def vouchers_per_card
-    Card::PRIMARY_SERVICES + Card::SECONDARY_SERVICES
+    case @type
+    when :split
+      Card::PRIMARY_SERVICES + Card::SECONDARY_SERVICES
+    when :any
+      Card::ANY_SERVICES
+    end
   end
 
   private
 
+  def voucher_type_counts
+    case @type
+    when :split
+      [[:primary, Card::PRIMARY_SERVICES], [:secondary, Card::SECONDARY_SERVICES]]
+    when :any
+      [[:any, Card::ANY_SERVICES]]
+    end
+  end
+
   def build_card(serial_number)
     card = @batch.cards.create! serial_number: serial_number
 
-    [[:primary, Card::PRIMARY_SERVICES], 
-     [:secondary, Card::SECONDARY_SERVICES]].each do |type, count|
+    voucher_type_counts.each do |type, count|
       count.times do
         begin
           voucher = card.vouchers.create :service_type => type, 
