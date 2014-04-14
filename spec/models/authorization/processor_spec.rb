@@ -270,6 +270,7 @@ describe Authorization::Processor do
 
       @card.validity.should_not be_nil
       @card.validity.should eq(Date.today)
+      @card.expiration.should_not be_nil
     end
 
     it "should retain previous authorizations for the same clinic" do

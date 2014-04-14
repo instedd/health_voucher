@@ -147,7 +147,10 @@ class Authorization::Processor
       end
 
       # set card's validity if was nil
-      @card.update_attribute :validity, Date.today if @card.validity.nil?
+      unless @card.validated?
+        @card.validity = Date.today
+        @card.save
+      end
     end
 
     options = {

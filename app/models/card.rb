@@ -6,6 +6,8 @@ class Card < ActiveRecord::Base
   SECONDARY_SERVICES = 7
   ANY_SERVICES = 12
 
+  DEFAULT_VALIDITY = 1.year
+
   attr_accessible :serial_number
 
   has_many :vouchers, :dependent => :destroy
@@ -24,6 +26,8 @@ class Card < ActiveRecord::Base
   validates_length_of :serial_number, :is => SERIAL_NUMBER_LENGTH
   validate :valid_check_digit
   validate :validity_check
+
+  before_save :set_expiration_from_validity
 
   def self.valid_serial_number?(sn)
     sn.length == SERIAL_NUMBER_LENGTH + 1 &&
@@ -61,7 +65,7 @@ class Card < ActiveRecord::Base
   end
 
   def expired?
-    validity.present? && validity < 1.year.ago.to_date
+    expiration.present? && expiration.past?
   end
 
   def report_lost!
@@ -119,7 +123,15 @@ class Card < ActiveRecord::Base
         errors[:validity] << "cannot be in the future"
       elsif validity.to_date < created_at.to_date
         errors[:validity] << "cannot be before the card was created"
+      elsif expiration.present? && validity > expiration
+        errors[:validity] << "cannot be after the expiration date"
       end
+    end
+  end
+
+  def set_expiration_from_validity
+    if validity.present? && expiration.nil?
+      self.expiration = validity + DEFAULT_VALIDITY
     end
   end
 end

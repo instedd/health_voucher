@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140127195618) do
+ActiveRecord::Schema.define(:version => 20140414193352) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20140127195618) do
     t.string   "status"
     t.integer  "batch_id"
     t.string   "check_digit"
+    t.date     "expiration"
   end
 
   add_index "cards", ["batch_id"], :name => "index_cards_on_batch_id"

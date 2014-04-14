@@ -38,6 +38,42 @@ describe Card do
       @card.validity = @card.created_at.yesterday
       @card.should_not be_valid
     end
+
+    it "cannt be after the expiration" do
+      @card.expiration = Date.today
+      Timecop.travel 1.day
+      @card.validity = Date.today
+      @card.should_not be_valid
+    end
+  end
+
+  describe "expiration" do
+    before(:each) do
+      Timecop.travel(2013,5,31)
+      @card = Card.make!
+    end
+
+    it "should not have expiration set by default" do
+      @card.expiration.should be_nil
+    end
+
+    it "should not be expired if expiration is not set" do
+      @card.should_not be_expired
+    end
+
+    it "should set expiration when setting validity" do
+      @card.validity = Date.today
+      @card.save!
+
+      @card.expiration.should_not be_nil
+    end
+
+    it "should have a default expiration of 1 year" do
+      @card.validity = Date.today
+      @card.save!
+
+      @card.expiration.should eq(@card.validity + 1.year)
+    end
   end
 
   describe "used?" do
