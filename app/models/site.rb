@@ -19,6 +19,10 @@ class Site < ActiveRecord::Base
     cards.where(:patient_id => nil).order(:serial_number)
   end
 
+  def active_cards
+    cards.where('cards.patient_id IS NOT NULL').where(:status => :active)
+  end
+
   def self.with_patient_counts
     scoped.joins(:patients).group('sites.id').
       select(['sites.*', 

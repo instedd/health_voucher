@@ -5,8 +5,9 @@
     %colgroup
       %col(style="width: auto")
       %col(style="width: 75px")
-      %col(style="width: 130px")
-      %col(style="width: 130px")
+      %col(style="width: 90px")
+      %col(style="width: 90px")
+      %col(style="width: 90px")
       %col.noprint(style="width: 40px")
     %tbody
       %tr
@@ -14,6 +15,7 @@
         %th Training?
         %th AGEP IDs
         %th Unassigned cards
+        %th Activated cards
         %th
       - @sites.each do |site|
         %tr(data-action="#{site_path(site)}")
@@ -26,19 +28,20 @@
               %input(type="checkbox" disabled="true")
           %td= site.patients.count
           %td= site.unassigned_cards.count
+          %td= site.active_cards.count
           %td
             = link_to '', site, :class => 'farrow'
 
       - if @sites.empty?
         %tr
-          %td.emptyTable(colspan="5")
+          %td.emptyTable(colspan="6")
             There are no sites defined.
             %br
             = link_to 'Register a new site', new_site_path
             to start using the application.
       - else
         %tr.add(data-action="#{new_site_path}")
-          %td(colspan="4")
+          %td(colspan="5")
             Register new site
           %td
             = link_to '', new_site_path, :class => 'cadd'

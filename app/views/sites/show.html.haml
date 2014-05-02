@@ -7,7 +7,9 @@
   .content
     #{@site.unassigned_cards.count} Unassigned cards
     %br
-    #{@site.patients.without_card.count} AGEP IDs with no card
+    #{@site.patients.without_card.count} AGEP IDs w/o card
+    %br
+    #{@site.active_cards.count} activated cards
   = link_to 'Add cards to site', assign_cards_site_path(@site), :class => 'farrow'
 
 .box.overview{ :class => ('incomplete' if @site.providers.empty?) }
