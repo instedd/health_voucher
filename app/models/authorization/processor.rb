@@ -23,6 +23,8 @@ class Authorization::Processor
       set_error :card_stolen
     elsif @card.expired?
       set_error :card_expired
+    elsif not @card.active?
+      set_error :card_deactivated
     end
     @error.nil?
   end

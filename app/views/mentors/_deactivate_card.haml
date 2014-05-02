@@ -1,0 +1,17 @@
+.dialog#report_dialog
+  .box.grey.w20
+    %span
+      %a.fclaim Deactivate card
+    .ux-content
+      = form_tag nil, :method => "post", :remote => true do
+        %p Please confirm the deactivation of the patient's card.
+        %p
+          %input#lost_card_check(type="checkbox" name="lost" value="1")
+          %label(for="lost_card_check") Card was lost/stolen
+        %p
+          Serial Number
+          %b.serial_number
+        .actions
+          %button.orange(type="submit") Deactivate
+
+

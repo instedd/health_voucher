@@ -65,7 +65,7 @@ describe Patient do
 
   describe "unassign card" do
     before(:each) do
-      @card = Card.make!(:with_vouchers)
+      @card = Card.make!(:with_vouchers, created_at: 1.day.ago)
       @patient = Patient.make!
       @patient.current_card = @card
       @patient.save!
@@ -96,9 +96,20 @@ describe Patient do
       @patient.current_card.should eq(@card)
       @card.patient.should eq(@patient)
     end
+
+    it "should unassign if the card is not active" do
+      @card.vouchers.first.update_attribute :used, true
+      @card.update_attribute :validity, Date.today
+      @card.deactivate!
+
+      @patient.unassign_card!
+      @patient.current_card.should be_nil
+      @card.patient.should be_nil
+      @card.validity.should_not be_nil
+    end
   end
 
-  describe "report lost card" do
+  describe "deactivate card" do
     before(:each) do
       @card = Card.make!
       @patient = Patient.make!
@@ -107,17 +118,22 @@ describe Patient do
     end
 
     it "should set the patient's current card to nil" do
-      @patient.report_lost_card!
+      @patient.deactivate_card!
       @patient.current_card.should be_nil
     end
 
     it "should not unlink the card from the patient" do
-      @patient.report_lost_card!
+      @patient.deactivate_card!
       @card.patient.should eq(@patient)
     end
 
-    it "should change the card's status to lost" do
-      @patient.report_lost_card!
+    it "should change the card's status to inactive" do
+      @patient.deactivate_card!
+      @card.should be_inactive
+    end
+
+    it "should change the card's status to lost if reported as such" do
+      @patient.deactivate_card! :lost
       @card.should be_lost
     end
   end

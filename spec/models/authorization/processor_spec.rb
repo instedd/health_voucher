@@ -52,6 +52,13 @@ describe Authorization::Processor do
       @processor.validate.should be_false
       @processor.error.should eq(:card_expired)
     end
+
+    it "should validate that the card is not deactivated" do
+      @card.deactivate!
+
+      @processor.validate.should be_false
+      @processor.error.should eq(:card_deactivated)
+    end
   end
 
   describe "current pending authorizations for clinic" do

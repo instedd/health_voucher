@@ -15,6 +15,8 @@ module CardsHelper
         content_tag(:span, '', :class => 'i18o-alert expired', :title => 'Card expired')
       elsif card.depleted?
         content_tag(:span, '', :class => 'i18g-alert depleted', :title => 'Card depleted')
+      elsif card.lost? or card.inactive?
+        content_tag(:span, '', :class => 'i18o-alert inactive', :title => 'Card deactivated')
       else
         ''
       end

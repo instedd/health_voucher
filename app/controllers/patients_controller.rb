@@ -25,8 +25,8 @@ class PatientsController < ApplicationController
     end
   end
   
-  def lost_card
-    @patient.report_lost_card!
+  def deactivate_card
+    @patient.deactivate_card!(params[:lost].present? ? :lost : nil)
     respond_to do |format|
       format.js
       format.html {

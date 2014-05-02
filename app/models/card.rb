@@ -19,7 +19,7 @@ class Card < ActiveRecord::Base
   belongs_to :site
   belongs_to :batch
 
-  enumerize :status, in: [:active, :lost], default: :active, predicates: true
+  enumerize :status, in: [:active, :lost, :inactive], default: :active, predicates: true
 
   validates_presence_of :batch, :serial_number
   validates_uniqueness_of :serial_number
@@ -75,6 +75,10 @@ class Card < ActiveRecord::Base
 
   def report_lost!
     update_attribute :status, :lost
+  end
+
+  def deactivate!
+    update_attribute :status, :inactive
   end
 
   def unused_vouchers(type = nil)

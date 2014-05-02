@@ -19,10 +19,14 @@ class Patient < ActiveRecord::Base
   after_save :assign_current_card
   before_destroy :check_no_cards
 
-  def report_lost_card!
+  def deactivate_card!(reason=nil)
     if current_card
       transaction do
-        current_card.report_lost!
+        if reason == :lost
+          current_card.report_lost!
+        else
+          current_card.deactivate!
+        end
         self.current_card = nil
         save!
       end
@@ -33,7 +37,7 @@ class Patient < ActiveRecord::Base
     if can_unassign?
       transaction do
         current_card.patient = nil
-        current_card.validity = nil
+        current_card.validity = nil unless current_card.used?
         current_card.save!
         self.current_card = nil
         save!
@@ -50,7 +54,7 @@ class Patient < ActiveRecord::Base
   end
 
   def can_unassign?
-    current_card.present? && !current_card.used?
+    current_card.present? && (!current_card.used? || !current_card.active?)
   end
 
   private

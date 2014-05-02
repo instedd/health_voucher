@@ -68,7 +68,7 @@ EVoucher::Application.routes.draw do
     member do
       post 'assign_card'
       post 'unassign_card'
-      post 'lost_card'
+      post 'deactivate_card'
     end
   end
 

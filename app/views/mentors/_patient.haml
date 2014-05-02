@@ -23,7 +23,7 @@
           %a.fedit.set_expiration(data-action="#{set_expiration_card_path(patient.current_card)}" data-expiration="#{patient.current_card.expiration.to_human_param}")
 
     %td
-      %a.fclaim.report_action(data-action="#{lost_card_patient_path(patient)}" data-serial-number="#{card_serial_number(patient.current_card)}") Report lost
+      %a.fclaim.report_action(data-action="#{deactivate_card_patient_path(patient)}" data-serial-number="#{card_serial_number(patient.current_card)}") Deactivate card
     %td
       - if patient.can_unassign?
         %a.fremove.unassign_action(data-action="#{unassign_card_patient_path(patient)}" data-serial-number="#{card_serial_number(patient.current_card)}") Unassign card

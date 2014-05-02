@@ -1,4 +1,4 @@
 $('.patients').find('tr[data-id=<%= @patient.id %>]').replaceWith('<%=j render partial: '/mentors/patient', locals: { patient: @patient } %>');
 <% if @patient.current_card.nil? %>
-  $.status.showNotice('Card was reported lost', 2000);
+  $.status.showNotice('Card was deactivated', 2000);
 <% end %>

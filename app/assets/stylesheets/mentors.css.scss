@@ -13,7 +13,7 @@ a.cancel_action {
     color: grey;
   }
 
-  .expired + span {
+  .expired + span, .inactive + span {
     color: #ff6800;
   }
 }
