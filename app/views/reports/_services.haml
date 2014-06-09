@@ -28,7 +28,7 @@
         - @data.each do |row|
           %tr
             %td.service-name
-              = service_type_span(row)
+              -# = service_type_span(row)
               = row[:description]
             %td.totals.number
               = row[:row_total]
