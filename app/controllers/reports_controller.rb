@@ -7,17 +7,28 @@ class ReportsController < ApplicationController
     patients_with_recent_uses = Patient.
       joins(:current_card => {:authorizations => :transaction}, :mentor => []).
       where('transactions.created_at > ?', since_when).
-      uniq.
-      select(['patients.id', 'mentors.site_id AS site_id'])
-    sites_for_uses = patients_with_recent_uses.map(&:site_id)
-    sites = Site.with_patient_counts.order(:name)
-    @data = sites.map do |site|
+      uniq
+
+    if params[:by] == 'mentor'
+      patients_with_recent_uses = patients_with_recent_uses.select(['patients.id', 'mentors.id AS grouping_id'])
+      groupings = Mentor.with_patient_counts.order(:name)
+      if params[:site_id].present?
+        groupings = groupings.where(:site_id => params[:site_id])
+      end
+    else
+      patients_with_recent_uses = patients_with_recent_uses.select(['patients.id', 'mentors.site_id AS grouping_id'])
+      groupings = Site.with_patient_counts.order(:name)
+    end
+    grouping_for_uses = patients_with_recent_uses.map(&:grouping_id)
+
+    @data = groupings.map do |group|
       {
-        :name => site.name,
-        :patient_count => site.patient_count,
-        :patients_with_card => site.patient_count - site.patients_without_card,
-        :patients_without_card => site.patients_without_card,
-        :patients_with_recent_card_uses => sites_for_uses.count { |id| id == site.id }
+        :name => group.name,
+        :site_name => group['site_name'],
+        :patient_count => group.patient_count,
+        :patients_with_card => group.patient_count - group.patients_without_card,
+        :patients_without_card => group.patients_without_card,
+        :patients_with_recent_card_uses => grouping_for_uses.count { |id| id == group.id }
       }
     end
     @totals = totalize @data, [
