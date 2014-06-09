@@ -33,13 +33,13 @@
         = render partial: 'transaction', locals: { txn: txn }
   = paginate @transactions
 
+  = render partial: 'update_status'
+  
 %br
 .actions
   = link_to 'Export CSV', transactions_path(params.merge(format: 'csv')), :class => 'fexport'
   %span.fineprint (#{@transactions.total_count} transactions matching the filter criteria will be exported)
 
-  = render partial: 'update_status'
-  
 :javascript
   var Clinics = #{clinics_by_site.to_json.gsub('</', '<\/')};
   $(function() { onTransactionsIndex() });

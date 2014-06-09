@@ -24,7 +24,7 @@ col.noprint {
   visibility: collapse;
 }
 
-td.noprint, th.noprint {
+td.noprint, th.noprint, span.noprint, div.noprint {
   display: none;
 }
 
