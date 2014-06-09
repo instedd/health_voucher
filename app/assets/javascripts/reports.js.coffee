@@ -41,6 +41,12 @@
   site_combo.on 'change', submit
   $('#month, #year').on 'change', submit
 
+  $('.scrollbarContainer > .horizontalScrollbar').width($('.report-table').width())
+  $('.scrollbarContainer').on 'scroll', =>
+    $('.tablewrapp').scrollLeft($('.scrollbarContainer').scrollLeft())
+  $('.tablewrapp').on 'scroll', =>
+    $('.scrollbarContainer').scrollLeft($('.tablewrapp').scrollLeft())
+
 
 @onReportsClinics = ->
   form = $('#report_grouping_form')
