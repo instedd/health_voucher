@@ -6,25 +6,25 @@
         %th Clinic
         %th.number Transactions
 
-      - if @data.empty?
+      - if @report.empty?
         %tr
           %td(colspan="2") No clinics registered.
       - else
         %tr.totals
           %td
           %td.number
-            = @totals[:row_count]
+            = @report.totals[:row_count]
             %span.percentage 100%
 
-        - @data.each do |row|
+        - @report.data.each do |row|
           %tr
             %td
               = row[:name]
-              - if params[:site_id].blank?
+              - if @report.site_id.blank?
                 %span.site_name
                   (#{row[:site_name]})
             %td.number
               = row[:row_count]
               %span.percentage
-                = percent_of(row[:row_count], @totals[:row_count])
+                = percent_of(row[:row_count], @report.totals[:row_count])
 

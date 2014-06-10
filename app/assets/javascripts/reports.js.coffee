@@ -14,6 +14,7 @@
     site_combo.attr('disabled', false)
     submit()
   site_combo.on 'change', submit
+  $('#since, #until').on 'change', submit
 
 
 @onReportsTransactions = ->
@@ -32,6 +33,7 @@
     site_combo.attr('disabled', false)
     submit()
   site_combo.on 'change', submit
+  $('#since, #until').on 'change', submit
 
   $('#report_container').on 'click', '.group_by_clinic', ->
     id = $(this).data('id')
@@ -57,7 +59,7 @@
     site_combo.attr('disabled', false)
     submit()
   site_combo.on 'change', submit
-  $('#month, #year').on 'change', submit
+  $('#since, #until').on 'change', submit
 
   $('.scrollbarContainer > .horizontalScrollbar').width($('.report-table').width())
   $('.scrollbarContainer').on 'scroll', =>
@@ -74,5 +76,5 @@
     form.trigger('submit.rails')
 
   site_combo.on 'change', submit
-  $('#month, #year').on 'change', submit
+  $('#since, #until').on 'change', submit
 

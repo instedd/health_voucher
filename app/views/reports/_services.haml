@@ -8,26 +8,26 @@
       %tr
         %th Service
         %th.center Total
-        - @columns.each do |col|
+        - @report.columns.each do |col|
           %th.center= col[:name]
 
-      - if @data.empty?
+      - if @report.empty?
         %tr
-          %td(colspan="2 + #{@columns.size}") No services registered.
+          %td(colspan="2 + #{@report.columns.size}") No services registered.
       - else
         %tr.totals
           %td
           %td.number
-            = @totals[:row_total]
+            = @report.totals[:row_total]
             %span.percentage 100%
 
-          - @totals[:cols].each do |col|
+          - @report.totals[:cols].each do |col|
             %td.number
               = col
               %span.percentage
-                = percent_of_with_base(col, @totals[:row_total])
+                = percent_of_with_base(col, @report.totals[:row_total])
         
-        - @data.each do |row|
+        - @report.data.each do |row|
           %tr
             %td.service-name
               -# = service_type_span(row)
@@ -35,10 +35,10 @@
             %td.totals.number
               = row[:row_total]
               %span.percentage
-                = percent_of(row[:row_total], @totals[:row_total])
+                = percent_of(row[:row_total], @report.totals[:row_total])
             - row[:cols].each_with_index do |col, index|
               %td.number
                 = col
                 %span.percentage
-                  = percent_of_with_base(col, @totals[:cols][index])
+                  = percent_of_with_base(col, @report.totals[:cols][index])
 

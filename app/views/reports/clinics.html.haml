@@ -10,9 +10,10 @@
       %label(for="site_id") Site
       = select_tag :site_id, sites_filter_options(params[:site_id]), :class => 'w20 site'
     .report-grouping-option.right
-      %label(for="month") for month
-      = select_month(params[:month].to_i, {}, name: 'month', id: 'month')
-      = select_year(params[:year].to_i, { start_year: 2013, end_year: Date.today.year }, name: 'year', id: 'year')
+      %label(for="since") from
+      = text_field_tag :since, params[:since], :class => 'ux-datepicker w10', :autocomplete => 'off'
+      %label(for="until") to
+      = text_field_tag :until, params[:until], :class => 'ux-datepicker w10', :autocomplete => 'off'
 
 #report_container
   = render partial: 'clinics'

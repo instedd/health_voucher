@@ -4,18 +4,18 @@
     %tbody
       %tr
         %th 
-          - if params[:by] == 'mentor'
+          - if @report.by_mentor?
             Mentor
           - else 
             Site
         %th.number Total AGEP IDs
         %th.number without card
         %th.number with assigned card
-        %th.number used in the last 7 days
-      - if @data.empty?
+        %th.number used in the period
+      - if @report.empty?
         %tr
           %td(colspan="5")
-            - if params[:by] == 'mentor'
+            - if @report.by_mentor?
               No mentors in the site.
             - else
               No sites registered.
@@ -23,32 +23,32 @@
         %tr.totals
           %td
           %td.number
-            = @totals[:patient_count]
+            = @report.totals[:patient_count]
             %span.percentage 100.00%
           %td.number
-            = @totals[:patients_without_card]
+            = @report.totals[:patients_without_card]
             %span.percentage
-              = percent_of_with_base(@totals[:patients_without_card], @totals[:patient_count])
+              = percent_of_with_base(@report.totals[:patients_without_card], @report.totals[:patient_count])
           %td.number
-            = @totals[:patients_with_card]
+            = @report.totals[:patients_with_card]
             %span.percentage
-              = percent_of_with_base(@totals[:patients_with_card], @totals[:patient_count])
+              = percent_of_with_base(@report.totals[:patients_with_card], @report.totals[:patient_count])
           %td.number
-            = @totals[:patients_with_recent_card_uses]
+            = @report.totals[:patients_with_recent_card_uses]
             %span.percentage
-              = percent_of_with_base(@totals[:patients_with_recent_card_uses], @totals[:patients_with_card])
+              = percent_of_with_base(@report.totals[:patients_with_recent_card_uses], @report.totals[:patients_with_card])
 
-        - @data.each do |row|
+        - @report.data.each do |row|
           %tr
             %td
               = row[:name]
-              - if params[:by] == 'mentor' && params[:site_id].blank?
+              - if @report.by_mentor? && @report.site_id.blank?
                 %span.site_name
                   (#{row[:site_name]})
             %td.number
               = row[:patient_count]
               %span.percentage
-                = percent_of_with_base(row, @totals, :patient_count)
+                = percent_of_with_base(row, @report.totals, :patient_count)
             %td.number
               = row[:patients_without_card]
               %span.percentage

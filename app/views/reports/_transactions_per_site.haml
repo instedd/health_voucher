@@ -6,16 +6,16 @@
         %th Site
         %th.number Transactions
         %th.number Unique Visitors
-      - if @data.empty?
+      - if @report.empty?
         %tr
           %td(colspan="3") No sites registered.
       - else
         %tr.totals
           %td
-          %td.number= @totals[:txn_count]
-          %td.number= @totals[:unique_visitors]
+          %td.number= @report.totals[:txn_count]
+          %td.number= @report.totals[:unique_visitors]
 
-        - @data.each do |row|
+        - @report.data.each do |row|
           %tr
             %td.group_by_clinic(data-id="#{row[:site_id]}")= row[:site_name]
             %td.number= row[:txn_count]
