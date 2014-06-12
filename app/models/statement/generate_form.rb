@@ -8,17 +8,28 @@ class Statement::GenerateForm
     false
   end
 
-  ATTRIBUTES = [:site_id, :clinic_id, :until]
+  ATTRIBUTES = [:clinic_id, :until]
 
   attr_accessor *ATTRIBUTES
 
-  validates_presence_of :site_id, :until
+  validates_presence_of :clinic_id, :until
+
+  validate do
+    if clinic_id.present? && clinics.any? { |clinic| clinic.site.training? }
+      errors[:clinic_id] << "is from a training site"
+    end
+  end
 
   def initialize(attributes = {})
     ATTRIBUTES.each do |attribute|
       send("#{attribute}=", attributes[attribute])
     end
     @until ||= Date.today
+  end
+
+  def clinic_id=(value)
+    value = value.reject(&:blank?) if value.is_a?(Array)
+    @clinic_id = value
   end
 
   def until=(value)
@@ -33,29 +44,15 @@ class Statement::GenerateForm
     end
   end
 
-  def site
-    @site ||= Site.find(@site_id)
-  end
-
-  def clinic
-    @clinic ||= Clinic.find(@clinic_id) if @clinic_id.present?
-  end
-
-  validate do
-    if site_id.present? && site.training?
-      errors[:site_id] << "is a training site"
-    end
+  def clinics
+    @clinics ||= Clinic.find(@clinic_id) if @clinic_id.present?
   end
 
   def generate
-    if clinic.nil?
-      Statement.transaction do
-        site.clinics.map do |clinic|
-          generate_one(clinic)
-        end
+    Statement.transaction do
+      clinics.map do |clinic|
+        generate_one(clinic)
       end
-    else
-      [generate_one(clinic)]
     end.reject do |stmt|
       stmt.nil?
     end

@@ -31,7 +31,7 @@
             %label(for="site_id") Sites
             = select_tag :site_id, sites_for_select(params[:site_id]), :class => 'ux-select2 w50', :multiple => true
             %br
-            %label(for="clinic_id") Clinic
+            %label(for="clinic_id") Clinics
             = select_tag :clinic_id, all_clinics_for_select(params[:clinic_id]), :class => 'ux-select2 w50', :multiple => true
           %td
             = button_tag 'Filter', :class => 'grey'
