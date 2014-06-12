@@ -4,7 +4,7 @@ module SitesHelper
   end
 
   def non_training_sites_for_select(current = nil)
-    options_from_collection_for_select(Site.where(:training => false).order(:name).all, :id, :name, current)
+    options_from_collection_for_select(Site.non_training.order(:name).all, :id, :name, current)
   end
 
   def sites_filter_options(current = nil)

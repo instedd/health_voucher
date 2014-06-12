@@ -2,6 +2,8 @@ wb.styles do |s|
   header = s.add_style :b => true, :alignment => { :horizontal => :left }
   date_style = s.add_style :format_code => 'MM/DD/YY HH:MM AM/PM'
   amount_style = s.add_style :format_code => '#0.00'
+  footer = s.add_style :b => true
+  total_style = s.add_style :b => true, :format_code => '#0.00'
 
   sheet.add_row [
     "Clinic", 
@@ -11,7 +13,7 @@ wb.styles do |s|
     "Amount"
   ], :style => header
 
-  row = 2
+  first_row = row = 2
   @clinics.each do |clinic|
     clinic.clinic_services.each do |cs|
       visits = @visits[clinic.id][cs.service_id]
@@ -32,6 +34,20 @@ wb.styles do |s|
       row += 1
     end
   end
+
+  sheet.add_row [
+    "Totals",
+    nil,
+    nil,
+    "=SUM(D#{first_row}:D#{row-1})",
+    "=SUM(E#{first_row}:E#{row-1})"
+  ], :style => [
+    header,
+    nil,
+    nil,
+    footer,
+    total_style
+  ]
 
   sheet.column_widths 30, 55, 10, 10, 10
 end
