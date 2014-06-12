@@ -2,13 +2,26 @@ wb = xlsx_package.workbook
 
 wb.styles.fonts.first.name = 'Calibri'
 
+def add_logo(sheet)
+  logo = File.expand_path('public/images/export_logo.png', Rails.root)
+  sheet.add_image(:image_src => logo, :noSelect => false, :noMove => true) do |image|
+    image.width = 240
+    image.height = 64
+    image.start_at 0, 0
+  end
+  sheet.add_row
+  sheet.rows.first.height = 64
+end
+
 wb.add_worksheet(name: "Summary") do |sheet|
+  add_logo sheet
   render partial: 'summary', locals: { sheet: sheet, wb: wb }
 end
 
 @statements.each do |stmt|
   name = "Statement ##{stmt.id} - #{stmt.clinic.name}"
   wb.add_worksheet(name: truncate(name, length: 30)) do |sheet|
+    add_logo sheet
     render partial: 'statement', locals: { sheet: sheet, stmt: stmt, wb: wb }
   end
 end

@@ -13,7 +13,7 @@ wb.styles do |s|
     "Amount"
   ], :style => header
 
-  first_row = row = 2
+  first_row = row = sheet.rows.count + 1
   @clinics.each do |clinic|
     clinic.clinic_services.each do |cs|
       visits = @visits[clinic.id][cs.service_id]
