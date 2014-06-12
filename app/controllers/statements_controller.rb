@@ -23,9 +23,12 @@ class StatementsController < ApplicationController
       end
     end
 
-    list = list.where('clinics.site_id = ?', params[:site_id]) if params[:site_id].present?
-    list = list.where('statements.clinic_id = ?', params[:clinic_id]) if params[:clinic_id].present?
-    list = list.where('statements.status = ?', params[:status]) if params[:status].present?
+    if params[:site_id].present?
+      clinic_ids = Clinic.where('site_id' => params[:site_id]).pluck(:id)
+      list = list.where('statements.clinic_id' => clinic_ids)
+    end
+    list = list.where('statements.clinic_id' => params[:clinic_id]) if params[:clinic_id].present?
+    list = list.where('statements.status' => params[:status]) if params[:status].present?
     list = list.where('statements.created_at >= ?', since_date) if since_date.present?
     list = list.where('statements.created_at <= ?', until_date) if until_date.present?
 
