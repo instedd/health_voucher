@@ -3,10 +3,14 @@
 = errors_for @form
 
 = form_for @form, :url => do_generate_statements_path do |f|
-  .field.w30
+  .field.w50
     = f.label :clinic_id, 'Clinics'
+    %p 
+      A statement will be generated
+      %b for each selected clinic 
+      that has unpaid services
     = f.grouped_collection_select :clinic_id, Site.non_training, :clinics, :name, :id, :name, {}, :class => 'ux-select2 w50', :multiple => true
-  .field.w30
+  .field.w50
     = f.label :until, 'Unpaid services until'
     %p (#{Date::HUMAN_DISPLAY_FORMAT} format)
     = f.text_field :until, :class => 'ux-datepicker w20', :autocomplete => 'off'
