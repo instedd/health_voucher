@@ -9,12 +9,9 @@
 
 .statements-filter {
   col:first-child {
-    width: 200px;
+    width: 150px;
   }
   col:nth-child(2) {
-    width: 220px;
-  }
-  col:nth-child(3) {
     width: auto;
   }
   col:last-child {
@@ -23,13 +20,7 @@
   label {
     display: inline-block;
   }
-  td:first-child label {
-    width: 50px;
-  }
   td:nth-child(2) label {
-    width: 50px;
-  }
-  td:nth-child(3) label {
     width: 160px;
   }
 }

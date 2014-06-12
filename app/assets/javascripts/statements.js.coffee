@@ -1,6 +1,4 @@
 @onStatementsIndex = ->
-  setup_site_clinic_combos($('#site_id'), $('#clinic_id'))
-
   exportButton = $('.actions .fexport')
 
   @wireCheckboxGroup $('.statements'), '.stmt_check', null,

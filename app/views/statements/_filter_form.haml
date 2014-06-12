@@ -10,20 +10,13 @@
           %col
           %col
           %col
-          %col
         %tr
           %td
             %label(for="stmt_id") ID #
-            = text_field_tag :stmt_id, params[:stmt_id], :class => 'w13'
+            = text_field_tag :stmt_id, params[:stmt_id], :class => 'w10'
             %br
-            %label(for="status") Status
-            = select_tag :status, statement_status_filter_options(params[:status]), :class => 'w13'
-          %td
-            %label(for="site_id") Site
-            = select_tag :site_id, sites_filter_options(params[:site_id]), :class => 'w15'
             %br
-            %label(for="clinic_id") Clinic
-            = select_tag :clinic_id, clinics_filter_options(params[:site_id], params[:clinic_id]), :class => 'w15'
+            = many_check_box_tags :status, Statement.status.options, params[:status], :select_all => false
           %td
             %label(for="since") Statements generated 
             = text_field_tag :since, params[:since], :class => 'ux-datepicker w10', :autocomplete => 'off'
@@ -34,9 +27,13 @@
             = text_field_tag :txn_from, params[:txn_from], :class => 'ux-datepicker w10', :autocomplete => 'off'
             %span to
             = text_field_tag :txn_to, params[:txn_to], :class => 'ux-datepicker w10', :autocomplete => 'off'
+            %br
+            %label(for="site_id") Sites
+            = select_tag :site_id, sites_for_select(params[:site_id]), :class => 'ux-select2 w50', :multiple => true
+            %br
+            %label(for="clinic_id") Clinic
+            = select_tag :clinic_id, all_clinics_for_select(params[:clinic_id]), :class => 'ux-select2 w50', :multiple => true
           %td
             = button_tag 'Filter', :class => 'grey'
             = link_to 'Clear', clear_filter_statements_path, :class => 'button white'
 
-:javascript
-  var Clinics = #{clinics_by_site.to_json.gsub('</', '<\/')};

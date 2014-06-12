@@ -41,6 +41,5 @@
   %span.fineprint (#{@transactions.total_count} transactions matching the filter criteria will be exported)
 
 :javascript
-  var Clinics = #{clinics_by_site.to_json.gsub('</', '<\/')};
   $(function() { onTransactionsIndex() });
 
