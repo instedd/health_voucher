@@ -18,6 +18,12 @@
 #report_container
   = render partial: 'clinics'
 
+%br
+.actions
+  %a.fexport(data-action="#{reports_clinics_path(:format => 'csv')}") Export as CSV
+  %br
+  %a.fexport.print_self Print
+
 :javascript
   $(function() { onReportsClinics(); });
 

@@ -42,5 +42,17 @@ class Report::Clinics < Report
 
     self
   end
+
+  def title
+    "Most frequently accessed clinics" + (site_id.present? ? " in #{Site.find(site_id).name}" : '')
+  end
+
+  def column_keys
+    [:name, :site_name, :row_count]
+  end
+
+  def column_titles
+    ["Clinic", "Site", "Transactions #{humanized_date_range}"]
+  end
 end
 

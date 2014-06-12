@@ -47,5 +47,34 @@ class Report::CardAllocation < Report
     ]
     self
   end
+
+  def title
+    title = ["Card allocation"]
+    if by_mentor?
+      title << "by mentors"
+      if site_id.present?
+        title << "in #{Site.find(site_id).name}"
+      end
+    else
+      title << "by sites"
+    end
+    title.join(' ')
+  end
+
+  def column_titles
+    if by_mentor?
+      ["Mentor", "Site"]
+    else
+      ["Site"]
+    end + ["Total AGEP IDs", "without card", "with assigned card", "used #{humanized_date_range}"]
+  end
+
+  def column_keys
+    if by_mentor?
+      [:name, :site_name]
+    else
+      [:name]
+    end + [:patient_count, :patients_without_card, :patients_with_card, :patients_with_recent_card_uses]
+  end
 end
 

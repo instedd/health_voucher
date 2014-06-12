@@ -60,5 +60,22 @@ class Report::Services < Report
 
     self
   end
+
+  def title
+    "Most frequently accessed services by " + \
+      if by_site?
+        "site"
+      else
+        "clinic in #{Site.find(site_id).name}"
+      end
+  end
+
+  def column_titles
+    ["Service", "Total transactions #{humanized_date_range}", @columns.map {|col| col[:name]}].flatten
+  end
+
+  def column_keys
+    [:description, :row_total, :cols]
+  end
 end
 

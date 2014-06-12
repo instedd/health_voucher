@@ -22,6 +22,12 @@
 #report_container
   = render partial: 'services'
 
+%br
+.actions
+  %a.fexport(data-action="#{reports_services_path(:format => 'csv')}") Export as CSV
+  %br
+  %a.fexport.print_self Print
+
 :javascript
   $(function() { onReportsServices(); });
 

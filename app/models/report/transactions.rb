@@ -22,6 +22,30 @@ class Report::Transactions < Report
     self
   end
 
+  def title
+    if by_site?
+      "Transactions by site"
+    else
+      "Transactions by clinic in #{Site.find(site_id).name}"
+    end
+  end
+
+  def column_keys
+    if by_site?
+      [:site_name]
+    else
+      [:clinic_name]
+    end + [:txn_count, :unique_visitors]
+  end
+
+  def column_titles
+    if by_site?
+      ["Site"]
+    else
+      ["Clinic"]
+    end + ["Transactions #{humanized_date_range}", "Unique visitors"]
+  end
+
   private
 
   def build_by_site

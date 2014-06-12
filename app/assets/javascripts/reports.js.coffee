@@ -1,3 +1,9 @@
+bindCSVExport = ->
+  $('.fexport[data-action]').on 'click', ->
+    url = $(@).data('action')
+    formData = $('#report_grouping_form').serialize()
+    window.location = url + '?' + formData
+
 @onReportsCardAllocation = ->
   form = $('#report_grouping_form')
   by_site_radio = $('#by_site')
@@ -15,6 +21,8 @@
     submit()
   site_combo.on 'change', submit
   $('#since, #until').on 'change', submit
+
+  bindCSVExport()
 
 
 @onReportsTransactions = ->
@@ -42,6 +50,8 @@
     by_clinic_radio.attr('checked', 'checked')
     submit()
 
+  bindCSVExport()
+
 
 @onReportsServices = ->
   form = $('#report_grouping_form')
@@ -67,6 +77,8 @@
   $('.tablewrapp').on 'scroll', =>
     $('.scrollbarContainer').scrollLeft($('.tablewrapp').scrollLeft())
 
+  bindCSVExport()
+
 
 @onReportsClinics = ->
   form = $('#report_grouping_form')
@@ -77,4 +89,6 @@
 
   site_combo.on 'change', submit
   $('#since, #until').on 'change', submit
+
+  bindCSVExport()
 

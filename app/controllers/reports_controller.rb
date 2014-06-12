@@ -9,6 +9,8 @@ class ReportsController < ApplicationController
     end
 
     @report = Report::CardAllocation.build params
+
+    common_response
   end
 
   def transactions
@@ -19,6 +21,8 @@ class ReportsController < ApplicationController
 
     @report = Report::Transactions.build params
     @report_partial = "transactions_per_#{@report.by}"
+
+    common_response
   end
 
   def services
@@ -28,6 +32,8 @@ class ReportsController < ApplicationController
     end
 
     @report = Report::Services.build params
+
+    common_response
   end
 
   def clinics
@@ -37,6 +43,8 @@ class ReportsController < ApplicationController
     end
 
     @report = Report::Clinics.build params
+
+    common_response
   end
 
   private
@@ -44,5 +52,17 @@ class ReportsController < ApplicationController
   def add_breadcrumbs
     @show_breadcrumb = true
     add_breadcrumb 'Reports', reports_path
+  end
+
+  def common_response
+    respond_to do |format|
+      format.html
+      format.js
+      format.csv {
+        @exporter = Report::CsvExporter.new(@report)
+        filename = @report.title.dasherize + ".csv"
+        render_csv @exporter.export, filename
+      }
+    end
   end
 end

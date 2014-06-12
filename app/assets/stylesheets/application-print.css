@@ -46,6 +46,25 @@ table.GralTable th {
 table.GralTable td {
   border-bottom: 1px dotted black;
   padding: 4px 8px;
+  white-space: nowrap;
+}
+
+table tr.totals td {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+table.GralTable td.number, table.GralTable th.number {
+  text-align: right;
+}
+
+table.GralTable td .percentage {
+  font-size: 80%;
+  margin-left: 10px;
+  display: inline-block;
+  width: 60px;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .pagination {
@@ -68,7 +87,18 @@ table.GralTable tr.add {
   display: none;
 }
 
+table.report-table td.service-name {
+  white-space: normal;
+}
+
 table tr.inline_new_form {
   display: none;
+}
+
+.report-grouping {
+  margin: 10px 0;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
 }
 

@@ -36,6 +36,23 @@ class Report
     @by ||= self.class.by_options.first
   end
 
+  def title
+    "Report"
+  end
+
+  def column_titles
+    column_keys.map {|key| key.to_s.humanize}
+  end
+
+  def column_keys
+    []
+  end
+
+  def humanized_date_range
+    [since_time.present? ? 'since ' + since_time.to_date.to_human_param : nil,
+     until_time.present? ? 'until ' + until_time.to_date.to_human_param : nil].compact.join(' ')
+  end
+
   private
 
   def by=(value)

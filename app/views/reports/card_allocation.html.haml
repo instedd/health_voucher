@@ -23,6 +23,13 @@
 #report_container
   = render partial: 'card_allocation'
 
+%br
+.actions
+  %a.fexport(data-action="#{reports_card_allocation_path(:format => 'csv')}") Export as CSV
+  %br
+  %a.fexport.print_self Print
+
+
 :javascript
   $(function() { onReportsCardAllocation(); });
 
