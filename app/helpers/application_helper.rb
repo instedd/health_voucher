@@ -29,4 +29,34 @@ module ApplicationHelper
       "no"
     end
   end
+
+  def many_check_box_tags(field_name, choices, selected, options={})
+    field_name = "#{field_name}[]"
+    all = (options[:allow_blank].nil? || options[:allow_blank]) && selected.nil?
+    selected ||= []
+    result = choices.map do |choice|
+      choice_name, choice_value = choice
+      id = "#{field_name.underscore}_#{choice_value}"
+      label_tag do
+        check_box_tag(field_name, choice_value, all || selected.include?(choice_value.to_s), :id => id) + choice_name
+      end
+    end
+
+    if options[:allow_blank].nil? || options[:allow_blank]
+      result << hidden_field_tag(field_name, '')
+    end
+    
+    if options[:select_all].nil? || options[:select_all]
+      field_name = "select_all_#{field_name.underscore}"
+      result.unshift(
+        label_tag do
+          check_box_tag(field_name, 1, false, :class => 'filtersSelectAll') +\
+          content_tag(:span, 'Select all')
+        end
+      )
+    end
+
+    result.join(options[:separator] || '<br/>').html_safe
+  end
+  
 end

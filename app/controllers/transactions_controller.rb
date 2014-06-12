@@ -19,9 +19,9 @@ class TransactionsController < ApplicationController
       end
     end
 
-    list = list.where('clinics.site_id = ?', params[:site_id]) if params[:site_id].present?
-    list = list.where('clinics.id = ?', params[:clinic_id]) if params[:clinic_id].present?
-    list = list.where('transactions.status = ?', params[:status]) if params[:status].present?
+    list = list.where('clinics.site_id' => params[:site_id]) if params[:site_id].present?
+    list = list.where('clinics.id' => params[:clinic_id]) if params[:clinic_id].present?
+    list = list.where('transactions.status' => params[:status]) if params[:status].present?
     list = list.where('transactions.created_at >= ?', since_date) if since_date.present?
     list = list.where('transactions.created_at <= ?', until_date) if until_date.present?
 

@@ -11,6 +11,10 @@ module ClinicsHelper
     options_from_collection_for_select(site.clinics.order(:name).all, :id, :name, current)
   end
 
+  def all_clinics_for_select(current = nil)
+    option_groups_from_collection_for_select(Site.order(:name), :clinics, :name, :id, :name, current)
+  end
+
   def clinics_filter_options(site_id, current = nil)
     result = options_for_select([['(All Clinics)', '']])
     if site_id.present?

@@ -7,37 +7,36 @@
       = hidden_field_tag :direction, params[:direction]
       %table.filter-container
         %colgroup
-          %col(style="width: 120px;")
-          %col(style="width: 170px;")
-          %col(style="width: 170px;")
-          %col(style="width: 125px;")
+          %col(style="width: 150px;")
+          %col(style="width: 80px;")
           %col(style="width: auto;")
-          %col(style="width: 125px;")
+          %col(style="width: 150px;")
         %tr
+          %td(rowspan="4")
+            = many_check_box_tags :status, Transaction.status.options, params[:status], :class => 'w10', :select_all => false
           %td
             %label(for="txn_id") ID #
-            %br
+          %td
             = text_field_tag :txn_id, params[:txn_id], :class => 'w10'
-          %td
-            %label(for="site_id") Sites
-            %br
-            = select_tag :site_id, sites_filter_options(params[:site_id]), :class => 'w15'
-          %td
-            %label(for="clinic_id") Clinics
-            %br
-            = select_tag :clinic_id, clinics_filter_options(params[:site_id], params[:clinic_id]), :class => 'w15'
-          %td
-            %label(for="status") Status
-            %br
-            = select_tag :status, status_filter_options(params[:status]), :class => 'w10'
-          %td
-            %label(for="since") Date range
-            %br
-            = text_field_tag :since, params[:since], :class => 'ux-datepicker w10', :autocomplete => 'off'
-            %span to
-            = text_field_tag :until, params[:until], :class => 'ux-datepicker w10', :autocomplete => 'off'
-          %td
+          %td(rowspan="4")
             = button_tag 'Filter', :class => 'grey'
             = link_to 'Clear', clear_filter_transactions_path, :class => 'button white'
 
 
+        %tr
+          %td
+            %label(for="since") Date range
+          %td.noalign
+            = text_field_tag :since, params[:since], :class => 'ux-datepicker w10', :autocomplete => 'off'
+            %span to
+            = text_field_tag :until, params[:until], :class => 'ux-datepicker w10', :autocomplete => 'off'
+        %tr
+          %td
+            %label(for="site_id") Sites
+          %td.noalign
+            = select_tag :site_id, sites_for_select(params[:site_id]), :class => 'ux-select2 w50', :multiple => true
+        %tr
+          %td
+            %label(for="clinic_id") Clinics
+          %td.noalign
+            = select_tag :clinic_id, all_clinics_for_select(params[:clinic_id]), :class => 'ux-select2 w50', :multiple => true

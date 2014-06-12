@@ -17,6 +17,27 @@ $ ->
     window.print()
   )
 
+  $('input[type=checkbox].filtersSelectAll').each ->
+    label = $(@).parent()
+    checkboxes = label.siblings('label').children('input[type=checkbox]')
+
+    setup_all_checkbox = =>
+      all_checked = checkboxes.filter(':checked').size() == checkboxes.size()
+      $(@).prop('checked', all_checked)
+      label.children('span').html(if all_checked then 'Select none' else 'Select all')
+
+    $(@).change (e) =>
+      checked = $(@).is(':checked')
+      checkboxes.prop('checked', checked)
+      label.children('span').html(if checked then 'Select none' else 'Select all')
+
+    checkboxes.change(setup_all_checkbox)
+
+    setup_all_checkbox()
+
+  $('.ux-select2').each ->
+    $(@).select2()
+
 @wireCheckboxGroup = (root, check_selector, all_check_selector, callback) ->
   root = root || $(document)
   check_selector = check_selector || 'input[type=checkbox]'
