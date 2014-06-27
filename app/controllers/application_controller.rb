@@ -1,9 +1,15 @@
 class ApplicationController < ActionController::Base
+  include Pundit
   protect_from_forgery
 
   before_filter :set_cache_buster
   before_filter :authenticate_user!
 
+  # after_filter :verify_authorized,  except: :index
+  # after_filter :verify_policy_scoped, only: :index
+ 
+  rescue_from Pundit::NotAuthorizedError, with: :permission_denied
+  
   private
 
   def authenticate_admin!

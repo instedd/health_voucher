@@ -9,6 +9,7 @@ gem 'thin'
 gem 'mysql2'
 gem 'enumerize'
 gem 'devise'
+gem 'pundit'
 
 gem 'delayed_job_active_record'
 gem 'daemons'
