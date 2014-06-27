@@ -6,7 +6,11 @@ User.blueprint do
 end
 
 User.blueprint(:admin) do
-  admin { true }
+  role { :admin }
+end
+
+User.blueprint(:auditor) do
+  role { :auditor }
 end
 
 Batch.blueprint do

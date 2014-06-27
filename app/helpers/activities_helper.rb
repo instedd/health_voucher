@@ -4,7 +4,7 @@ module ActivitiesHelper
   end
 
   def users_for_select(current = nil)
-    options_from_collection_for_select(User.where(:admin => true).order(:email), :id, :email, current)
+    options_from_collection_for_select(User.where(:role => :admin).order(:email), :id, :email, current)
   end
 
   def object_class_filter_options(current = nil)

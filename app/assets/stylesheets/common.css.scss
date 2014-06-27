@@ -99,9 +99,11 @@ td.number {
   border: 2px solid #ff6600;
 }
 
-.field > input[type=checkbox] {
-  float: left;
-  margin-right: 10px;
+.field, .field_with_errors {
+  & > input[type=checkbox], & > input[type=radio] {
+    float: left;
+    margin-right: 10px;
+  }
 }
 
 table tr.inline_new_form td {

@@ -7,7 +7,7 @@ namespace :users do
       password = password * 2
     end
     user = User.create! email: email, password: password
-    user.update_attribute :admin, true
+    user.update_attribute :role, :admin
     puts "User created with id #{user.id}"
   end
 end

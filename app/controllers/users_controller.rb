@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user], :as => :admin)
     if @user.save
-      log_activity @user, "#{@user.email} created"
+      log_activity @user, "#{@user.email} created with role #{@user.role.text}"
       redirect_to users_path, notice: 'User created'
     else
       add_breadcrumb 'New user', new_user_path
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    params[:user].delete(:admin) if @user == current_user
+    params[:user].delete(:role) if @user == current_user
 
     if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
       params[:user].delete(:password)
@@ -37,11 +37,11 @@ class UsersController < ApplicationController
 
     @user.update_attributes params[:user], :as => :admin
     if @user.save
-      if @user.admin? && @user.site
+      if !@user.site_manager? && @user.site
         @user.site.update_attribute :user_id, nil
       end
 
-      message = "#{@user.email} updated, admin #{@user.admin? and 'granted' or 'revoked'}"
+      message = "#{@user.email} updated, #{@user.role.text} role given"
       if params[:user][:password].present?
         message << ", password changed"
       end

@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  extend Enumerize
+
+  enumerize :role, in: [:admin, :auditor, :site_manager], predicates: true, default: :site_manager
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -8,15 +12,14 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :email, :password, :password_confirmation, :admin, :as => :admin
+  attr_accessible :email, :password, :password_confirmation, :role, :as => :admin
 
   has_one :user
   has_one :site, :dependent => :nullify
   has_many :activities, :dependent => :nullify
 
   scope :for_listing, order(:email)
-  scope :non_admins, where(:admin => false)
-  scope :possible_managers, where(:admin => false).joins('LEFT JOIN sites ON users.id = sites.user_id').where('sites.id IS NULL')
+  scope :possible_managers, where(:role => :site_manager).joins('LEFT JOIN sites ON users.id = sites.user_id').where('sites.id IS NULL')
 
   def update_for_site_manager(params)
     if params[:password].blank? && params[:password_confirmation].blank?

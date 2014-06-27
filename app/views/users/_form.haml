@@ -18,11 +18,17 @@
 
   - unless @user == current_user
     .field
-      = f.check_box :admin
-      = f.label :admin, 'Administrator user'
-      %p
-        %span.i18g-alert
-        User will be able to manage all sites and have full access to all functionality in the system.
+      = f.radio_button :role, :admin
+      = f.label :role_admin, 'Administrator'
+      %span.fineprint User will be able to manage all sites and have full access to all functionality in the system.
+      %br
+      = f.radio_button :role, :auditor
+      = f.label :role_auditor, 'Auditor'
+      %span.fineprint User will be able to view all sites, transactions, statements, and reports but cannot change anything.
+      %br
+      = f.radio_button :role, :site_manager
+      = f.label :role_site_manager, 'Site manager'
+      %span.fineprint User can only manage information from an assigned site.
 
   .actions
     = f.button nil, :class => 'grey'
