@@ -1,4 +1,4 @@
-- if policy(Mentor).create?
+- if policy(@site.mentors.build).create?
   %tr#new_mentor.inline_new_form
     = form_for @mentor, url: site_mentors_path(@site), :remote => true do |f|
       %td(colspan="2")
