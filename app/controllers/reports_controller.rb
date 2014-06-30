@@ -1,5 +1,5 @@
 class ReportsController < ApplicationController
-  before_filter :authenticate_admin!
+  before_filter :authorize_report
   before_filter :add_breadcrumbs
 
   def card_allocation
@@ -52,6 +52,10 @@ class ReportsController < ApplicationController
   def add_breadcrumbs
     @show_breadcrumb = true
     add_breadcrumb 'Reports', reports_path
+  end
+
+  def authorize_report
+    authorize Report
   end
 
   def common_response
