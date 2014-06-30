@@ -1,44 +1,43 @@
 require 'spec_helper'
 
 describe SiteController do
-  before(:each) do
-    @user = User.make!
-    @admin = User.make!(:admin)
-  end
-
   describe "load site" do
-    context "as administrator" do
+    [:admin, :auditor].each do |role|
       before(:each) do
-        sign_in @admin
+        @user = User.make!(role)
+        sign_in @user
       end
 
-      context "with sites" do
-        before(:each) do
-          @site = Site.make!
+      context "as #{role}" do
+        context "with sites" do
+          before(:each) do
+            @site = Site.make!
+          end
+
+          it "should load the site if parameter present" do
+            controller.params[:site_id] = @site.id
+            controller.send(:load_site)
+            assigns(:site).should eq(@site)
+          end
+
+          it "should load the first site available if parameter is blank" do
+            controller.send(:load_site)
+            assigns(:site).should eq(@site)
+          end
         end
 
-        it "should load the site if parameter present" do
-          controller.params[:site_id] = @site.id
-          controller.send(:load_site)
-          assigns(:site).should eq(@site)
-        end
-
-        it "should load the first site available if parameter is blank" do
-          controller.send(:load_site)
-          assigns(:site).should eq(@site)
-        end
-      end
-
-      context "without sites" do
-        it "should redirect to sites if parameter when parameter is blank" do
-          controller.expects(:redirect_to).with(sites_path)
-          controller.send(:load_site)
+        context "without sites" do
+          it "should redirect to sites if parameter when parameter is blank" do
+            controller.expects(:redirect_to).with(sites_path)
+            controller.send(:load_site)
+          end
         end
       end
     end
 
-    context "as normal user" do
+    context "as site manager" do
       before(:each) do
+        @user = User.make!
         sign_in @user
       end
 

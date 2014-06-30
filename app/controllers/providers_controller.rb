@@ -1,8 +1,7 @@
 class ProvidersController < ApplicationController
-  before_filter :authenticate_admin!
-
   def create
     @provider = Provider.new(params[:provider], :as => :creator)
+    authorize @provider
     if @provider.save
       flash[:notice] = "The provider was added"
     end
@@ -17,6 +16,7 @@ class ProvidersController < ApplicationController
 
   def destroy
     @provider = Provider.find(params[:id])
+    authorize @provider
     @clinic = @provider.clinic
     @provider.destroy
     if @provider.destroyed?
@@ -29,6 +29,7 @@ class ProvidersController < ApplicationController
 
   def toggle
     @provider = Provider.find(params[:id])
+    authorize @provider
     @provider.update_attribute :enabled, params[:enabled].present?
     head :ok
   end

@@ -1,7 +1,8 @@
-%tr#new_clinic.inline_new_form
-  = form_for @clinic, :url => site_clinics_path(@site), :remote => true do |f|
-    %td(colspan="3")
-      = f.text_field :name, maxlength: 80, :style => "width: 99%", :placeholder => 'Clinic name'
-    %td
-      = button_tag 'Add Clinic', :class => 'cadd'
+- if policy(Clinic).create?
+  %tr#new_clinic.inline_new_form
+    = form_for @clinic, :url => site_clinics_path(@site), :remote => true do |f|
+      %td(colspan="3")
+        = f.text_field :name, maxlength: 80, :style => "width: 99%", :placeholder => 'Clinic name'
+      %td
+        = button_tag 'Add Clinic', :class => 'cadd'
 

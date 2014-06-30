@@ -16,11 +16,14 @@
           %td= provider.code
           %td= provider.name
           %td
-            = check_box_tag "enabled", provider.id, provider.enabled, :data => { :remote => true, :url => toggle_provider_path(provider), :method => :post }
+            = check_box_tag "enabled", provider.id, provider.enabled, :data => { :remote => true, :url => toggle_provider_path(provider), :method => :post }, :disabled => !policy(provider).toggle?
           %td
-            - if provider.transactions.empty?
-              = link_to 'Remove', provider_path(provider), :method => :delete, :class => 'fdelete'
+            - if policy(provider).destroy?
+              - if provider.transactions.empty?
+                = link_to 'Remove', provider_path(provider), :method => :delete, :class => 'fdelete'
+              - else
+                %a.fdelete.disabled(title="Provider can't be removed because it has transactions registered") Remove
             - else
-              %a.fdelete.disabled(title="Provider can't be removed because it has transactions registered") Remove
+              %a.fuser.hidden
     = render partial: '/providers/new_provider'
 

@@ -1,10 +1,10 @@
 class ClinicsController < SiteController
-  before_filter :authenticate_admin!
   before_filter :load_clinic, :except => [:index, :create]
   before_filter :add_breadcrumbs
 
   def index
-    @clinics = @site.clinics.order(:name)
+    authorize Clinic
+    @clinics = policy_scope(@site.clinics).order(:name)
 
     respond_to do |format|
       format.html {
@@ -20,6 +20,7 @@ class ClinicsController < SiteController
 
   def create
     @clinic = @site.clinics.create(params[:clinic])
+    authorize @clinic
     if @clinic.valid?
       flash[:notice] = 'Clinic created'
     end
@@ -78,6 +79,7 @@ class ClinicsController < SiteController
 
   def load_clinic
     @clinic = @site.clinics.find(params[:id])
+    authorize @clinic
   end
 
   def add_breadcrumbs

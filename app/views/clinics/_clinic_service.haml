@@ -8,8 +8,11 @@
       :data => { :remote => true, :method => :post, 
         :url => toggle_service_site_clinic_path(@site, @clinic), 
         :params => "service_id=#{cs.service.id}" },
-      :class => 'service_enable'
+      :class => 'service_enable',
+      :disabled => !policy(@clinic).toggle_service?
   %td.cost= number_to_currency(cs.cost, unit: '')
   %td
-    %a.set_cost.fedit(data-action="#{set_service_cost_site_clinic_path(@site, @clinic)}" data-service-id="#{cs.service.id}")
-
+    - if policy(@clinic).set_service_cost?
+      %a.set_cost.fedit(data-action="#{set_service_cost_site_clinic_path(@site, @clinic)}" data-service-id="#{cs.service.id}")
+    - else
+      %a.fuser.hidden

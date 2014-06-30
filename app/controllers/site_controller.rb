@@ -11,15 +11,13 @@ class SiteController < ApplicationController
     end
 
     if @site.nil?
-      if current_user.admin?
+      if current_user.admin? || current_user.auditor?
         redirect_to sites_path
       else
         permission_denied
       end
     else
-      unless current_user.admin? || @site.manager == current_user
-        permission_denied
-      end
+      permission_denied if current_user.site_manager? && @site.manager != current_user
     end
   end
 end
