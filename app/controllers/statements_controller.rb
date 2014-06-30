@@ -1,9 +1,10 @@
 class StatementsController < ApplicationController
-  before_filter :authenticate_admin!
   before_filter :load_statement, :only => [:show, :destroy, :toggle_status]
   before_filter :add_breadcrumbs
 
   def index
+    authorize Statement
+
     since_date = Date.parse_human_param(params[:since]).beginning_of_day rescue nil
     until_date = Date.parse_human_param(params[:until]).end_of_day rescue nil
 
@@ -107,11 +108,15 @@ class StatementsController < ApplicationController
   end
 
   def generate
+    authorize Statement
+
     add_breadcrumb 'Generate', generate_statements_path
     @form = Statement::GenerateForm.new
   end
 
   def do_generate
+    authorize Statement, :generate?
+
     @form = Statement::GenerateForm.new(params[:statement_generate_form])
     if @form.valid?
       stmts = @form.generate
@@ -128,6 +133,8 @@ class StatementsController < ApplicationController
   end
 
   def export
+    authorize Statement, :export?
+
     ids = params[:stmt_ids].split(',')
     @statements = Statement.where(:id => ids).includes(:clinic)
     clinic_ids = @statements.map(&:clinic_id).uniq
@@ -155,5 +162,6 @@ class StatementsController < ApplicationController
 
   def load_statement
     @stmt = Statement.find(params[:id])
+    authorize @stmt
   end
 end

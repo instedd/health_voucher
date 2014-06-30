@@ -1,8 +1,9 @@
 class TransactionsController < ApplicationController
-  before_filter :authenticate_admin!
   before_filter :add_breadcrumbs
 
   def index
+    authorize Transaction
+
     since_date = Date.parse_human_param(params[:since]).beginning_of_day rescue nil
     until_date = Date.parse_human_param(params[:until]).end_of_day rescue nil
 
@@ -71,6 +72,7 @@ class TransactionsController < ApplicationController
 
   def update_status
     @txn = Transaction.find(params[:id])
+    authorize @txn
     @txn.update_status params[:status], params[:comment]
 
     message = "Status changed to '#{@txn.status}'"

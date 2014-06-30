@@ -8,7 +8,11 @@
   %td= card_serial_number(txn.card)
   %td= txn.statement_id
   %td
-    %a.fedit.status{:class => ('disabled' unless txn.updatable?), "data-action" => update_status_transaction_path(txn)}
+    - if policy(txn).update_status?
+      %a.fedit.status{:class => ('disabled' unless txn.updatable?), "data-action" => update_status_transaction_path(txn)}
+        = txn.status
+    - else
       = txn.status
+      %a.fuser.hidden
   %td.comment(title="#{txn.comment}")= txn.comment
 

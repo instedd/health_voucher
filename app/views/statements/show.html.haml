@@ -4,11 +4,12 @@
 
 .box
   .right.actions
-    - if @stmt.paid?
-      = link_to 'Mark as unpaid', toggle_status_statement_path(@stmt), :method => :post, :class => 'fclose'
-    - else
-      = link_to 'Mark as paid', toggle_status_statement_path(@stmt), :method => :post, :class => 'faccept'
-    %br
+    - if policy(@stmt).toggle_status?
+      - if @stmt.paid?
+        = link_to 'Mark as unpaid', toggle_status_statement_path(@stmt), :method => :post, :class => 'fclose'
+      - else
+        = link_to 'Mark as paid', toggle_status_statement_path(@stmt), :method => :post, :class => 'faccept'
+      %br
     = link_to 'Export CSV', statement_path(@stmt, :format => 'csv'), :class => 'fexport'
   %div
     Clinic: 
@@ -59,5 +60,6 @@
 
 %br
 .actions
-  = link_to 'Delete Statement', @stmt, :method => :delete, :confirm => 'Are you sure?', :class => 'fdelete'
+  - if policy(@stmt).destroy?
+    = link_to 'Delete Statement', @stmt, :method => :delete, :confirm => 'Are you sure?', :class => 'fdelete'
 
