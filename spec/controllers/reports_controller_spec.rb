@@ -8,9 +8,9 @@ describe ReportsController do
         sign_in @user
       end
 
-      %i(card_allocation transactions services clinics).each do |action|
+      %w(card_allocation transactions services clinics).each do |action|
         it "GET #{action} should be denied" do
-          get action
+          get action.to_sym
           response.status.should == 401
         end
       end

@@ -4,8 +4,8 @@ class CardPolicy < ApplicationPolicy
                     record.patient.present? && record.patient.site.manager == user)
   end
 
-  %i(start_validity? set_expiration?).each do |method|
-    alias_method method, :manage?
+  %w(start_validity? set_expiration?).each do |method|
+    alias_method method.to_sym, :manage?
   end
 end
 

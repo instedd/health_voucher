@@ -3,8 +3,8 @@ class ReportPolicy < ApplicationPolicy
     user.admin? || user.auditor?
   end
 
-  %i(card_allocation? transactions? services? clinics?).each do |method|
-    alias_method method, :view?
+  %w(card_allocation? transactions? services? clinics?).each do |method|
+    alias_method method.to_sym, :view?
   end
 end
 

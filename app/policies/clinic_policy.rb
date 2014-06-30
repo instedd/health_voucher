@@ -19,11 +19,11 @@ class ClinicPolicy < ApplicationPolicy
     user.admin?
   end
 
-  %i(toggle_service? set_service_cost?).each do |method|
-    alias_method method, :update?
+  %w(toggle_service? set_service_cost?).each do |method|
+    alias_method method.to_sym, :update?
   end
-  %i(services?).each do |method| 
-    alias_method method, :show?
+  %w(services?).each do |method| 
+    alias_method method.to_sym, :show?
   end
 
   class Scope < Scope

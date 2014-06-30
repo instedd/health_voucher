@@ -3,8 +3,8 @@ class PatientPolicy < ApplicationPolicy
     user.admin? || (user.site_manager? && record.site.manager == user)
   end
 
-  %i(assign_card? unassign_card? deactivate_card? destroy?).each do |method|
-    alias_method method, :manage?
+  %w(assign_card? unassign_card? deactivate_card? destroy?).each do |method|
+    alias_method method.to_sym, :manage?
   end
 end
 

@@ -19,12 +19,12 @@ class SitePolicy < ApplicationPolicy
     user.admin?
   end
 
-  %i(assign_cards? batch_assign_cards? assign_individual_card? return_cards? 
+  %w(assign_cards? batch_assign_cards? assign_individual_card? return_cards? 
      edit_manager? update_manager? set_manager? destroy_manager?).each do |method|
-    alias_method method, :update?
+    alias_method method.to_sym, :update?
   end
-  %i(patients? providers?).each do |method| 
-    alias_method method, :show?
+  %w(patients? providers?).each do |method| 
+    alias_method method.to_sym, :show?
   end
 
   class Scope < Scope

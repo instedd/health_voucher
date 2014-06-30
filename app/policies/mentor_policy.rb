@@ -19,8 +19,8 @@ class MentorPolicy < ApplicationPolicy
     user.admin? || (user.site_manager? && record.site_id == user.site.id)
   end
 
-  %i(add_patients? auto_assign? move_patients? batch_validate?).each do |method|
-    alias_method method, :update?
+  %w(add_patients? auto_assign? move_patients? batch_validate?).each do |method|
+    alias_method method.to_sym, :update?
   end
 
   class Scope < Scope
