@@ -39,10 +39,6 @@ class CardsController < ApplicationController
   
   def load_card
     @card = Card.find(params[:id])
-
-    unless current_user.admin? || 
-      (@card.patient.present? && @card.patient.site.manager == current_user)
-      permission_denied
-    end
+    authorize @card
   end
 end

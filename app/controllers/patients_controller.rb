@@ -51,8 +51,6 @@ class PatientsController < ApplicationController
     @patient = Patient.find(params[:id])
     @mentor = @patient.mentor
     @site = @mentor.site
-    unless current_user.admin? || @site.manager == current_user
-      permission_denied
-    end
+    authorize @patient
   end
 end

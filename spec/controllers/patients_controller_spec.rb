@@ -5,6 +5,7 @@ describe PatientsController do
     @admin = User.make!(:admin)
     @manager = User.make!
     @user = User.make!
+    @auditor = User.make!(:auditor)
 
     @site = Site.make! user: @manager
     @mentor = Mentor.make! site: @site
@@ -14,27 +15,39 @@ describe PatientsController do
   describe "load patient" do
     before(:each) do
       controller.params[:id] = @patient.id
+      controller.params[:action] = 'manage'
     end
 
     it "should allow an admin" do
       sign_in @admin
 
-      controller.expects(:permission_denied).never
-      controller.send(:load_patient)
+      lambda do
+        controller.send(:load_patient)
+      end.should_not raise_error
     end
 
     it "should allow the patient's site manager" do
       sign_in @manager
 
-      controller.expects(:permission_denied).never
-      controller.send(:load_patient)
+      lambda do
+        controller.send(:load_patient)
+      end.should_not raise_error
     end
 
-    it "should deny any other non-admin user" do
+    it "should deny an auditor" do
+      sign_in @auditor
+
+      lambda do
+        controller.send(:load_patient)
+      end.should raise_error
+    end
+
+    it "should deny any other site manager" do
       sign_in @user
 
-      controller.expects(:permission_denied)
-      controller.send(:load_patient)
+      lambda do
+        controller.send(:load_patient)
+      end.should raise_error
     end
   end
 

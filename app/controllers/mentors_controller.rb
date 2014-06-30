@@ -5,7 +5,7 @@ class MentorsController < SiteController
   include ActionView::Helpers::TextHelper
 
   def index
-    @mentors = @site.mentors.order(:name)
+    @mentors = policy_scope(@site.mentors).order(:name)
 
     respond_to do |format|
       format.html {
@@ -149,6 +149,7 @@ class MentorsController < SiteController
 
   def load_mentor
     @mentor = @site.mentors.find(params[:id]) unless params[:id].blank?
+    authorize @mentor || Mentor
   end
 
   def add_breadcrumbs

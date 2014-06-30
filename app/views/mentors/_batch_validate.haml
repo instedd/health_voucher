@@ -1,13 +1,14 @@
-.w30.ux-collapsible.collapsed(data-on-expanded="box grey")
-  %span.batch_validate_action
-    %a.fplay.disabled Validate selected AGEP ID's cards
-  .ux-content.batch_validate_dialog
-    = form_tag batch_validate_site_mentor_path(@site, @mentor) do
-      = hidden_field_tag "patient_ids", "", :id => "validate_patient_ids"
-      .field.w30
-        %label(for="batch_validity") Cards valid from
-        %p (#{Date::HUMAN_DISPLAY_FORMAT} format)
-        %input.w20.ux-datepicker#batch_validity(name="validity" type="text" data-focus="true" value="#{Date.today.to_human_param}" autocomplete="off")
-      .actions
-        = button_tag 'Validate', :class => 'grey'
-        %a.cancel_action Cancel
+- if policy(@mentor).batch_validate?
+  .w30.ux-collapsible.collapsed(data-on-expanded="box grey")
+    %span.batch_validate_action
+      %a.fplay.disabled Validate selected AGEP ID's cards
+    .ux-content.batch_validate_dialog
+      = form_tag batch_validate_site_mentor_path(@site, @mentor) do
+        = hidden_field_tag "patient_ids", "", :id => "validate_patient_ids"
+        .field.w30
+          %label(for="batch_validity") Cards valid from
+          %p (#{Date::HUMAN_DISPLAY_FORMAT} format)
+          %input.w20.ux-datepicker#batch_validity(name="validity" type="text" data-focus="true" value="#{Date.today.to_human_param}" autocomplete="off")
+        .actions
+          = button_tag 'Validate', :class => 'grey'
+          %a.cancel_action Cancel

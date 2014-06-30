@@ -1,4 +1,4 @@
-- if current_user.admin?
+- unless current_user.site_manager?
   = render partial: '/sites/tabs', locals: { active_tab: 'mentors' }
 - else
   %h1= @site.name
@@ -26,10 +26,11 @@
               = "(#{mentor.patients.without_card.count})"
           %td
             = link_to '', site_mentor_path(@site, mentor), :class => 'farrow'
-            - if mentor.patients.count == 0
-              = link_to 'Remove', site_mentor_path(@site, mentor), :method => :delete, :class => 'fdelete'
-            - else
-              %a.fdelete.disabled(title="Mentor can't be removed while she has patients assigned") Remove
+            - if policy(mentor).destroy?
+              - if mentor.patients.count == 0
+                = link_to 'Remove', site_mentor_path(@site, mentor), :method => :delete, :class => 'fdelete'
+              - else
+                %a.fdelete.disabled(title="Mentor can't be removed while she has patients assigned") Remove
       = render partial: 'new_mentor'
 
 %br

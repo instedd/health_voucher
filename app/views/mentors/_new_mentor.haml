@@ -1,9 +1,8 @@
-%tr#new_mentor.inline_new_form
-  = form_for @mentor, url: site_mentors_path(@site), :remote => true do |f|
-    %td(colspan="2")
-      = f.text_field :name, :style => 'width: 99%', :placeholder => 'Name'
-    %td
-      = button_tag 'Add Mentor', :class => 'cadd'
-
-
+- if policy(Mentor).create?
+  %tr#new_mentor.inline_new_form
+    = form_for @mentor, url: site_mentors_path(@site), :remote => true do |f|
+      %td(colspan="2")
+        = f.text_field :name, :style => 'width: 99%', :placeholder => 'Name'
+      %td
+        = button_tag 'Add Mentor', :class => 'cadd'
 

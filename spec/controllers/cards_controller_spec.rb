@@ -4,6 +4,7 @@ describe CardsController do
   before(:each) do
     @admin = User.make!(:admin)
     @user = User.make!
+    @auditor = User.make!(:auditor)
   end
 
   describe "start_validity" do
@@ -19,6 +20,14 @@ describe CardsController do
       post :start_validity, id: @card.id, validity: Date.today
 
       response.should be_redirect
+    end
+
+    it "should deny an auditor" do
+      sign_in @auditor
+
+      post :start_validity, id: @card.id, validity: Date.today
+
+      response.should_not be_redirect
     end
 
     it "should allow a site manager if the card's patient belongs to his site" do

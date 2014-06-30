@@ -1,4 +1,4 @@
-- if current_user.admin?
+- unless current_user.site_manager?
   = render partial: '/sites/tabs', locals: { active_tab: 'mentors' }
 - else
   %h1.site= @site.name
@@ -38,11 +38,12 @@
 
 %br
 .actions
-  .column.w30
-    = render partial: 'add_patients'
-    = render partial: 'auto_assign'
-    = render partial: 'batch_validate'
-    = render partial: 'move_patients'
+  - if policy(@mentor).update?
+    .column.w30
+      = render partial: 'add_patients'
+      = render partial: 'auto_assign'
+      = render partial: 'batch_validate'
+      = render partial: 'move_patients'
   .column.w30
     = link_to 'Export CSV', site_mentor_path(@site, @mentor, :format => 'csv'), :class => 'fexport'
     %br

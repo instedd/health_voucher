@@ -5,9 +5,10 @@
 
   - if patient.current_card.nil?
     %td(colspan="3")
-      %span.noprint
-        %a.fadd.assign_action(data-action="#{assign_card_patient_path(patient)}")
-          Assign card
+      - if policy(patient).assign_card?
+        %span.noprint
+          %a.fadd.assign_action(data-action="#{assign_card_patient_path(patient)}")
+            Assign card
     %td.noprint(colspan="2")
   - else 
     %td
@@ -16,20 +17,24 @@
 
     - if patient.current_card.validity.nil?
       %td.noprint(colspan="2")
-        %a.fplay.start_action(data-action="#{start_validity_card_path(patient.current_card)}") Start validity
+        - if policy(patient.current_card).start_validity?
+          %a.fplay.start_action(data-action="#{start_validity_card_path(patient.current_card)}") Start validity
     - else
       %td= card_validity(patient.current_card)
       %td
         = card_expiration(patient.current_card)
-        - if patient.current_card.expiration.present?
+        - if patient.current_card.expiration.present? && policy(patient.current_card).set_expiration?
           %a.fedit.set_expiration(data-action="#{set_expiration_card_path(patient.current_card)}" data-expiration="#{patient.current_card.expiration.to_human_param}")
 
     %td.noprint
-      %a.fclaim.report_action(data-action="#{deactivate_card_patient_path(patient)}" data-serial-number="#{card_serial_number(patient.current_card)}") Deactivate card
+      - if policy(patient).deactivate_card?
+        %a.fclaim.report_action(data-action="#{deactivate_card_patient_path(patient)}" data-serial-number="#{card_serial_number(patient.current_card)}") Deactivate card
     %td.noprint
-      - if patient.can_unassign?
+      - if patient.can_unassign? && policy(patient).unassign_card?
         %a.fremove.unassign_action(data-action="#{unassign_card_patient_path(patient)}" data-serial-number="#{card_serial_number(patient.current_card)}") Unassign card
   %td.noprint
-    - if patient.current_card.nil? && patient.can_be_destroyed?
+    - if patient.current_card.nil? && patient.can_be_destroyed? && policy(patient).destroy?
       %a.fdelete.destroy_action(data-action="#{patient_path(patient)}") Remove
+    - else
+      %a.fuser.hidden
 
