@@ -10,7 +10,8 @@
     #{@site.patients.without_card.count} AGEP IDs w/o card
     %br
     #{@site.active_cards.count} activated cards
-  = link_to 'Add cards to site', assign_cards_site_path(@site), :class => 'farrow'
+  - if policy(@site).assign_cards?
+    = link_to 'Add cards to site', assign_cards_site_path(@site), :class => 'farrow'
 
 .box.overview{ :class => ('incomplete' if @site.providers.empty?) }
   .i48grad-dataBase.icon

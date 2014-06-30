@@ -13,6 +13,9 @@ User.blueprint(:auditor) do
   role { :auditor }
 end
 
+User.blueprint(:site_manager) do
+end
+
 Batch.blueprint do
   name { "Batch #{sn}" }
   initial_serial_number { _serial_number }

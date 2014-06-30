@@ -3,14 +3,14 @@
 
 - content_for :navigation do
   - if user_signed_in?
-    - if current_user.admin?
+    - unless current_user.site_manager?
       = section "Sites", sites_path, :sites, [:sites, :clinics, :mentors]
-      = section "Batches", batches_path, :batches
+      = section "Batches", batches_path, :batches if current_user.admin?
       = section "Transactions", transactions_path, :transactions
       = section "Statements", statements_path, :statements
-      = section "Logs", activities_path, :activities, [:activities, :messages]
+      = section "Logs", activities_path, :activities, [:activities, :messages] if current_user.admin?
       = section "Reports", reports_path, :reports
-      = section "Users", users_path, :users
+      = section "Users", users_path, :users if current_user.admin?
     - else
       = section "Site Management", root_path, :mentors
 

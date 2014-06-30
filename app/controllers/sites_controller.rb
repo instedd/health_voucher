@@ -1,10 +1,10 @@
 class SitesController < ApplicationController
-  before_filter :authenticate_admin!
   before_filter :load_site, :except => [:index, :new, :create]
   before_filter :add_breadcrumbs
 
   def index
-    @sites = Site.order(:name).all
+    authorize Site
+    @sites = policy_scope(Site).order(:name).all
   end
 
   def show
@@ -13,10 +13,12 @@ class SitesController < ApplicationController
   def new
     add_breadcrumb 'New site', nil
     @site = Site.new
+    authorize @site
   end
 
   def create
     @site = Site.new(params[:site])
+    authorize @site
     if @site.save
       redirect_to sites_path, notice: 'Site was registered successfully'
     else
@@ -148,6 +150,7 @@ class SitesController < ApplicationController
 
   def load_site
     @site = Site.find(params[:id])
+    authorize @site
   end
 
   def add_breadcrumbs

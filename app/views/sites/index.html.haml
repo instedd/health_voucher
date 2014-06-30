@@ -32,17 +32,18 @@
           %td
             = link_to '', site, :class => 'farrow'
 
-      - if @sites.empty?
-        %tr
-          %td.emptyTable(colspan="6")
-            There are no sites defined.
-            %br
-            = link_to 'Register a new site', new_site_path
-            to start using the application.
-      - else
-        %tr.add(data-action="#{new_site_path}")
-          %td(colspan="5")
-            Register new site
-          %td
-            = link_to '', new_site_path, :class => 'cadd'
+      - if policy(Site).new?
+        - if @sites.empty?
+          %tr
+            %td.emptyTable(colspan="6")
+              There are no sites defined.
+              %br
+              = link_to 'Register a new site', new_site_path
+              to start using the application.
+        - else
+          %tr.add(data-action="#{new_site_path}")
+            %td(colspan="5")
+              Register new site
+            %td
+              = link_to '', new_site_path, :class => 'cadd'
 

@@ -6,16 +6,19 @@
 %ul.site-tabs.tabs.top
   %li.overview
     = link_to "Overview", @site
-  %li.assign_cards
-    = link_to "Add Cards", assign_cards_site_path(@site)
+  - if policy(@site).assign_cards?
+    %li.assign_cards
+      = link_to "Add Cards", assign_cards_site_path(@site)
   %li.clinics
     = link_to "Clinics & Providers", site_clinics_path(@site)
   %li.mentors
     = link_to "Mentors & AGEP IDs", site_mentors_path(@site)
-  %li.manager
-    = link_to "Manager", manager_site_path(@site)
-  %li.settings
-    = link_to "Settings", edit_site_path(@site)
+  - if policy(@site).edit_manager?
+    %li.manager
+      = link_to "Manager", manager_site_path(@site)
+  - if policy(@site).edit?
+    %li.settings
+      = link_to "Settings", edit_site_path(@site)
 
 .tabsline
 

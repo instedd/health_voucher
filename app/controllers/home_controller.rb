@@ -1,9 +1,9 @@
 class HomeController < ApplicationController
   def index
-    if current_user.admin?
+    if current_user.admin? || current_user.auditor?
       flash.keep
       redirect_to sites_path
-    elsif current_user.site.present?
+    elsif current_user.site_manager? && current_user.site.present?
       flash.keep
       redirect_to site_mentors_path(current_user.site)
     else
