@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
     until_date = Date.parse_human_param(params[:until]).end_of_day rescue nil
 
     list = Message.for_listing
-    list = list.where('messages.from LIKE ?', params[:from]) if params[:from].present?
+    list = list.where('messages.from LIKE ?', "%#{params[:from]}%") if params[:from].present?
     list = list.where('messages.message_type = ?', params[:type]) if params[:type].present?
     list = list.where('messages.status = ?', params[:status]) if params[:status].present?
     list = list.where('messages.created_at >= ?', since_date) if since_date.present?

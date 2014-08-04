@@ -13,6 +13,15 @@ module MessagesHelper
     end
   end
 
+  def message_from(message)
+    from = message.from rescue ''
+    if from.present? and from.starts_with?('sms://')
+      from[6..-1]
+    else
+      from
+    end
+  end
+
   def clear_filter_messages_path
     messages_path(sort: params[:sort], direction: params[:direction])
   end

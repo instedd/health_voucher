@@ -7,7 +7,7 @@
   %table.GralTable.w-pagination.messages
     %colgroup
       %col(style="width: 150px")
-      %col(style="width: 120px")
+      %col(style="width: 150px")
       %col(style="width: auto")
       %col(style="width: 100px")
       %col(style="width: 70px")
@@ -23,7 +23,7 @@
       - @messages.each do |message|
         %tr
           %td= message.created_at.to_s(:transaction)
-          %td= message.from
+          %td(title="#{message.from}")= message_from(message)
           %td(title="#{message.body}")= message.body
           %td= message.message_type
           %td= message.status
