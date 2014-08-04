@@ -12,6 +12,8 @@
     #{@site.active_cards.count} activated cards
   - if policy(@site).assign_cards?
     = link_to 'Add cards to site', assign_cards_site_path(@site), :class => 'farrow'
+  - else
+    %a.farrow.hidden
 
 .box.overview{ :class => ('incomplete' if @site.providers.empty?) }
   .i48grad-dataBase.icon
@@ -19,7 +21,7 @@
     #{@site.clinics.count} Clinics
     %br
     #{@site.providers.count} Providers
-  = link_to 'Manage Clinics', site_clinics_path(@site), :class => 'farrow'
+  = link_to (policy(@site).edit? ? 'Manage Clinics' : 'View Clinics'), site_clinics_path(@site), :class => 'farrow'
 
 .box.overview{ :class => ('incomplete' if @site.mentors.empty?) }
   .i48grad-users.icon
@@ -27,7 +29,7 @@
     #{@site.mentors.count} Mentors
     %br
     #{@site.patients.count} AGEP IDs
-  = link_to 'Manage Mentors', site_mentors_path(@site), :class => 'farrow'
+  = link_to (policy(@site).edit? ? 'Manage Mentors' : 'View Mentors'), site_mentors_path(@site), :class => 'farrow'
 
 %br
 %br
