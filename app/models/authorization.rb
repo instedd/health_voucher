@@ -26,4 +26,8 @@ class Authorization < ActiveRecord::Base
   def training?
     card.site.try(:training?) || provider.site.try(:training?)
   end
+
+  def clinic_service
+    provider.clinic.clinic_services.where(:service_id => service_id).first
+  end
 end

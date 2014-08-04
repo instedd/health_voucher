@@ -41,6 +41,7 @@ class Transaction::Processor
       @txn = @auth.build_transaction
       @txn.voucher = @voucher
       @txn.message = @message
+      @txn.amount = @auth.clinic_service.cost
       @txn.save!
     end
 

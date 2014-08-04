@@ -24,7 +24,7 @@
           = hidden_field_tag :service_id, nil
           .field.w20
             %label(for="cost") Cost
-            %input.w20#cost(name="cost" type="number" value="" min="0" data-focus="true")
+            %input.w20#cost(name="cost" type="number" value="" step="any" min="0" data-focus="true")
           .actions
             %button.grey(type="submit") Set
 

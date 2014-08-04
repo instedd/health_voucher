@@ -97,17 +97,14 @@ describe Statement::Generator do
     end
 
     it "should calculate a total amount for the statement" do
-      @clinic.clinic_service_for(@txn1.service).tap do |cs|
-        cs.cost = 1
-        cs.save!
-      end
-      @clinic.clinic_service_for(@txn2.service).tap do |cs|
-        cs.cost = 10
-        cs.save!
-      end
+      @txn1.amount = 1.5
+      @txn1.save!
+
+      @txn2.amount = 10.25
+      @txn2.save!
 
       stmt = @generator.generate
-      stmt.total.should eq(11)
+      stmt.total.should eq(11.75)
     end
   end
 end

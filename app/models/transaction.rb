@@ -55,10 +55,6 @@ class Transaction < ActiveRecord::Base
     card.patient
   end
 
-  def amount
-    clinic.clinic_services.where(:service_id => service.id).first.cost
-  end
-
   def training?
     authorization.training?
   end

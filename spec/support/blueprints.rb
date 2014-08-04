@@ -99,6 +99,7 @@ Transaction.blueprint do
   voucher { Voucher.make! }
   authorization { Authorization.make! }
   status { :unpaid }
+  amount { 1.0 }
 end
 
 Statement.blueprint do

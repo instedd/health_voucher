@@ -8,7 +8,6 @@ wb.styles do |s|
   sheet.add_row [
     "Clinic", 
     "Service", 
-    "Cost",
     "Visits", 
     "Amount"
   ], :style => header
@@ -16,18 +15,16 @@ wb.styles do |s|
   first_row = row = sheet.rows.count + 1
   @clinics.each do |clinic|
     clinic.clinic_services.each do |cs|
-      visits = @visits[clinic.id][cs.service_id]
-      cost = cs.cost || 0
+      visits = @visits[clinic.id][cs.service_id][:count]
+      amount = @visits[clinic.id][cs.service_id][:amount]
       sheet.add_row [
         clinic.name,
         cs.service.description,
-        cost,
         visits,
-        "=C#{row}*D#{row}"
+        amount
       ], :style => [
         nil,
         nil,
-        amount_style,
         nil,
         amount_style
       ]
@@ -38,17 +35,15 @@ wb.styles do |s|
   sheet.add_row [
     "Totals",
     nil,
-    nil,
-    "=SUM(D#{first_row}:D#{row-1})",
-    "=SUM(E#{first_row}:E#{row-1})"
+    "=SUM(C#{first_row}:C#{row-1})",
+    "=SUM(D#{first_row}:D#{row-1})"
   ], :style => [
     header,
-    nil,
     nil,
     footer,
     total_style
   ]
 
-  sheet.column_widths 30, 55, 10, 10, 10
+  sheet.column_widths 30, 55, 10, 10
 end
 

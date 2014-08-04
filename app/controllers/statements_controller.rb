@@ -141,13 +141,14 @@ class StatementsController < ApplicationController
     @clinics = Clinic.where(:id => clinic_ids).includes(:clinic_services => :service)
     @visits = Hash[@clinics.map do |clinic|
       services = Hash[clinic.clinic_services.map do |cs|
-        [cs.service_id, 0]
+        [cs.service_id, {count: 0, amount: 0}]
       end]
       [clinic.id, services]
     end]
     @statements.includes(:transactions => :authorization).each do |stmt|
       stmt.transactions.each do |txn|
-        @visits[stmt.clinic_id][txn.service_id] += 1
+        @visits[stmt.clinic_id][txn.service_id][:count] += 1
+        @visits[stmt.clinic_id][txn.service_id][:amount] += txn.amount
       end
     end
     render xlsx: 'export', filename: 'statements.xlsx', disposition: 'attachment'

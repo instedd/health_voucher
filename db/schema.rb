@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140627210318) do
+ActiveRecord::Schema.define(:version => 20140804171103) do
 
   create_table "activities", :force => true do |t|
     t.integer  "user_id"
@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(:version => 20140627210318) do
     t.integer  "clinic_id"
     t.date     "until"
     t.string   "status"
-    t.decimal  "total",      :precision => 10, :scale => 0
+    t.decimal  "total",      :precision => 10, :scale => 2
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false
   end
@@ -181,9 +181,10 @@ ActiveRecord::Schema.define(:version => 20140627210318) do
     t.integer  "statement_id"
     t.string   "status"
     t.text     "comment"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                                      :null => false
+    t.datetime "updated_at",                                      :null => false
     t.integer  "message_id"
+    t.decimal  "amount",           :precision => 10, :scale => 2
   end
 
   add_index "transactions", ["authorization_id"], :name => "index_transactions_on_authorization_id"

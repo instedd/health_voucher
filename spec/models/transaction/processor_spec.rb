@@ -6,7 +6,11 @@ describe Transaction::Processor do
     @service2 = Service.make!(:secondary)
     @service3 = Service.make!
 
-    @provider = Provider.make!
+    @clinic = Clinic.make!
+    @cs1 = ClinicService.make! clinic: @clinic, service: @service1, cost: 10
+    @cs2 = ClinicService.make! clinic: @clinic, service: @service2, cost: 20
+    @cs3 = ClinicService.make! clinic: @clinic, service: @service3, cost: 30
+    @provider = Provider.make! clinic: @clinic
 
     @card = Card.make!(:with_vouchers)
     @patient = Patient.make! current_card: @card
@@ -102,6 +106,13 @@ describe Transaction::Processor do
       @processor.confirm
 
       @auth1.transaction.should_not be_nil
+    end
+
+    it "should set the amount from the service cost" do
+      @processor.confirm
+
+      @auth1.transaction.amount.should_not be_nil
+      @auth1.transaction.amount.should == @cs1.cost
     end
   end
 end

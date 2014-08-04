@@ -53,7 +53,7 @@
           %td= txn.provider.code
           %td= txn.provider.name
           %td= txn.service.code
-          %td= "#{txn.service.short_description} (#{txn.service.service_type})"
+          %td= txn.service.short_description
           %td= txn.patient.agep_id
           %td= card_serial_number(txn.card)
           %td.number= number_to_currency(txn.amount, unit: '')
