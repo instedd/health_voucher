@@ -14,7 +14,7 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :voucher, :authorization
   validates_length_of :comment, :maximum => 200
 
-  scope :for_listing, includes(:authorization => [:service, :card => :patient, :provider => :clinic])
+  scope :for_listing, includes(:authorization => [:service, :card => :patient, :provider => {:clinic => :site}])
 
   paginates_per 15
 

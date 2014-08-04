@@ -1,44 +1,49 @@
-%h1 Transactions
-%p.fineprint (Transactions marked with * are from training sites and will not be included in any statement)
+.wide-container
+  %h1 Transactions
+  %p.fineprint (Transactions marked with * are from training sites and will not be included in any statement)
 
-= render partial: 'filter_form'
+  = render partial: 'filter_form'
 
-%br
-.tablewrapp
-  %table.GralTable.w-pagination.transactions
-    %colgroup
-      %col(style="width: 45px")
-      %col(style="width: 150px")
-      %col(style="width: auto")
-      %col(style="width: 55px")
-      %col(style="width: 50px")
-      %col(style="width: 100px")
-      %col(style="width: 80px")
-      %col(style="width: 55px")
-      %col(style="width: 100px")
-      %col(style="width: auto")
-    %tbody
-      %tr
-        = sort_header('id', 'ID#')
-        = sort_header('date')
-        = sort_header('clinic')
-        = sort_header('provider', 'Prov')
-        = sort_header('service', 'Svc')
-        = sort_header('agep_id', 'AGEP ID')
-        = sort_header('card', 'Voucher')
-        = sort_header('statement', 'Stmt')
-        = sort_header('status')
-        %th Comment
-      - @transactions.each do |txn|
-        = render partial: 'transaction', locals: { txn: txn }
-  = paginate @transactions
+  %br
+  .tablewrapp
+    %table.GralTable.w-pagination.transactions
+      %colgroup
+        %col(style="width: 45px")
+        %col(style="width: 150px")
+        %col(style="width: 100px")
+        %col(style="width: auto")
+        %col(style="width: 45px")
+        %col(style="width: 35px")
+        %col(style="width: 100px")
+        %col(style="width: 80px")
+        %col(style="width: 55px")
+        %col(style="width: 60px")
+        %col(style="width: 100px")
+        %col(style="width: auto")
+      %tbody
+        %tr
+          = sort_header('id', 'ID#')
+          = sort_header('date')
+          = sort_header('site')
+          = sort_header('clinic')
+          = sort_header('provider', 'Prov')
+          = sort_header('service', 'Svc')
+          = sort_header('agep_id', 'AGEP ID')
+          = sort_header('card', 'Voucher')
+          = sort_header('statement', 'Stmt')
+          %th Amount
+          = sort_header('status')
+          %th Comment
+        - @transactions.each do |txn|
+          = render partial: 'transaction', locals: { txn: txn }
+    = paginate @transactions
 
-  = render partial: 'update_status'
-  
-%br
-.actions
-  = link_to 'Export CSV', transactions_path(params.merge(format: 'csv')), :class => 'fexport'
-  %span.fineprint (#{@transactions.total_count} transactions matching the filter criteria will be exported)
+    = render partial: 'update_status'
+    
+  %br
+  .actions
+    = link_to 'Export CSV', transactions_path(params.merge(format: 'csv')), :class => 'fexport'
+    %span.fineprint (#{@transactions.total_count} transactions matching the filter criteria will be exported)
 
 :javascript
   $(function() { onTransactionsIndex() });

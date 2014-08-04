@@ -1,12 +1,14 @@
 %tr{:class => ('training' if txn.training?), "data-id" => txn.id, "data-status" => txn.status}
   %td= txn.id
   %td= txn.created_at.to_s(:transaction)
+  %td(title="#{txn.clinic.site.name}")= txn.clinic.site.name
   %td(title="#{txn.clinic.name}")= txn.clinic.name
   %td= txn.provider.code
   %td= txn.service.code
   %td= txn.patient.try(:agep_id)
   %td= card_serial_number(txn.card)
   %td= txn.statement_id
+  %td.number= number_to_currency(txn.amount, unit: '')
   %td
     - if policy(txn).update_status?
       %a.fedit.status{:class => ('disabled' unless txn.updatable?), "data-action" => update_status_transaction_path(txn)}

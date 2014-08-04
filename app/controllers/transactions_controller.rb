@@ -36,6 +36,8 @@ class TransactionsController < ApplicationController
              'transactions.id'
            when 'date'
              'transactions.created_at'
+           when 'site'
+             'sites.name'
            when 'clinic'
              'clinics.name'
            when 'provider'

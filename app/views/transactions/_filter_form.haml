@@ -34,9 +34,9 @@
           %td
             %label(for="site_id") Sites
           %td.noalign
-            = select_tag :site_id, sites_for_select(params[:site_id]), :class => 'ux-select2 w50', :multiple => true
+            = select_tag :site_id, sites_for_select(params[:site_id]), :class => 'ux-select2 w60', :multiple => true
         %tr
           %td
             %label(for="clinic_id") Clinics
           %td.noalign
-            = select_tag :clinic_id, all_clinics_for_select(params[:clinic_id]), :class => 'ux-select2 w50', :multiple => true
+            = select_tag :clinic_id, all_clinics_for_select(params[:clinic_id]), :class => 'ux-select2 w60', :multiple => true
