@@ -4,17 +4,17 @@
   %table.GralTable.w-pagination.batches
     %colgroup
       %col(style="width: auto")
-      %col(style="width: 90px")
-      %col(style="width: 70px")
+      %col(style="width: 95px")
+      %col(style="width: 80px")
       %col(style="width: 70px")
       %col(style="width: 70px")
       %col(style="width: 70px")
       %col.noprint(style="width: 140px")
     %tbody
       %tr
-        %th Batch identification
-        %th Generated
-        %th Initial SN
+        = sort_header('name', 'Batch identification')
+        = sort_header('created_at', 'Generated')
+        = sort_header('initial_serial_number', 'Initial SN')
         %th Quantity
         %th In Stock
         %th In Sites

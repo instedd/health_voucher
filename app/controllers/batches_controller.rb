@@ -3,7 +3,11 @@ class BatchesController < ApplicationController
   before_filter :add_breadcrumbs
 
   def index
-    @batches = Batch.order('created_at ASC').page params[:page]
+    direction = 'asc'
+    direction = params[:direction] if %w(asc desc).include?(params[:direction]) 
+    sort = 'initial_serial_number'
+    sort = params[:sort] if %w(name created_at initial_serial_number).include?(params[:sort])
+    @batches = Batch.order("#{sort} #{direction}").page params[:page]
   end
 
   def show
