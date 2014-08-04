@@ -1,6 +1,7 @@
 %tr(data-id="#{patient.id}")
-  %td
-    = check_box_tag nil, patient.id, false, :class => 'patient_check'
+  - if policy(patient).manage?
+    %td
+      = check_box_tag nil, patient.id, false, :class => 'patient_check'
   %td= patient.agep_id
 
   - if patient.current_card.nil?

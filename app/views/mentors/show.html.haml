@@ -10,7 +10,8 @@
 .tablewrapp.w90
   %table.GralTable.patients
     %colgroup
-      %col.noprint(style="width: 35px")
+      - if policy(@mentor).move_patients?
+        %col.noprint(style="width: 35px")
       %col(style="width: 110px")
       %col(style="width: 95px")
       %col(style="width: 100px")
@@ -19,8 +20,9 @@
       %col.noprint(style="width: auto")
       %col.noprint(style="width: 100px")
     %tr
-      %th
-        %input.check_all(type="checkbox")
+      - if policy(@mentor).move_patients?
+        %th
+          %input.check_all(type="checkbox")
       %th AGEP ID
       %th Current card
       %th Valid from
