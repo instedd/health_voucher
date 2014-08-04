@@ -101,3 +101,10 @@ class @Collapsable
     else
       @collapse()
 
+# patch-up IE8 cancelling change event for remote=>true checkboxes
+if $.browser.msie and parseInt($.browser.version, 10) == 8
+  $(document).on 'change', 'input[type=checkbox]', ->
+    elt = $(@)
+    value = elt.is(':checked')
+    setTimeout (-> elt.prop('checked', value)), 1
+
