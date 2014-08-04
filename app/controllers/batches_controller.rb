@@ -21,7 +21,7 @@ class BatchesController < ApplicationController
 
   def new
     add_breadcrumb 'Generate', new_batch_path
-    @batch = Batch.new initial_serial_number: Batch.next_serial_number, quantity: Batch::DEFAULT_QUANTITY
+    @batch = Batch.build_next
   end
 
   def create

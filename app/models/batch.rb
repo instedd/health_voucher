@@ -11,6 +11,7 @@ class Batch < ActiveRecord::Base
   validates_numericality_of :quantity, :greater_than => 0, :integer_only => true
   validate :check_overlaps
   validate :forbid_changes_after_cards_created
+  validate :check_last_serial_number
 
   paginates_per 15
 
@@ -42,8 +43,34 @@ class Batch < ActiveRecord::Base
     cards.where('site_id IS NOT NULL')
   end
 
+  def self.max_serial_number
+    (10 ** Card::SERIAL_NUMBER_LENGTH) - 1
+  end
+
   def self.next_serial_number
     Batch.order('initial_serial_number DESC').first.last_serial_number + 1 rescue 1
+  end
+
+  def self.build_next
+    sn = next_serial_number
+    qty = DEFAULT_QUANTITY
+    if sn > max_serial_number
+      # try to find an appropiate "hole" in the existing batch numbering
+      batches = Batch.order('initial_serial_number').map do |b|
+        [b.first_serial_number, b.last_serial_number]
+      end + [[max_serial_number + 1, 0]]
+      i = 0
+      sn = 1
+      qty = batches.first[0] - sn
+      while i < batches.size - 1 and qty <= 0
+        sn = batches[i][1] + 1
+        qty = [batches[i + 1][0] - sn, DEFAULT_QUANTITY].min
+        i += 1
+      end
+    else
+      qty = [qty, max_serial_number - sn + 1].min
+    end
+    new initial_serial_number: sn, quantity: qty
   end
 
   def generating?
@@ -73,6 +100,12 @@ class Batch < ActiveRecord::Base
       if changes.include?(attr)
         errors[attr] << "can not be changed after cards have been created" 
       end
+    end
+  end
+
+  def check_last_serial_number
+    if last_serial_number > Batch.max_serial_number
+      errors[:quantity] << "is too big"
     end
   end
 end
