@@ -17,6 +17,8 @@ wb.styles do |s|
     clinic.clinic_services.each do |cs|
       visits = @visits[clinic.id][cs.service_id][:count]
       amount = @visits[clinic.id][cs.service_id][:amount]
+      next if visits == 0
+
       sheet.add_row [
         clinic.name,
         cs.service.description,
