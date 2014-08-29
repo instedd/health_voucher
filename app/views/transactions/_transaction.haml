@@ -1,10 +1,10 @@
 %tr{:class => ('training' if txn.training?), "data-id" => txn.id, "data-status" => txn.status}
   %td= txn.id
   %td= txn.created_at.to_s(:transaction)
-  %td(title="#{txn.clinic.site.name}")= txn.clinic.site.name
   %td(title="#{txn.clinic.name}")= txn.clinic.name
   %td= txn.provider.code
   %td= txn.service.code
+  %td(title="#{txn.patient.site.name}")= txn.patient.site.name
   %td= txn.patient.try(:agep_id)
   %td= card_serial_number(txn.card)
   %td= txn.statement_id

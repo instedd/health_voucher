@@ -28,7 +28,7 @@
             %span to
             = text_field_tag :txn_to, params[:txn_to], :class => 'ux-datepicker w10', :autocomplete => 'off'
             %br
-            %label(for="site_id") Sites
+            %label(for="site_id") Clinic sites
             = select_tag :site_id, sites_for_select(params[:site_id]), :class => 'ux-select2 w50', :multiple => true
             %br
             %label(for="clinic_id") Clinics

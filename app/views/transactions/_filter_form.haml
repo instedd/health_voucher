@@ -32,7 +32,7 @@
             = text_field_tag :until, params[:until], :class => 'ux-datepicker w10', :autocomplete => 'off'
         %tr
           %td
-            %label(for="site_id") Sites
+            %label(for="site_id") AGEP sites
           %td.noalign
             = select_tag :site_id, sites_for_select(params[:site_id]), :class => 'ux-select2 w60', :multiple => true
         %tr
