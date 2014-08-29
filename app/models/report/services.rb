@@ -14,13 +14,13 @@ class Report::Services < Report
   end
 
   def build
-    transactions = Transaction.joins(:authorization => [:provider => :clinic])
+    transactions = Transaction.joins(:authorization => [:card => {:patient => :mentor}, :provider => :clinic])
     transactions = add_date_criteria(transactions, 'transactions.created_at')
 
     if by_site?
       transactions = transactions.
-        select(['authorizations.service_id AS service_id', 
-                'clinics.site_id AS col_id',
+        select(['authorizations.service_id AS service_id',
+                'mentors.site_id AS col_id',
                 'COUNT(*) AS txn_count']).
         group('service_id, col_id')
       @columns = Site.order(:name).map do |site|
@@ -29,7 +29,7 @@ class Report::Services < Report
     else
       transactions = transactions.
         where('clinics.site_id' => site_id).
-        select(['authorizations.service_id AS service_id', 
+        select(['authorizations.service_id AS service_id',
                 'clinics.id AS col_id',
                 'COUNT(*) AS txn_count']).
         group('service_id, col_id')
@@ -64,7 +64,7 @@ class Report::Services < Report
   def title
     "Most frequently accessed services by " + \
       if by_site?
-        "site"
+        "AGEP ID site"
       else
         "clinic in #{Site.find(site_id).name}"
       end

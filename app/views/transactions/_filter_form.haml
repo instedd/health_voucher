@@ -8,7 +8,7 @@
       %table.filter-container
         %colgroup
           %col(style="width: 150px;")
-          %col(style="width: 80px;")
+          %col(style="width: 110px;")
           %col(style="width: auto;")
           %col(style="width: 150px;")
         %tr
@@ -32,7 +32,7 @@
             = text_field_tag :until, params[:until], :class => 'ux-datepicker w10', :autocomplete => 'off'
         %tr
           %td
-            %label(for="site_id") AGEP sites
+            %label(for="site_id") AGEP ID sites
           %td.noalign
             = select_tag :site_id, sites_for_select(params[:site_id]), :class => 'ux-select2 w60', :multiple => true
         %tr

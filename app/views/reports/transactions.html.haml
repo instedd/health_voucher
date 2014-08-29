@@ -8,7 +8,7 @@
   = form_tag reports_transactions_path, id: 'report_grouping_form', method: "get", remote: true do |f|
     .report-grouping-option
       %input#by_site(type="radio" name="by" value="site" checked="checked")
-      %label(for="by_site") by site
+      %label(for="by_site") by AGEP ID site
     .report-grouping-option
       %input#by_clinic(type="radio" name="by" value="clinic")
       %label(for="by_clinic") by clinic in

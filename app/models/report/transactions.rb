@@ -24,7 +24,7 @@ class Report::Transactions < Report
 
   def title
     if by_site?
-      "Transactions by site"
+      "Transactions by AGEP ID site"
     else
       "Transactions by clinic in #{Site.find(site_id).name}"
     end
@@ -40,7 +40,7 @@ class Report::Transactions < Report
 
   def column_titles
     if by_site?
-      ["Site"]
+      ["AGEP ID Site"]
     else
       ["Clinic"]
     end + ["Transactions #{humanized_date_range}", "Unique visitors"]
@@ -51,15 +51,16 @@ class Report::Transactions < Report
   def build_by_site
     since_when = 30.days.ago
     patients_with_recent_visits = Patient.
-      joins(:current_card => {:authorizations => [:transaction, :provider => :clinic]}).
+      joins(:current_card => {:authorizations => :transaction}).
+      joins(:mentor).
       uniq.
-      select(['patients.id', 'clinics.site_id AS site_id'])
+      select(['patients.id', 'mentors.site_id AS site_id'])
     patients_with_recent_visits = add_date_criteria(patients_with_recent_visits, 'transactions.created_at')
 
     site_visits = patients_with_recent_visits.map do |patient| patient.site_id end
     transactions = Transaction.
-      joins(:authorization => [:provider => :clinic]).
-      select(['clinics.site_id AS site_id', 'COUNT(*) AS txn_count']).
+      joins(:authorization => {:card => {:patient => :mentor}}).
+      select(['mentors.site_id AS site_id', 'COUNT(*) AS txn_count']).
       group('site_id')
     transactions = add_date_criteria(transactions, 'transactions.created_at')
 
