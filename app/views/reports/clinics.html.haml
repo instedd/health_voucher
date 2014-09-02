@@ -3,12 +3,13 @@
 = render partial: 'shared/reports_tabs'
 
 %h2 Most frequently accessed clinics
+%p.fineprint (Excluding clinics from training sites)
 
 .report-grouping
   = form_tag reports_clinics_path, id: 'report_grouping_form', method: "get", remote: true do |f|
     .report-grouping-option
       %label(for="site_id") Site
-      = select_tag :site_id, sites_filter_options(params[:site_id]), :class => 'w20 site'
+      = select_tag :site_id, non_training_sites_filter_options(params[:site_id]), :class => 'w20 site'
     .report-grouping-option.right
       %label(for="since") from
       = text_field_tag :since, params[:since], :class => 'ux-datepicker w10', :autocomplete => 'off'

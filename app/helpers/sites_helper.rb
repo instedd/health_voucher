@@ -11,6 +11,10 @@ module SitesHelper
     options_for_select([['(All Sites)', '']]) + sites_for_select(current)
   end
 
+  def non_training_sites_filter_options(current = nil)
+    options_for_select([['(All Sites)', '']]) + non_training_sites_for_select(current)
+  end
+
   def options_for_site_selector(path_helper, current = nil)
     sites = Site.order(:name).all.map do |site|
       path = Rails.application.routes.url_helpers.send(path_helper, site)

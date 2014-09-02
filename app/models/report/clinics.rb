@@ -13,7 +13,8 @@ class Report::Clinics < Report
 
   def build
     transactions = Transaction.
-      joins(:authorization => [:provider => :clinic]).
+      joins(:authorization => [:provider => {:clinic => :site}]).
+      where('sites.training' => [nil, false]).
       select(['clinics.id AS clinic_id',
               'COUNT(*) as txn_count']).
       group('clinic_id')
@@ -24,7 +25,7 @@ class Report::Clinics < Report
       [row[:clinic_id], row[:txn_count]]
     end]
 
-    clinics = Clinic.includes(:site).order(:name)
+    clinics = Clinic.includes(:site).joins(:site).where('sites.training' => [nil, false]).order('clinics.name')
     clinics = clinics.where(:site_id => site_id) if site_id.present?
 
     @data = clinics.map do |clinic|
