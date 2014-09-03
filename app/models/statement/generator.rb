@@ -7,6 +7,8 @@ class Statement::Generator
   end
 
   def find_transactions
+    return [] if @clinic.site.training?
+
     Transaction.joins(:authorization => :provider).
       where(:status => :unpaid).
       where(:statement_id => nil).

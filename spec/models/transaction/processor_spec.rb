@@ -12,7 +12,7 @@ describe Transaction::Processor do
     @cs3 = ClinicService.make! clinic: @clinic, service: @service3, cost: 30
     @provider = Provider.make! clinic: @clinic
 
-    @card = Card.make!(:with_vouchers)
+    @card = Card.make!(:with_vouchers, site: Site.make!)
     @patient = Patient.make! current_card: @card
 
     @auth1 = Authorization.make! provider: @provider, service: @service1, card: @card
@@ -113,6 +113,26 @@ describe Transaction::Processor do
 
       @auth1.transaction.amount.should_not be_nil
       @auth1.transaction.amount.should == @cs1.cost
+    end
+
+    it "should set the transaction training status to false" do
+      @processor.confirm
+
+      @auth1.transaction.should_not be_training
+    end
+
+    it "should set the transaction training flag to true if the clinic was training" do
+      @clinic.site.update_attribute :training, true
+      @processor.confirm
+
+      @auth1.transaction.should be_training
+    end
+
+    it "should set the transaction training flag to true if the card was training" do
+      @card.site.update_attribute :training, true
+      @processor.confirm
+
+      @auth1.transaction.should be_training
     end
   end
 end

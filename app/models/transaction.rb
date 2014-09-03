@@ -55,10 +55,6 @@ class Transaction < ActiveRecord::Base
     card.patient
   end
 
-  def training?
-    authorization.training?
-  end
-
   def updatable?
     !training? && statement_id.nil?
   end

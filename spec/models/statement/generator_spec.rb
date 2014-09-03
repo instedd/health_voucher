@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Statement::Generator do
   def make_transaction(options = {})
     auth = Authorization.make! options
-    Transaction.make! authorization: auth
+    Transaction.make! authorization: auth, training: auth.training?
   end
 
   before(:each) do

@@ -12,9 +12,8 @@ class Report::Clinics < Report
   end
 
   def build
-    transactions = Transaction.
+    transactions = Transaction.where(:training => false).
       joins(:authorization => [:provider => {:clinic => :site}]).
-      where('sites.training' => [nil, false]).
       select(['clinics.id AS clinic_id',
               'COUNT(*) as txn_count']).
       group('clinic_id')

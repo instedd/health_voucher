@@ -14,11 +14,7 @@ describe Transaction do
     end
 
     it "should not allow updates if the transaction is from training" do
-      site = @txn.provider.site
-      site.update_attribute :training, true
-
-      @txn.authorization.should be_training
-      @txn.should be_training
+      @txn.update_attribute :training, true
 
       @txn.update_status(:pending, '123').should be_false
       @txn.should be_unpaid
