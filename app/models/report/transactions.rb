@@ -59,6 +59,7 @@ class Report::Transactions < Report
 
     site_visits = patients_with_recent_visits.map do |patient| patient.site_id end
     transactions = Transaction.
+      where(:training => false).
       joins(:authorization => {:card => {:patient => :mentor}}).
       select(['mentors.site_id AS site_id', 'COUNT(*) AS txn_count']).
       group('site_id')
@@ -67,7 +68,7 @@ class Report::Transactions < Report
     txns_per_site = Hash[transactions.map do |txn|
       [txn.site_id, txn.txn_count]
     end]
-    sites = Site.order(:name)
+    sites = Site.non_training.order(:name)
     @data = sites.map do |site|
       {
         :site_id => site.id,
@@ -88,6 +89,7 @@ class Report::Transactions < Report
 
     visited_clinics = patients_with_recent_visits.map do |patient| patient.clinic_id end
     transactions = Transaction.
+      where(:training => false).
       joins(:authorization => [:provider => :clinic]).
       where('clinics.site_id' => site_id).
       select(['providers.clinic_id AS clinic_id', 'COUNT(*) AS txn_count']).
@@ -97,7 +99,7 @@ class Report::Transactions < Report
     txns_per_clinic = Hash[transactions.map do |txn|
       [txn.clinic_id, txn.txn_count]
     end]
-    clinics = Clinic.joins(:site).where('sites.id' => site_id)
+    clinics = Clinic.joins(:site).where('sites.id' => site_id).where('sites.training' => [nil, false])
     @data = clinics.map do |clinic|
       {
         :clinic_name => clinic.name,

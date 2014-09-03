@@ -3,7 +3,7 @@
 = render partial: 'shared/reports_tabs'
 
 %h2 Most frequently accessed clinics
-%p.fineprint (Excluding clinics from training sites)
+%p.fineprint (Excluding training sites and transactions)
 
 .report-grouping
   = form_tag reports_clinics_path, id: 'report_grouping_form', method: "get", remote: true do |f|

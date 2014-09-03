@@ -14,7 +14,9 @@ class Report::Services < Report
   end
 
   def build
-    transactions = Transaction.joins(:authorization => [:card => {:patient => :mentor}, :provider => :clinic])
+    transactions = Transaction.
+      where(:training => false).
+      joins(:authorization => [:card => {:patient => :mentor}, :provider => :clinic])
     transactions = add_date_criteria(transactions, 'transactions.created_at')
 
     if by_site?
@@ -23,7 +25,7 @@ class Report::Services < Report
                 'mentors.site_id AS col_id',
                 'COUNT(*) AS txn_count']).
         group('service_id, col_id')
-      @columns = Site.order(:name).map do |site|
+      @columns = Site.non_training.order(:name).map do |site|
         { id: site.id, name: site.name }
       end
     else
