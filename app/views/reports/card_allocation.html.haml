@@ -3,6 +3,7 @@
 = render partial: 'shared/reports_tabs'
 
 %h2 AGEP IDs
+%p.fineprint (Excluding training sites)
 
 .report-grouping
   = form_tag reports_card_allocation_path, id: 'report_grouping_form', method: "get", remote: true do |f|
@@ -12,7 +13,7 @@
     .report-grouping-option
       %input#by_mentor(type="radio" name="by" value="mentor")
       %label(for="by_mentor") by mentor in
-      = select_tag :site_id, sites_filter_options(params[:site_id]), :class => 'w20 site', :disabled => params[:by] != 'mentor'
+      = select_tag :site_id, non_training_sites_filter_options(params[:site_id]), :class => 'w20 site', :disabled => params[:by] != 'mentor'
     .report-grouping-option.right
       %label(for="since") Card usage period from
       = text_field_tag :since, params[:since], :class => 'ux-datepicker w10', :autocomplete => 'off'

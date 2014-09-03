@@ -19,13 +19,13 @@ class Report::CardAllocation < Report
 
     if by_mentor?
       patients_with_uses = patients_with_uses.select(['patients.id', 'mentors.id AS grouping_id'])
-      groupings = Mentor.with_patient_counts.order(:name)
+      groupings = Mentor.with_patient_counts.joins(:site).where('sites.training' => [nil, false]).order(:name)
       if site_id.present?
         groupings = groupings.where(:site_id => site_id)
       end
     else
       patients_with_uses = patients_with_uses.select(['patients.id', 'mentors.site_id AS grouping_id'])
-      groupings = Site.with_patient_counts.order(:name)
+      groupings = Site.non_training.with_patient_counts.order(:name)
     end
     grouping_for_uses = patients_with_uses.map(&:grouping_id)
 
