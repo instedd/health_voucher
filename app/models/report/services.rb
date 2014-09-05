@@ -58,6 +58,7 @@ class Report::Services < Report
     end
 
     @totals = totalize @data, [:cols, :row_total]
+    sort_data!
 
     self
   end
@@ -77,6 +78,10 @@ class Report::Services < Report
 
   def column_keys
     [:description, :row_total, :cols]
+  end
+
+  def sort_keys
+    [:service_code, :row_total]
   end
 end
 

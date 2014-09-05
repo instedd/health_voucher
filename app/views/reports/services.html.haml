@@ -7,6 +7,8 @@
 
 .report-grouping
   = form_tag reports_services_path, id: 'report_grouping_form', method: "get", remote: true do |f|
+    = hidden_field_tag :sort, params[:sort]
+    = hidden_field_tag :direction, params[:direction]
     .report-grouping-option
       %input#by_site(type="radio" name="by" value="site" checked="checked")
       %label(for="by_site") by AGEP ID site

@@ -11,15 +11,16 @@ module ApplicationHelper
     params[:direction]
   end
 
-  def sort_header(column, title = nil)
+  def sort_header(column, title = nil, header_options = {})
     title ||= column.to_s.titleize
     page_number = params[:page]
     direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
     options = params.merge({
-      :sort => column, 
-      :direction => direction 
+      :sort => column,
+      :direction => direction
     })
-    content_tag :th, (link_to(title, options) + '<span></span>'.html_safe), :class => css_sort_class_for(column)
+    header_options[:class] = [css_sort_class_for(column), header_options[:class]].join ' '
+    content_tag :th, (link_to(title, options) + '<span></span>'.html_safe), header_options
   end
 
   def humanize_boolean(value)
@@ -45,7 +46,7 @@ module ApplicationHelper
     if options[:allow_blank].nil? || options[:allow_blank]
       result << hidden_field_tag(field_name, '')
     end
-    
+
     if options[:select_all].nil? || options[:select_all]
       field_name = "select_all_#{field_name.underscore}"
       result.unshift(
@@ -58,5 +59,4 @@ module ApplicationHelper
 
     result.join(options[:separator] || '<br/>').html_safe
   end
-  
 end

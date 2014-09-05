@@ -6,8 +6,8 @@
       %col(width="300px")
     %tbody
       %tr
-        %th Service
-        %th.center Total
+        = sort_header('service_code', 'Service')
+        = sort_header('row_total', 'Total', :class => 'center')
         - @report.columns.each do |col|
           %th.center= col[:name]
 
@@ -30,7 +30,6 @@
         - @report.data.each do |row|
           %tr
             %td.service-name
-              -# = service_type_span(row)
               %span.service-code
                 = row[:service_code]
               = row[:description]

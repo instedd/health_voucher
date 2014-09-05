@@ -6,6 +6,8 @@ class ReportPage
     @by_mentor_radio = $('#by_mentor')
     @by_clinic_radio = $('#by_clinic')
     @export_button = $('.fexport[data-action]')
+    @sort = $('#sort')
+    @direction = $('#direction')
 
   submit: =>
     @form.trigger('submit.rails')
@@ -28,6 +30,15 @@ class ReportPage
       formData = @form.serialize()
       window.location = url + '?' + formData
 
+    self = @
+    $('#report_container').on 'click', 'th.sort a', (evt) ->
+      evt.preventDefault()
+      url = $(@).attr('href')
+      sort_match = url.match(/sort=([^&]*)/)
+      direction_match = url.match(/direction=([^&]*)/)
+      self.sort.val(sort_match[1]) if sort_match
+      self.direction.val(direction_match[1]) if direction_match
+      self.submit()
 
 class TransactionsReport extends ReportPage
   init: ->
@@ -42,12 +53,12 @@ class TransactionsReport extends ReportPage
     @site_combo.val(id)
     @by_clinic_radio.attr('checked', 'checked')
     @submit()
-    
+
 
 @onReportsCardAllocation = ->
   report = new ReportPage
   report.init()
-  
+
 @onReportsTransactions = ->
   report = new TransactionsReport
   report.init()
