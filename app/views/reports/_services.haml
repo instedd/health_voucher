@@ -26,11 +26,13 @@
               = col
               %span.percentage
                 = percent_of_with_base(col, @report.totals[:row_total])
-        
+
         - @report.data.each do |row|
           %tr
             %td.service-name
               -# = service_type_span(row)
+              %span.service-code
+                = row[:service_code]
               = row[:description]
             %td.totals.number
               = row[:row_total]

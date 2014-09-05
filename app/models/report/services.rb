@@ -49,14 +49,13 @@ class Report::Services < Report
       end
       {
         id: service.id,
+        service_code: service.code,
         service_type: service.service_type,
         description: service.description,
         cols: cols,
         row_total: cols.sum
       }
-    end.sort_by do |row|
-      row[:row_total]
-    end.reverse
+    end
 
     @totals = totalize @data, [:cols, :row_total]
 
@@ -64,7 +63,7 @@ class Report::Services < Report
   end
 
   def title
-    "Most frequently accessed services by " + \
+    "Accessed services by " + \
       if by_site?
         "AGEP ID site"
       else
