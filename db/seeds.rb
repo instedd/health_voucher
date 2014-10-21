@@ -14,7 +14,7 @@ SERVICES = [
   ["28", "FP consultation plus Emergency Contraception", "FP Consult + EC", "primary"],
   ["31", "Pregnancy Test plus refereal", "Preg Test", "primary"],
   ["41", "RTI/STI consultation or follow-up consult for girls or partner", "STI Consult", "primary"],
-  ["42", "Treatment of discharge (includes consultation)", "STI Consult+Treat", "primary"],
+  ["42", "Treatment of discharge (includes consultation)", "Treat for discharge", "primary"],
   ["43", "Girl + partner treated for discharge (incl consultation)", "STI Partner ConsTreat", "primary"],
   ["44", "RPR test", "RPR Test", "secondary"],
   ["45", "Treatment of genital ulcers, bubo, etc. (incl consultation)", "Gen Ulcer Treat", "primary"],
