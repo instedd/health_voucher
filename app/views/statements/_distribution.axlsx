@@ -10,14 +10,14 @@ wb.styles do |s|
   sheet.add_row
 
   total_row = sheet.rows.count + 1
-  sheet.add_row ["Total for month", stmt.total]
+  sheet.add_row ["Total for month", stmt.total], :style => [nil, amount_style]
   sheet.add_row
 
   sheet.add_row ["Distribution of Funds"], :style => header
-  sheet.add_row ["RHC Staff Incentives (50%)", "=B#{total_row}*0.5"]
-  sheet.add_row ["Supplies/Facility Improvements (25%)", "=B#{total_row}*0.25"]
-  sheet.add_row ["Transport for District Health Staff (20%)", "=B#{total_row}*0.20"]
-  sheet.add_row ["Finance/Admin Costs at DCHO (5%)", "=B#{total_row}*0.05"]
+  sheet.add_row ["RHC Staff Incentives (50%)", "=B#{total_row}*0.5"], :style => [nil, amount_style]
+  sheet.add_row ["Supplies/Facility Improvements (25%)", "=B#{total_row}*0.25"], :style => [nil, amount_style]
+  sheet.add_row ["Transport for District Health Staff (20%)", "=B#{total_row}*0.20"], :style => [nil, amount_style]
+  sheet.add_row ["Finance/Admin Costs at DCHO (5%)", "=B#{total_row}*0.05"], :style => [nil, amount_style]
   sheet.add_row
   sheet.add_row
 

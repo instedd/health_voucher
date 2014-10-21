@@ -30,7 +30,7 @@ end
     add_logo sheet, 7
     render partial: 'statement', locals: { sheet: sheet, stmt: stmt, wb: wb }
   end
-  name = "Distribution - #{stmt.clinic.name}"
+  name = "Distribution ##{stmt.id} - #{stmt.clinic.name}"
   wb.add_worksheet(name: truncate(name, length: 30)) do |sheet|
     add_logo sheet, 3
     render partial: 'distribution', locals: { sheet: sheet, stmt: stmt, wb: wb }
