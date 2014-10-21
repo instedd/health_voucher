@@ -9,6 +9,12 @@ def add_logo(sheet)
     image.height = 64
     image.start_at 0, 0
   end
+  popcouncil_logo = File.expand_path('public/images/popcouncil_logo.jpg', Rails.root)
+  sheet.add_image(:image_src => popcouncil_logo, :noSelect => false, :noMove => true) do |image|
+    image.width = 130
+    image.height = 64
+    image.start_at 2, 0
+  end
   sheet.add_row
   sheet.rows.first.height = 64
 end
