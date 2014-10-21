@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   include Pundit
   protect_from_forgery
 
+  before_filter :set_time_zone
   before_filter :set_cache_buster
   before_filter :authenticate_user!
 
@@ -33,6 +34,10 @@ class ApplicationController < ActionController::Base
       name = ERB::Util.html_escape(name)
     end
     old_add_breadcrumb name, path, options
+  end
+
+  def set_time_zone
+    Time.zone = EVoucher::Application.config.time_zone
   end
 
   def set_cache_buster
