@@ -1,0 +1,32 @@
+wb.styles do |s|
+  header = s.add_style :b => true, :alignment => { :horizontal => :left }
+  date_style = s.add_style :format_code => 'MM/DD/YY HH:MM AM/PM'
+  amount_style = s.add_style :format_code => '#0.00'
+  total_style = s.add_style :b => true, :format_code => '#0.00'
+
+  stmt_month = stmt.until.to_s(:statement_month)
+  sheet.add_row ["#{stmt.clinic.name}"], :style => header
+  sheet.add_row [stmt_month]
+  sheet.add_row
+
+  total_row = sheet.rows.count + 1
+  sheet.add_row ["Total for month", stmt.total]
+  sheet.add_row
+
+  sheet.add_row ["Distribution of Funds"], :style => header
+  sheet.add_row ["RHC Staff Incentives (50%)", "=B#{total_row}*0.5"]
+  sheet.add_row ["Supplies/Facility Improvements (25%)", "=B#{total_row}*0.25"]
+  sheet.add_row ["Transport for District Health Staff (20%)", "=B#{total_row}*0.20"]
+  sheet.add_row ["Finance/Admin Costs at DCHO (5%)", "=B#{total_row}*0.05"]
+  sheet.add_row
+  sheet.add_row
+
+  sheet.add_row ["Guidelines:"], :style => header
+  sheet.add_row ["o    50%  of the total voucher profits to pay for staff enrolled in the provision of services under the voucher program (list of eligible health workers to be agreed upon by Council and the DCMO within one month of signing the agreement);"]
+  sheet.add_row ["o    25% of the total voucher profits to pay for relevant supplies for the voucher services and/or improvements of the facility for the provision of AFHS;"]
+  sheet.add_row ["o    20% of the total voucher profits to pay for transport and per diem costs of district health staff assisting in the developing of adolescent friendly services and implementing quality control; and"]
+  sheet.add_row ["o    5% of the total voucher profits to contribute to the finance and administrative costs at the DHO for management of the program."]
+
+  sheet.column_widths 40, 10, 50
+end
+

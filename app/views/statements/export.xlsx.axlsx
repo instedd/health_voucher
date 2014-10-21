@@ -2,7 +2,7 @@ wb = xlsx_package.workbook
 
 wb.styles.fonts.first.name = 'Calibri'
 
-def add_logo(sheet)
+def add_logo(sheet, right_logo_col=2)
   logo = File.expand_path('public/images/export_logo.png', Rails.root)
   sheet.add_image(:image_src => logo, :noSelect => false, :noMove => true) do |image|
     image.width = 240
@@ -13,7 +13,7 @@ def add_logo(sheet)
   sheet.add_image(:image_src => popcouncil_logo, :noSelect => false, :noMove => true) do |image|
     image.width = 130
     image.height = 64
-    image.start_at 2, 0
+    image.start_at right_logo_col, 0
   end
   sheet.add_row
   sheet.rows.first.height = 64
@@ -27,8 +27,13 @@ end
 @statements.each do |stmt|
   name = "Statement ##{stmt.id} - #{stmt.clinic.name}"
   wb.add_worksheet(name: truncate(name, length: 30)) do |sheet|
-    add_logo sheet
+    add_logo sheet, 7
     render partial: 'statement', locals: { sheet: sheet, stmt: stmt, wb: wb }
+  end
+  name = "Distribution - #{stmt.clinic.name}"
+  wb.add_worksheet(name: truncate(name, length: 30)) do |sheet|
+    add_logo sheet, 3
+    render partial: 'distribution', locals: { sheet: sheet, stmt: stmt, wb: wb }
   end
 end
 
