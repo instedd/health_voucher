@@ -1,5 +1,5 @@
 %tr{:class => ('training' if txn.training?), "data-id" => txn.id, "data-status" => txn.status}
-  %td= txn.id
+  %td(title="#{txn.id}")= txn.id
   %td= txn.created_at.to_s(:transaction)
   %td(title="#{txn.clinic.name}")= txn.clinic.name
   %td= txn.provider.code
