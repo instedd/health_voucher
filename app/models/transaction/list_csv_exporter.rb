@@ -8,14 +8,14 @@ class Transaction::ListCsvExporter < CsvExporter
   end
 
   def export
-    headers "# ID", "Date", "Clinic", "Provider Code", "Service Code", "AGEP Site", "AGEP ID", "Voucher", "Statement", "Status", "Comment"
+    headers "# ID", "Date", "Clinic", "Provider Code", "Service Code", "AGEP Site", "AGEP ID", "Voucher", "Statement", "Amount", "Status", "Comment"
     generate do |csv|
       transactions.each do |txn|
         csv << [txn.id, txn.created_at, txn.clinic.name,
-                txn.provider.code, txn.service.code, 
+                txn.provider.code, txn.service.code,
                 txn.patient.site.name, txn.patient.agep_id,
-                card_serial_number(txn.card), txn.statement_id, txn.status,
-                txn.comment] 
+                card_serial_number(txn.card), txn.statement_id,
+                txn.amount, txn.status, txn.comment]
       end
     end
   end
