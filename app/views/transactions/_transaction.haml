@@ -4,7 +4,7 @@
   %td(title="#{txn.clinic.name}")= txn.clinic.name
   %td= txn.provider.code
   %td= txn.service.code
-  %td(title="#{txn.patient.site.name}")= txn.patient.site.name
+  %td(title="#{txn.patient.site.name rescue nil}")= txn.patient.site.name rescue nil
   %td= txn.patient.try(:agep_id)
   %td= card_serial_number(txn.card)
   %td= txn.statement_id
