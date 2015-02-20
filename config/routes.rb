@@ -12,6 +12,10 @@ EVoucher::Application.routes.draw do
   root :to => 'home#index'
 
   resources :sites, except: [:destroy] do
+    collection do
+      get :search
+    end
+
     member do
       get :assign_cards
       post :batch_assign_cards
@@ -51,7 +55,7 @@ EVoucher::Application.routes.draw do
     end
   end
 
-  resources :cards, :only => [] do
+  resources :cards, :only => [:show] do
     member do
       post 'start_validity'
       post 'set_expiration'

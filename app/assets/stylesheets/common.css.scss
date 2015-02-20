@@ -149,3 +149,11 @@ a.disabled, span.disabled {
   margin-left: -50px;
   margin-right: -50px;
 }
+
+input[type=search] {
+  border-radius: 5px;
+  border: 1px solid #dddddd;
+  height: 22px;
+  padding: 0 2px;
+  color: black;
+}

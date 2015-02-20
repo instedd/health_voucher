@@ -48,4 +48,9 @@ module CardsHelper
       ''
     end
   end
+
+  def transactions_for_card_path(card)
+    txn_ids = card.authorizations.joins(:transaction).pluck('transactions.id')
+    transactions_path(txn_id: txn_ids.join(','))
+  end
 end

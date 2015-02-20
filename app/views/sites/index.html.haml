@@ -1,3 +1,6 @@
+.search-box
+  = form_tag search_sites_path, method: 'get' do
+    = search_field_tag :q, '', :placeholder => 'Search for AGEP IDs or Card SN', :class => 'ux-search w30'
 %h1 Sites
 
 .tablewrapp.w60

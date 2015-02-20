@@ -1,6 +1,9 @@
 class CardsController < ApplicationController
   before_filter :load_card
 
+  def show
+  end
+
   def start_validity
     if @card.patient.nil?
       redirect_to root_path 

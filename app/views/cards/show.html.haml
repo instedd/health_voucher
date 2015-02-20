@@ -1,0 +1,57 @@
+.card.box.w40
+  %h2 Card #{card_serial_number(@card)}
+  %p from batch #{@card.batch.name}
+
+  %ul
+    %li
+      - if @card.site.nil?
+        In Popcouncil stock.
+      - else
+        In site
+        = link_to @card.site.name, @card.site
+
+    %li
+      - case @card.status
+        - when 'active'
+          - if @card.expired?
+            The card is expired
+          - elsif @card.depleted?
+            %span.i18ny-alert
+            The card is depleted
+          - elsif @card.patient.present?
+            The card is active
+        - when 'lost'
+          %span.i18o-alert
+          The card was reported lost or stolen at #{@card.updated_at.localtime.to_s(:long)}
+        - when 'inactive'
+          %span.i18g-alert
+          The card was deactivated #{@card.updated_at.localtime.to_s(:long)}
+
+    %li
+      - if @card.patient.nil?
+        No AGEP ID assigned
+      - elsif @card.patient.current_card_id == @card.id
+        Currently assigned to AGEP ID
+        = link_to @card.patient.agep_id, patient_path(@card.patient)
+      - else
+        Was assigned to AGEP ID
+        = link_to @card.patient.agep_id, patient_path(@card.patient)
+
+    %li
+      - if @card.validated?
+        - if @card.expired?
+          %span.i18o-alert(title="expired")
+        Valid from #{card_validity(@card)} thru #{card_expiration(@card)}
+      - else
+        Not validated yet
+
+    %li
+      - if !@card.used?
+        Not used yet
+      - else
+        Used
+        = link_to pluralize(@card.used_vouchers.count, 'time'), transactions_for_card_path(@card)
+
+%br
+.actions
+  = link_to 'Back', :back

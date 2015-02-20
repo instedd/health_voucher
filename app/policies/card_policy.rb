@@ -1,4 +1,8 @@
 class CardPolicy < ApplicationPolicy
+  def show?
+    user.admin?
+  end
+
   def manage?
     user.admin? || (user.site_manager? && 
                     record.patient.present? && record.patient.site.manager == user)

@@ -16,5 +16,9 @@ a.cancel_action {
   .expired + span, .inactive + span {
     color: #ff6800;
   }
+
+  tr.highlight {
+    background: rgb(255,255,192);
+  }
 }
 

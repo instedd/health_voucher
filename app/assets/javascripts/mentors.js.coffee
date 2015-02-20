@@ -84,6 +84,18 @@
   # Auto assign toggle enable
   nextSerialNumberUpdated()
 
+  # Highlight row if we have a navigation hash present
+  navigateToLocationHash = ->
+    $('table.patients tr.highlight').removeClass('highlight')
+    q = window.location.hash.slice(1)
+    if q
+      row = $('table.patients > tbody').find("tr[data-id=#{q}]")
+      if row.length > 0
+        row.addClass('highlight')
+        window.scrollTo(0, row.offset().top - window.innerHeight/2)
+
+  window.addEventListener 'hashchange', navigateToLocationHash, false
+  navigateToLocationHash()
 
 @nextSerialNumberUpdated = ->
   $('#initial_serial_number').val(NextSerialNumber)

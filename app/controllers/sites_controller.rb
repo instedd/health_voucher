@@ -1,5 +1,7 @@
 class SitesController < ApplicationController
-  before_filter :load_site, :except => [:index, :new, :create]
+  include PatientsHelper
+
+  before_filter :load_site, :except => [:index, :new, :create, :search]
   before_filter :add_breadcrumbs
 
   def index
@@ -143,6 +145,18 @@ class SitesController < ApplicationController
         exporter = Site::ProvidersCsvExporter.new providers
         render_csv exporter.export, "#{@site.name}-providers.csv"
       }
+    end
+  end
+
+  def search
+    query = params[:q].gsub('-', '')
+
+    if Patient.valid_agep_id?(query) and (patient = Patient.find_by_agep_id(query))
+      redirect_to patient_path(patient)
+    elsif Card.valid_serial_number?(query) and (card = Card.find_by_serial_number(query))
+      redirect_to card
+    else
+      redirect_to :back, alert: 'Invalid AGEP ID or Card Serial Number'
     end
   end
 
