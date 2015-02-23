@@ -149,6 +149,8 @@ class SitesController < ApplicationController
   end
 
   def search
+    authorize Site
+
     query = params[:q].gsub('-', '')
 
     if Patient.valid_agep_id?(query) and (patient = Patient.find_by_agep_id(query))
