@@ -9,7 +9,7 @@ class Report::CsvExporter < CsvExporter
     headers titles
     generate do |csv|
       @report.data.each do |row|
-        csv << @report.column_keys.map {|key| row[key]}.flatten
+        csv << @report.column_keys.map {|key| @report.value_for(row, key)}.flatten
       end
     end
   end

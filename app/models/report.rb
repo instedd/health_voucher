@@ -51,6 +51,10 @@ class Report
     []
   end
 
+  def value_for(row, key)
+    row[key]
+  end
+
   def sort_keys
     []
   end
@@ -100,6 +104,14 @@ class Report
     end
     @data = @data.reverse if direction == 'desc'
     @data
+  end
+
+  def percentage(num, den)
+    if den == 0
+      0
+    else
+      (100.0 * num / den).round(2)
+    end
   end
 
 end

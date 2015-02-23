@@ -66,7 +66,7 @@ class Report::CardAllocation < Report
       ["Mentor", "Site"]
     else
       ["Site"]
-    end + ["Total AGEP IDs", "without card", "with assigned card", "used #{humanized_date_range}"]
+    end + ["Total AGEP IDs", "without card", "% of total", "with assigned card", "% of total", "used #{humanized_date_range}", "% of assigned"]
   end
 
   def column_keys
@@ -75,6 +75,19 @@ class Report::CardAllocation < Report
     else
       [:name]
     end + [:patient_count, :patients_without_card, :patients_with_card, :patients_with_recent_card_uses]
+  end
+
+  def value_for(row, key)
+    case key
+    when :patients_without_card
+      [row[key], percentage(row[key], row[:patient_count])]
+    when :patients_with_card
+      [row[key], percentage(row[key], row[:patient_count])]
+    when :patients_with_recent_card_uses
+      [row[key], percentage(row[key], row[:patients_with_card])]
+    else
+      super
+    end
   end
 end
 

@@ -52,7 +52,16 @@ class Report::Clinics < Report
   end
 
   def column_titles
-    ["Clinic", "Site", "Transactions #{humanized_date_range}"]
+    ["Clinic", "Site", "Transactions #{humanized_date_range}", "%"]
+  end
+
+  def value_for(row, key)
+    case key
+    when :row_count
+      [row[key], percentage(row[key], @totals[:row_count])]
+    else
+      super
+    end
   end
 end
 

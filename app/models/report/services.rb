@@ -73,7 +73,7 @@ class Report::Services < Report
   end
 
   def column_titles
-    ["Service", "Total transactions #{humanized_date_range}", @columns.map {|col| col[:name]}].flatten
+    ["Service", "Total transactions #{humanized_date_range}", "% of total", @columns.map {|col| [col[:name], '%']}].flatten
   end
 
   def column_keys
@@ -83,5 +83,18 @@ class Report::Services < Report
   def sort_keys
     [:service_code, :row_total]
   end
-end
 
+  def value_for(row, key)
+    case key
+    when :row_total
+      [row[key], percentage(row[key], @totals[:row_total])]
+    when :cols
+      row[:cols].map.with_index do |value, i|
+        [value, percentage(value, @totals[:cols][i])]
+      end
+    else
+      super
+    end
+  end
+
+end
