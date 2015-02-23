@@ -7,7 +7,7 @@
         .field.w20
           %label(for="expiration") Expiration date
           %p (#{Date::HUMAN_DISPLAY_FORMAT} format)
-          %input.w20.expiration.ux-datepicker#validity(name="expiration" type="text" data-focus="true" value="#{(Date.today + 1.year).to_human_param}" autocomplete="off")
+          %input.w20.expiration.ux-datepicker#expiration(name="expiration" type="text" data-focus="true" value="#{(Date.today + 1.year).to_human_param}" autocomplete="off")
         .actions
           %button.grey(type="submit") Set
 

@@ -18,7 +18,7 @@
           - elsif @card.depleted?
             %span.i18ny-alert
             The card is depleted
-          - elsif @card.patient.present?
+          - else
             The card is active
         - when 'lost'
           %span.i18o-alert
