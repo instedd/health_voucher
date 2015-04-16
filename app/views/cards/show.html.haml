@@ -32,10 +32,10 @@
         No AGEP ID assigned
       - elsif @card.patient.current_card_id == @card.id
         Currently assigned to AGEP ID
-        = link_to @card.patient.agep_id, patient_path(@card.patient)
+        = link_to @card.patient.agep_id, patient_in_mentor_path(@card.patient)
       - else
         Was assigned to AGEP ID
-        = link_to @card.patient.agep_id, patient_path(@card.patient)
+        = link_to @card.patient.agep_id, patient_in_mentor_path(@card.patient)
 
     %li
       - if @card.validated?

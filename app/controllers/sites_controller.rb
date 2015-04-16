@@ -154,7 +154,7 @@ class SitesController < ApplicationController
     query = params[:q].gsub('-', '')
 
     if Patient.valid_agep_id?(query) and (patient = Patient.find_by_agep_id(query))
-      redirect_to patient_path(patient)
+      redirect_to patient_in_mentor_path(patient)
     elsif Card.valid_serial_number?(query) and (card = Card.find_by_serial_number(query))
       redirect_to card
     else
