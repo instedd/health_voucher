@@ -15,11 +15,15 @@ Perform the following steps to bootstrap the application for development:
 
 1. Install the bundle:
 
+    ```
     $ bundle install --path .bundle
+    ```
 
 2. Create the database for development and testing:
 
+    ```
     $ bundle exec rake db:setup
+    ```
 
 3. Create a new `config/settings.yml` from the template file
    `config/settings.yml.template`.
