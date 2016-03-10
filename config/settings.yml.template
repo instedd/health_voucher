@@ -1,10 +1,10 @@
 defaults: &defaults
-  time_zone: Buenos Aires     # See rake time:zones:all for a list of valid values
+  time_zone: UTC     # See rake time:zones:all for a list of valid values
   basic_auth_name: COMPLETE
   basic_auth_pwd: COMPLETE
   default_url_options:
     host: localhost:3000
-  from_email: health_vouchers@popcouncil.org
+  from_email: health_voucher@instedd.org
   max_daily_authorizations: 3
 
 development:

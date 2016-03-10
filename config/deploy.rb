@@ -7,7 +7,7 @@ set :rvm_type, :system
 set :sudo, 'rvmsudo'
 
 set :application, "health_voucher"
-set :repository,  "git@bitbucket.org:instedd/health_voucher.git"
+set :repository,  "git@github.com:instedd/health_voucher.git"
 set :scm, :git
 set :deploy_via, :remote_cache
 set :user, 'ubuntu'
