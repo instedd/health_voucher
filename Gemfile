@@ -3,10 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.21'
 gem 'thin'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'mysql2'
+gem 'mysql2', '~> 0.3.17'
 gem 'enumerize'
 gem 'devise'
 gem 'pundit'
@@ -21,10 +18,6 @@ gem 'newrelic_rpm'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
-
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -34,26 +27,12 @@ gem 'instedd-rails'
 gem 'kaminari'
 gem 'axlsx_rails'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# To use debugger
-# gem 'debugger'
-
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 2.13'
   gem 'machinist'
   gem 'timecop'
   gem 'mocha', :require => false
-  gem 'capistrano'
+  gem 'capistrano', '~> 2.15', :require => false
   gem 'rvm-capistrano', '~> 1.2.7'
   gem 'pry'
-  gem 'pry-debugger'
 end
-
