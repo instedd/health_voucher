@@ -1,0 +1,20 @@
+defaults: &defaults
+  time_zone: UTC
+  basic_auth_name: no_authorization
+  basic_auth_pwd: invalid_password
+  default_url_options:
+    host: localhost:3000
+  from_email: no-reply@instedd.org
+  max_daily_authorizations: 3
+
+development:
+  <<: *defaults
+
+test: &test
+  <<: *defaults
+
+staging:
+  <<: *defaults
+
+production:
+  <<: *defaults
