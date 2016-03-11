@@ -39,7 +39,7 @@ describe PatientsController do
 
       lambda do
         controller.send(:load_patient)
-      end.should raise_error
+      end.should raise_error(Pundit::NotAuthorizedError)
     end
 
     it "should deny any other site manager" do
@@ -47,7 +47,7 @@ describe PatientsController do
 
       lambda do
         controller.send(:load_patient)
-      end.should raise_error
+      end.should raise_error(Pundit::NotAuthorizedError)
     end
   end
 

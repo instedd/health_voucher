@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.21'
+gem 'rails', '~> 3.2.22'
 gem 'thin'
 
 gem 'mysql2', '~> 0.3.17'
@@ -28,7 +28,7 @@ gem 'kaminari'
 gem 'axlsx_rails'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.13'
+  gem 'rspec-rails', '~> 3.4'
   gem 'machinist'
   gem 'timecop'
   gem 'mocha', :require => false
