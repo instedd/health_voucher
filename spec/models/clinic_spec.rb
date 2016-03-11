@@ -16,11 +16,11 @@ describe Clinic do
       @clinic = Clinic.make!
       @service = Service.make!
 
-      @clinic.provides_service?(@service).should be_false
+      @clinic.provides_service?(@service).should be_falsey
 
       @clinic.clinic_services.create! service: @service, enabled: true, cost: 1
 
-      @clinic.provides_service?(@service).should be_true
+      @clinic.provides_service?(@service).should be_truthy
     end
   end
 end

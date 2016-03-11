@@ -7,7 +7,7 @@ describe Transaction do
     end
 
     it "should update status and comments" do
-      @txn.update_status(:pending, '123').should be_true
+      @txn.update_status(:pending, '123').should be_truthy
       @txn.should be_valid
       @txn.should be_pending
       @txn.comment.should eq('123')
@@ -16,7 +16,7 @@ describe Transaction do
     it "should not allow updates if the transaction is from training" do
       @txn.update_attribute :training, true
 
-      @txn.update_status(:pending, '123').should be_false
+      @txn.update_status(:pending, '123').should be_falsey
       @txn.should be_unpaid
       @txn.comment.should be_nil
     end
@@ -25,7 +25,7 @@ describe Transaction do
       @stmt = Statement.make! clinic: @txn.clinic
       @txn.update_attribute :statement, @stmt
 
-      @txn.update_status(:pending, '123').should be_false
+      @txn.update_status(:pending, '123').should be_falsey
       @txn.should be_unpaid
       @txn.comment.should be_nil
     end

@@ -29,29 +29,29 @@ describe "Card::Code" do
   describe "check" do
     it "should validate codes with valid check digit" do
       code = @code.generate_with_check(12)
-      @code.check(code).should be_true
+      @code.check(code).should be_truthy
     end
 
     it "should not validate codes with invalid check digit" do
-      @code.check('5721').should be_false   # 572 -> 4
+      @code.check('5721').should be_falsey   # 572 -> 4
     end
   end
 
   describe "generate voucher code" do
     it "should generate a 12 digit code" do
       @code.generate_voucher_code.size.should eq(12)
-      @code.generate_voucher_code.should match /\A[0-9]{12}\z/
+      @code.generate_voucher_code.should match(/\A[0-9]{12}\z/)
     end
 
     it "should generate a valid code" do
       100.times do
-        @code.check(@code.generate_voucher_code).should be_true
+        @code.check(@code.generate_voucher_code).should be_truthy
       end
     end
 
     it "first digit should never be zero" do
       100000.times.each do 
-        @code.generate_voucher_code.start_with?('0').should be_false
+        @code.generate_voucher_code.start_with?('0').should be_falsey
       end
     end
   end

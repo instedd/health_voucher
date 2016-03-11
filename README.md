@@ -44,3 +44,12 @@ SMS or other types of messaging through [Nuntium](http://nuntium.instedd.org). T
 configuration parameters `basic_auth_name` and `basic_auth_pwd` in
 `config/settings.yml` are the credentials for Nuntium to authenticate with this
 application.
+
+
+## Delayed Jobs
+
+Batch generation of vouchers is done in a background job run by `delayed_job`.
+If you need to generate new cards, in addition to the web server, you need to
+start the worker via `rake` by running:
+
+    $ bundle exec rake jobs:work

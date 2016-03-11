@@ -20,7 +20,7 @@ describe Transaction::Processor do
 
     @voucher1 = @card.primary_services.first
     @voucher2 = @card.secondary_services.first
-    
+
     # make an "any" service voucher
     @voucher3 = @card.primary_services.last
     @voucher3.update_attribute :service_type, :any
@@ -30,14 +30,14 @@ describe Transaction::Processor do
     it "should find a valid pending authorization" do
       @processor = Transaction::Processor.new(@service1, @voucher1)
 
-      @processor.validate.should be_true
+      @processor.validate.should be_truthy
       @processor.auth.should eq(@auth1)
     end
 
     it "should validate that a pending authorization exists" do
       @processor = Transaction::Processor.new(@service3, @voucher1)
 
-      @processor.validate.should be_false
+      @processor.validate.should be_falsey
       @processor.error.should eq(:not_authorized)
     end
 
@@ -46,7 +46,7 @@ describe Transaction::Processor do
       @other_auth = Authorization.make! provider: @provider, service: @service1, card: @other_card
 
       @processor = Transaction::Processor.new(@service1, @other_card.primary_services.first)
-      @processor.validate.should be_false
+      @processor.validate.should be_falsey
       @processor.error.should eq(:not_authorized)
     end
 
@@ -55,41 +55,41 @@ describe Transaction::Processor do
 
       @processor = Transaction::Processor.new(@service1, @voucher1)
 
-      @processor.validate.should be_false
+      @processor.validate.should be_falsey
       @processor.error.should eq(:voucher_already_used)
     end
 
     it "should validate that the voucher is primary if the service is primary" do
       @processor = Transaction::Processor.new(@service1, @voucher2)
 
-      @processor.validate.should be_false
+      @processor.validate.should be_falsey
       @processor.error.should eq(:voucher_not_primary)
     end
 
     it "should validate that the voucher is secondary if the service is secondary" do
       @processor = Transaction::Processor.new(@service2, @voucher1)
 
-      @processor.validate.should be_false
+      @processor.validate.should be_falsey
       @processor.error.should eq(:voucher_not_secondary)
     end
 
     it "should accept an 'any' voucher for a primary service" do
       @processor = Transaction::Processor.new(@service1, @voucher3)
 
-      @processor.validate.should be_true
+      @processor.validate.should be_truthy
     end
 
     it "should accept an 'any' voucher for a secondary service" do
       @processor = Transaction::Processor.new(@service2, @voucher3)
 
-      @processor.validate.should be_true
+      @processor.validate.should be_truthy
     end
   end
 
   describe "confirm" do
     before(:each) do
       @processor = Transaction::Processor.new(@service1, @voucher1)
-      @processor.validate.should be_true
+      @processor.validate.should be_truthy
     end
 
     it "should return a string" do

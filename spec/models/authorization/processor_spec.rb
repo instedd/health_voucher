@@ -18,16 +18,16 @@ describe Authorization::Processor do
 
     @processor = Authorization::Processor.new(@provider, @patient, @card)
   end
-  
+
   describe "pre validation" do
     it "should pass with valid conditions" do
-      @processor.validate.should be_true
+      @processor.validate.should be_truthy
     end
 
     it "should validate that the provider is enabled" do
       @provider.update_attribute :enabled, false
-      
-      @processor.validate.should be_false
+
+      @processor.validate.should be_falsey
       @processor.error.should eq(:provider_disabled)
     end
 
@@ -35,28 +35,28 @@ describe Authorization::Processor do
       @patient.update_attribute :current_card, nil
       @card.update_attribute :patient, Patient.make!
 
-      @processor.validate.should be_false
+      @processor.validate.should be_falsey
       @processor.error.should eq(:card_agep_id_mismatch)
     end
 
     it "should validate that the card is not marked as stolen" do
       @card.report_lost!
 
-      @processor.validate.should be_false
+      @processor.validate.should be_falsey
       @processor.error.should eq(:card_stolen)
     end
 
     it "should validate that the card is not expired" do
       @card.update_attribute :validity, (1.year + 1.day).ago
 
-      @processor.validate.should be_false
+      @processor.validate.should be_falsey
       @processor.error.should eq(:card_expired)
     end
 
     it "should validate that the card is not deactivated" do
       @card.deactivate!
 
-      @processor.validate.should be_false
+      @processor.validate.should be_falsey
       @processor.error.should eq(:card_deactivated)
     end
   end
@@ -139,26 +139,26 @@ describe Authorization::Processor do
 
   describe "add services" do
     it "should validate adding available services" do
-      @processor.add_services([@service1, @service2]).should be_true
+      @processor.add_services([@service1, @service2]).should be_truthy
       @processor.services.should eq([@service1, @service2])
     end
 
     it "should ignore duplicate services" do
-      @processor.add_services([@service1, @service1]).should be_true
+      @processor.add_services([@service1, @service1]).should be_truthy
       @processor.services.should eq([@service1])
     end
 
     it "should add previously authorized services" do
       @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
 
-      @processor.add_services([@service1]).should be_true
+      @processor.add_services([@service1]).should be_truthy
       @processor.services.should eq([@service1])
     end
 
     it "should not authorize services the clinic's provider does not provide" do
       @service3 = Service.make!
 
-      @processor.add_services([@service3]).should be_false
+      @processor.add_services([@service3]).should be_falsey
       @processor.error.should eq(:service_not_provided)
     end
     
@@ -167,7 +167,7 @@ describe Authorization::Processor do
         voucher.update_attribute :used, true
       end
 
-      @processor.add_services([@service1]).should be_false
+      @processor.add_services([@service1]).should be_falsey
       @processor.error.should eq(:no_primary_vouchers)
     end
 
@@ -176,7 +176,7 @@ describe Authorization::Processor do
         voucher.update_attribute :used, true
       end
 
-      @processor.add_services([@service2]).should be_false
+      @processor.add_services([@service2]).should be_falsey
       @processor.error.should eq(:no_secondary_vouchers)
     end
 
@@ -186,14 +186,14 @@ describe Authorization::Processor do
       end
       @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
 
-      @processor.add_services([@service3]).should be_false
+      @processor.add_services([@service3]).should be_falsey
       @processor.error.should eq(:no_primary_vouchers)
     end
 
     it "should not authorize more than max_daily_authorizations" do
       @processor.stubs(:max_daily_authorizations).returns(1)
 
-      @processor.add_services([@service1, @service2]).should be_false
+      @processor.add_services([@service1, @service2]).should be_falsey
       @processor.error.should eq(:agep_id_authorization_limit)
     end
 
@@ -202,7 +202,7 @@ describe Authorization::Processor do
 
       @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
 
-      @processor.add_services([@service2]).should be_false
+      @processor.add_services([@service2]).should be_falsey
       @processor.error.should eq(:agep_id_authorization_limit)
     end
 
@@ -212,7 +212,7 @@ describe Authorization::Processor do
       @auth = Authorization.make! card: @card, provider: Provider.make!, service: @service1
       @txn = Transaction.make! voucher: @card.primary_services.first, authorization: @auth
 
-      @processor.add_services([@service1]).should be_false
+      @processor.add_services([@service1]).should be_falsey
       @processor.error.should eq(:agep_id_authorization_limit)
     end
 
@@ -221,14 +221,14 @@ describe Authorization::Processor do
 
       @auth = Authorization.make! card: @card, provider: Provider.make!, service: @service1
 
-      @processor.add_services([@service1]).should be_true
+      @processor.add_services([@service1]).should be_truthy
     end
   end
 
   describe "authorize" do
     before(:each) do
-      @processor.validate.should be_true
-      @processor.add_services([@service1, @service2]).should be_true
+      @processor.validate.should be_truthy
+      @processor.add_services([@service1, @service2]).should be_truthy
     end
 
     it "should return a success text message" do
@@ -379,7 +379,7 @@ describe Authorization::Processor do
 
     describe "add services" do
       it "should validate adding available services" do
-        @processor.add_services([@service1, @service2]).should be_true
+        @processor.add_services([@service1, @service2]).should be_truthy
         @processor.services.should eq([@service1, @service2])
       end
 
@@ -388,7 +388,7 @@ describe Authorization::Processor do
           voucher.update_attribute :used, true
         end
 
-        @processor.add_services([@service1]).should be_false
+        @processor.add_services([@service1]).should be_falsey
         @processor.error.should eq(:no_available_vouchers)
       end
 
@@ -397,7 +397,7 @@ describe Authorization::Processor do
           voucher.update_attribute :used, true
         end
 
-        @processor.add_services([@service2]).should be_false
+        @processor.add_services([@service2]).should be_falsey
         @processor.error.should eq(:no_available_vouchers)
       end
 
@@ -407,7 +407,7 @@ describe Authorization::Processor do
         end
         @auth1 = Authorization.make! card: @card, provider: @provider, service: @service1
 
-        @processor.add_services([@service3]).should be_false
+        @processor.add_services([@service3]).should be_falsey
         @processor.error.should eq(:no_available_vouchers)
       end
     end

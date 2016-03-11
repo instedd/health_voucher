@@ -34,7 +34,7 @@ describe Batch::Generator do
     @batch.reload.cards.each do |card|
       card.check_digit.should eq(Card::Damm.generate(card.serial_number))
       card.vouchers.each do |voucher|
-        Card::Code.check(voucher.code).should be_true
+        Card::Code.check(voucher.code).should be_truthy
       end
     end
   end
