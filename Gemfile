@@ -6,7 +6,7 @@ gem 'thin'
 gem 'mysql2', '~> 0.3.17'
 gem 'enumerize'
 gem 'devise', '~> 3.5.6'
-gem 'pundit'
+gem 'pundit', '~> 1.0.1'
 
 gem 'delayed_job_active_record'
 gem 'foreman', '~> 0.78', :require => false

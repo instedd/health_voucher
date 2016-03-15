@@ -130,7 +130,7 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
-    pundit (0.2.3)
+    pundit (1.0.1)
       activesupport (>= 3.0.0)
     rack (1.4.7)
     rack-cache (1.6.1)
@@ -233,7 +233,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.17)
   newrelic_rpm
   pry
-  pundit
+  pundit (~> 1.0.1)
   rails (~> 3.2.22)
   rspec-rails (~> 3.4)
   sass-rails (~> 3.2.3)
