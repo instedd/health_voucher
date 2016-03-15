@@ -6,6 +6,7 @@ set :repo_url, 'git@github.com:instedd/health_voucher.git'
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+set :branch, :master
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/u/apps/#{fetch(:application)}"

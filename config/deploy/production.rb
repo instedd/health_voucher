@@ -1,3 +1,4 @@
+set :branch, :stable
 set :deploy_user, 'ubuntu'
 set :passenger_restart_with_touch, true
 set :rvm_ruby_version, :default
