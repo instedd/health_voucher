@@ -1,47 +1,85 @@
-require 'bundler/capistrano'
-require 'rvm/capistrano'
-require 'foreman/capistrano'
+# config valid only for current version of Capistrano
+lock '3.4.0'
 
-set :rvm_ruby_string, '1.9.3'
-set :rvm_type, :system
-set :sudo, 'rvmsudo'
+set :application, 'health_voucher'
+set :repo_url, 'git@github.com:instedd/health_voucher.git'
 
-set :application, "health_voucher"
-set :repository,  "git@github.com:instedd/health_voucher.git"
+# Default branch is :master
+# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+
+# Default deploy_to directory is /var/www/my_app_name
+set :deploy_to, "/u/apps/#{fetch(:application)}"
+
 set :scm, :git
-set :deploy_via, :remote_cache
-set :user, 'ubuntu'
-set :branch, 'master'
-set :ssh_options, { :forward_agent => true }
+set :format, :pretty
+set :log_level, :info
+set :pty, true
 
-set :foreman_concurrency, 'delayed=1'
+set :linked_files, fetch(:linked_files, []).push('config/settings.yml', 'config/database.yml', 'config/newrelic.yml')
+set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets')
 
-namespace :deploy do
-  task :start do ; end
-  task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
+# Default value for keep_releases is 5
+set :keep_releases, 5
+
+# Configuration for capistrano/rails
+set :rails_env, :production
+
+# Name for the exported service
+set :service_name, fetch(:application)
+
+# These settings are specific to running rvmsudo correctly
+set :rvm_map_bins, fetch(:rvm_map_bins, []).push('rvmsudo')
+set :default_env, {'rvmsudo_secure_path' => '1'}
+
+namespace :service do
+  task :export do
+    on roles(:app) do
+      opts = {
+        app: fetch(:service_name),
+        log: File.join(shared_path, 'log'),
+        user: fetch(:deploy_user),
+        concurrency: "delayed=1"
+      }
+
+      execute(:mkdir, "-p", opts[:log])
+
+      within release_path do
+        execute :rvmsudo, :bundle, :exec, :foreman, 'export',
+                'upstart', '/etc/init',
+                opts.map { |opt, value| "--#{opt}=\"#{value}\"" }.join(' ')
+      end
+    end
   end
 
-  task :symlink_configs, :roles => :app do
-    %W(settings database newrelic).each do |file|
-      run "ln -nfs #{shared_path}/#{file}.yml #{release_path}/config/"
+  # Capture the environment variables for Foreman
+  before :export, :set_env do
+    on roles(:app) do
+      within release_path do
+        with rails_env: fetch(:rails_env) do
+          execute :bundle, :exec, "env | grep '^\\(PATH\\|GEM_PATH\\|GEM_HOME\\|RAILS_ENV\\)'", "> .env"
+        end
+      end
+    end
+  end
+
+  task :safe_restart do
+    on roles(:app) do
+      execute "sudo stop #{fetch(:service_name)} ; sudo start #{fetch(:service_name)}"
     end
   end
 end
 
-namespace :foreman do
-  desc 'Prepare foreman env file with current environment variables'
-  task :set_env, :roles => :app do
-    run "echo -e \"PATH=$PATH\\nGEM_HOME=$GEM_HOME\\nGEM_PATH=$GEM_PATH\\nRAILS_ENV=production\" >  #{current_path}/.env"
+namespace :deploy do
+  after :updated, "service:export"         # Export foreman scripts
+  after :restart, "service:safe_restart"   # Restart background services
+
+  before :set_current_revision, :delete_revision do
+    on roles(:app) do
+      within release_path do
+        execute :rm, 'REVISION'
+      end
+    end
   end
 end
-
-before "deploy:start", "deploy:migrate"
-before "deploy:restart", "deploy:migrate"
-after "deploy:update_code", "deploy:symlink_configs"
-
-before "foreman:export", "foreman:set_env"
-after "deploy:update", "foreman:export"    # Export foreman scripts
-after "deploy:restart", "foreman:restart"   # Restart application scripts
-

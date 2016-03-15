@@ -9,8 +9,7 @@ gem 'devise'
 gem 'pundit'
 
 gem 'delayed_job_active_record'
-gem 'daemons'
-gem 'foreman'
+gem 'foreman', '~> 0.78', :require => false
 gem 'newrelic_rpm'
 
 # Gems used only for assets and not required
@@ -32,7 +31,13 @@ group :development, :test do
   gem 'machinist'
   gem 'timecop'
   gem 'mocha', :require => false
-  gem 'capistrano', '~> 2.15', :require => false
-  gem 'rvm-capistrano', '~> 1.2.7'
+end
+
+group :development do
   gem 'pry'
+  gem 'capistrano',           '~> 3.4', :require => false
+  gem 'capistrano-rails',     '~> 1.1', :require => false
+  gem 'capistrano-bundler',   '~> 1.1', :require => false
+  gem 'capistrano-rvm',       '~> 0.1', :require => false
+  gem 'capistrano-passenger',           :require => false
 end

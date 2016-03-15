@@ -1,0 +1,11 @@
+defaults: &defaults
+  time_zone: UTC
+  basic_auth_name: vagrant
+  basic_auth_pwd: vagrant
+  default_url_options:
+    host: localhost:8080
+  from_email: no-reply@instedd.org
+  max_daily_authorizations: 3
+
+production:
+  <<: *defaults
