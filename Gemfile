@@ -4,9 +4,9 @@ gem 'rails', '~> 3.2.22'
 gem 'thin'
 
 gem 'mysql2', '~> 0.3.17'
-gem 'enumerize'
+gem 'enumerize', '~> 0.11'    # 0.11 is the last version with Rails 3.2 support
 gem 'devise', '~> 3.5.6'
-gem 'pundit', '~> 1.0.1'
+gem 'pundit', '~> 1.0.1'      # > 1.0.1 breaks with Rails 3.2
 
 gem 'delayed_job_active_record', '~> 4.1.0'
 gem 'foreman', '~> 0.78', :require => false
@@ -23,8 +23,8 @@ end
 gem 'haml', '~> 4.0.7'
 gem 'jquery-rails', '~> 2.0.2'
 gem 'instedd-rails'
-gem 'kaminari'
-gem 'axlsx_rails'
+gem 'kaminari', '~> 0.16.3'
+gem 'axlsx_rails', '~> 0.3.0'   # 0.3.0 is the last version with Rails 3.2 support
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.4'
