@@ -84,7 +84,7 @@ GEM
       multi_json (~> 1.0)
     foreman (0.78.0)
       thor (~> 0.19.1)
-    haml (4.0.2)
+    haml (4.0.7)
       tilt
     haml-rails (0.4)
       actionpack (>= 3.1, < 4.1)
@@ -224,7 +224,7 @@ DEPENDENCIES
   devise (~> 3.5.6)
   enumerize
   foreman (~> 0.78)
-  haml
+  haml (~> 4.0.7)
   instedd-rails
   jquery-rails (~> 2.0.2)
   kaminari
