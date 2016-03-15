@@ -8,7 +8,7 @@ gem 'enumerize'
 gem 'devise', '~> 3.5.6'
 gem 'pundit', '~> 1.0.1'
 
-gem 'delayed_job_active_record'
+gem 'delayed_job_active_record', '~> 4.1.0'
 gem 'foreman', '~> 0.78', :require => false
 gem 'newrelic_rpm'
 
