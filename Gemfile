@@ -5,7 +5,7 @@ gem 'thin'
 
 gem 'mysql2', '~> 0.3.17'
 gem 'enumerize'
-gem 'devise'
+gem 'devise', '~> 3.5.6'
 gem 'pundit'
 
 gem 'delayed_job_active_record'

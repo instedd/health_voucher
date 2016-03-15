@@ -1,10 +1,13 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+  # TODO: remove for Rails 4
+  config.secret_key = '3629ce1caf9f1de02ed7ffd69184283c204e03fb6658eab5919e50c78dced5743e9b5f680da01045c5f119c98b527455414861ff076b3babe1f9e801aa4ac374'
+
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class with default "from" parameter.
-  config.mailer_sender = EVoucher::Application.config.from_email || "mailer@popcouncil.org"
+  config.mailer_sender = EVoucher::Application.config.from_email || "no-reply@instedd.org"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
@@ -112,6 +115,8 @@ Devise.setup do |config|
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
   # config.remember_for = 2.weeks
+
+  config.expire_all_remember_me_on_sign_out = true
 
   # If true, extends the user's remember period when remembered via cookie.
   # config.extend_remember_period = false
@@ -237,4 +242,5 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = "/my_engine/users/auth"
+
 end
