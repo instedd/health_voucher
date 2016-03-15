@@ -14,7 +14,7 @@ class Transaction < ActiveRecord::Base
   validates_presence_of :voucher, :authorization
   validates_length_of :comment, :maximum => 200
 
-  scope :for_listing, includes(:authorization => [:service, :card => {:patient => {:mentor => :site}}, :provider => :clinic])
+  scope :for_listing, ->{ includes(:authorization => [:service, :card => {:patient => {:mentor => :site}}, :provider => :clinic]) }
 
   paginates_per 15
 
@@ -22,7 +22,7 @@ class Transaction < ActiveRecord::Base
   #
   # Unpaid => Pending or Rejected (To set paid you have to set paid the full
   # statament)
-  # 
+  #
   # Pending => Unpaid or Rejected
   #
   # Suspicious => Unpaid or Rejected
@@ -30,7 +30,7 @@ class Transaction < ActiveRecord::Base
   # Rejected => Pending or Unpaid
   #
   # Paid => no change allowed, flag unpaid the full statement before
-  
+
   def provider
     authorization.provider
   end

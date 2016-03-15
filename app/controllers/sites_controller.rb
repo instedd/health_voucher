@@ -6,7 +6,7 @@ class SitesController < ApplicationController
 
   def index
     authorize Site
-    @sites = policy_scope(Site).order(:name).all
+    @sites = policy_scope(Site).order(:name)
   end
 
   def show

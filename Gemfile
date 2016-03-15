@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 3.2.22'
+gem 'rails', '~> 4.0.13'
+gem 'protected_attributes'    # TODO: remove and use strong parameters
 gem 'thin'
 
 gem 'mysql2', '~> 0.3.17'
@@ -8,20 +9,16 @@ gem 'enumerize', '~> 0.11'    # 0.11 is the last version with Rails 3.2 support
 gem 'devise', '~> 3.5.6'
 gem 'pundit', '~> 1.0.1'      # > 1.0.1 breaks with Rails 3.2
 
+gem 'sass-rails', '~> 4.0.0'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.0.0'
+
 gem 'delayed_job_active_record', '~> 4.1.0'
 gem 'foreman', '~> 0.78', :require => false
 gem 'newrelic_rpm'
 
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
-end
-
 gem 'haml', '~> 4.0.7'
-gem 'jquery-rails', '~> 2.0.2'
+gem 'jquery-rails', '~> 2.0.2'  # TODO: update to jQuery 1.12 (jquery-rails 4.1.1)
 gem 'instedd-rails'
 gem 'kaminari', '~> 0.16.3'
 gem 'axlsx_rails', '~> 0.3.0'   # 0.3.0 is the last version with Rails 3.2 support
@@ -31,6 +28,7 @@ group :development, :test do
   gem 'machinist'
   gem 'timecop'
   gem 'mocha', :require => false
+  gem 'quiet_assets'
 end
 
 group :development do

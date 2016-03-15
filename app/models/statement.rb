@@ -3,11 +3,11 @@ class Statement < ActiveRecord::Base
 
   attr_accessible :status, :until
 
-  enumerize :status, in: [:unpaid, :paid], 
+  enumerize :status, in: [:unpaid, :paid],
     :default => :unpaid, :predicates => true
 
   belongs_to :clinic
-  
+
   # this needs to be before has_many :dependent
   before_destroy :mark_unpaid_all_transactions
 
@@ -16,9 +16,11 @@ class Statement < ActiveRecord::Base
   validates_presence_of :clinic
   validates_presence_of :until
 
-  scope :for_listing, includes(:clinic => :site).joins(:transactions).group('statements.id').
-    select(['statements.*', 'COUNT(transactions.id) AS txn_count', 
-            'MAX(transactions.created_at) AS txn_to', 'MIN(transactions.created_at) AS txn_from'])
+  scope :for_listing, ->{
+    includes(:clinic => :site).joins(:transactions).group('statements.id').
+      select(['statements.*', 'COUNT(transactions.id) AS txn_count',
+              'MAX(transactions.created_at) AS txn_to', 'MIN(transactions.created_at) AS txn_from'])
+  }
 
   paginates_per 15
 
@@ -39,7 +41,7 @@ class Statement < ActiveRecord::Base
         update_attribute :status, :paid
         transactions.update_all :status => :paid
       end
-    end 
+    end
   end
 
   private
@@ -49,4 +51,3 @@ class Statement < ActiveRecord::Base
     true
   end
 end
-

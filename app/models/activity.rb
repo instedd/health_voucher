@@ -3,7 +3,7 @@ class Activity < ActiveRecord::Base
 
   attr_accessible :description, :object_class, :object_id
 
-  scope :for_listing, includes(:user)
+  scope :for_listing, ->{ includes(:user) }
 
   paginates_per 15
 end

@@ -8,24 +8,23 @@ class Message < ActiveRecord::Base
 
   has_many :authorizations
   has_one :transaction
-  
-  scope :for_listing
+
+  scope :for_listing, ->{}
 
   paginates_per 15
 
   def succeed(response)
     self.status = :success
-    self.response = response 
+    self.response = response
   end
 
   def fail(response)
     self.status = :failure
-    self.response = response 
+    self.response = response
   end
 
   def set_error(response)
     self.status = :error
-    self.response = response 
+    self.response = response
   end
 end
-

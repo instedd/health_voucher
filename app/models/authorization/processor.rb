@@ -136,7 +136,8 @@ class Authorization::Processor
       other_pending_authorizations = @card.authorizations.pending.today
       other_pending_authorizations.each do |auth|
         if auth.provider.clinic != clinic
-          auth.destroy
+          # Use the Relation method since auth is read-only
+          Authorization.destroy(auth.id)
         end
       end
 

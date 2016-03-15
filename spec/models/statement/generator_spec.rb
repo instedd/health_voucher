@@ -25,9 +25,9 @@ describe Statement::Generator do
     end
 
     it "should not find transactions from training cards" do
-      @training_site = Site.make!(:training) 
+      @training_site = Site.make!(:training)
       @training_card = Card.make!(:with_vouchers, site: @training_site)
-      
+
       @training_txn = make_transaction card: @training_card, provider: @provider
 
       @generator.find_transactions.should_not include(@training_txn)
@@ -61,7 +61,7 @@ describe Statement::Generator do
     end
 
     it "should find transactions made at the end of until date" do
-      Timecop.travel(@until.to_time_in_current_zone.end_of_day.ago(1.minute)) do
+      Timecop.travel(@until.in_time_zone.end_of_day.ago(1.minute)) do
         @txn = make_transaction provider: @provider
       end
 

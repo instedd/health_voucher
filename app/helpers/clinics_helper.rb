@@ -8,7 +8,7 @@ module ClinicsHelper
   end
 
   def clinics_for_select(site, current = nil)
-    options_from_collection_for_select(site.clinics.order(:name).all, :id, :name, current)
+    options_from_collection_for_select(site.clinics.order(:name), :id, :name, current)
   end
 
   def all_clinics_for_select(current = nil)

@@ -9,19 +9,19 @@ class Authorization < ActiveRecord::Base
 
   validates_presence_of :card, :provider, :service
 
-  scope :today, lambda {
+  scope :today, ->{
     where("authorizations.created_at >= ?", Time.zone.now.beginning_of_day).
       where("authorizations.created_at <= ?", Time.zone.now)
   }
 
-  scope :by_card, lambda { |card| where(:card_id => card.id) }
+  scope :by_card, ->(card) { where(:card_id => card.id) }
 
-  scope :by_clinic, lambda { |clinic| 
-    joins(:provider).where('providers.clinic_id = ?', clinic.id) 
+  scope :by_clinic, ->(clinic) {
+    joins(:provider).where('providers.clinic_id = ?', clinic.id)
   }
 
-  scope :confirmed, joins(:transaction)
-  scope :pending, joins('LEFT JOIN transactions ON transactions.authorization_id = authorizations.id').where('transactions.id IS NULL')
+  scope :confirmed, ->{ joins(:transaction) }
+  scope :pending, ->{ joins('LEFT JOIN transactions ON transactions.authorization_id = authorizations.id').where('transactions.id IS NULL') }
 
   def training?
     card.site.try(:training?) || provider.site.try(:training?)

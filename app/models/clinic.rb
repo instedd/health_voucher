@@ -4,8 +4,7 @@ class Clinic < ActiveRecord::Base
   belongs_to :site
 
   has_many :clinic_services, :dependent => :destroy
-  has_many :enabled_services, :through => :clinic_services, :source => 'service',
-    :conditions => { 'clinic_services.enabled' => true }
+  has_many :enabled_services, ->{ where 'clinic_services.enabled' => true }, :through => :clinic_services, :source => 'service'
   has_many :providers
   has_many :statements
 

@@ -18,8 +18,8 @@ class User < ActiveRecord::Base
   has_one :site, :dependent => :nullify
   has_many :activities, :dependent => :nullify
 
-  scope :for_listing, order(:email)
-  scope :possible_managers, where(:role => :site_manager).joins('LEFT JOIN sites ON users.id = sites.user_id').where('sites.id IS NULL')
+  scope :for_listing, ->{ order(:email) }
+  scope :possible_managers, ->{ where(:role => :site_manager).joins('LEFT JOIN sites ON users.id = sites.user_id').where('sites.id IS NULL') }
 
   def update_for_site_manager(params)
     if params[:password].blank? && params[:password_confirmation].blank?

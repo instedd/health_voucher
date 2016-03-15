@@ -12,8 +12,8 @@ class Card < ActiveRecord::Base
 
   has_many :vouchers, :dependent => :destroy
   has_many :authorizations
-  has_many :used_vouchers, :conditions => ["vouchers.used = 1"], :class_name => "Voucher"
-  has_many :unused_vouchers, :conditions => ["vouchers.used = 0"], :class_name => "Voucher"
+  has_many :used_vouchers, ->{ where used: true }, :class_name => "Voucher"
+  has_many :unused_vouchers, ->{ where used: false }, :class_name => "Voucher"
 
   belongs_to :patient
   belongs_to :site

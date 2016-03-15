@@ -24,7 +24,7 @@ namespace :batch do
   task :list => :environment do |t, args|
     puts "Id     Name                                             First SN   Qty"
     puts "-" * 70
-    Batch.order("initial_serial_number").all.each do |batch|
+    Batch.order("initial_serial_number").each do |batch|
       puts "#{batch.id.to_s.ljust(6)} #{batch.name.truncate(50).ljust(50)} " + 
            "#{batch.initial_serial_number} #{batch.quantity.to_s.rjust(5)}"
     end

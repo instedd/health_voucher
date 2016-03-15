@@ -43,7 +43,7 @@ describe Batch::Generator do
     before(:each) do
       @generator = Batch::Generator.new(@batch, :split)
     end
-      
+
     it "should generate complete cards" do
       @generator.generate!
       @batch.reload.cards.each do |card|
@@ -57,7 +57,7 @@ describe Batch::Generator do
     before(:each) do
       @generator = Batch::Generator.new(@batch, :any)
     end
-      
+
     it "should generate complete cards" do
       @generator.generate!
       @batch.reload.cards.each do |card|
@@ -85,4 +85,3 @@ describe Batch::Generator do
     end
   end
 end
-

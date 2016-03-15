@@ -1,10 +1,10 @@
 module SitesHelper
   def sites_for_select(current = nil)
-    options_from_collection_for_select(Site.order(:name).all, :id, :name, current)
+    options_from_collection_for_select(Site.order(:name), :id, :name, current)
   end
 
   def non_training_sites_for_select(current = nil)
-    options_from_collection_for_select(Site.non_training.order(:name).all, :id, :name, current)
+    options_from_collection_for_select(Site.non_training.order(:name), :id, :name, current)
   end
 
   def sites_filter_options(current = nil)
@@ -16,7 +16,7 @@ module SitesHelper
   end
 
   def options_for_site_selector(path_helper, current = nil)
-    sites = Site.order(:name).all.map do |site|
+    sites = Site.order(:name).map do |site|
       path = Rails.application.routes.url_helpers.send(path_helper, site)
       current = path if current == site
       [site.name, path]
