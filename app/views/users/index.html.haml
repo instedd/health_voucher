@@ -28,7 +28,7 @@
           %td
             = link_to '', edit_user_path(user), :class => 'farrow'
             - unless user == current_user
-              = link_to 'Delete', user_path(user), :class => 'fdelete', :method => :delete, :confirm => 'Are you sure?'
+              = link_to 'Delete', user_path(user), :class => 'fdelete', :method => :delete, :data => {:confirm => 'Are you sure?'}
             - else
               %a.fdelete.disabled(title="You cannot delete yourself") Delete
       

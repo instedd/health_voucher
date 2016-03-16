@@ -61,5 +61,4 @@
 %br
 .actions
   - if policy(@stmt).destroy?
-    = link_to 'Delete Statement', @stmt, :method => :delete, :confirm => 'Are you sure?', :class => 'fdelete'
-
+    = link_to 'Delete Statement', @stmt, :method => :delete, :data => {:confirm => 'Are you sure?'}, :class => 'fdelete'
