@@ -6,6 +6,23 @@ describe MentorsController do
     @mentor = Mentor.make! site: @site
   end
 
+  context "with admin" do
+    before(:each) do
+      @user = User.make!(:admin)
+      sign_in @user
+    end
+
+    it "POST create" do
+      expect do
+        post :create, site_id: @site.id, mentor: {name: 'Joe Mentor'}
+      end.to change(Mentor, :count).by(1)
+
+      new_mentor = Mentor.last
+      expect(new_mentor.name).to eq('Joe Mentor')
+      expect(new_mentor.site).to eq(@site)
+    end
+  end
+
   describe "access" do
     context "for site managers" do
       before(:each) do

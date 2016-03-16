@@ -1,6 +1,6 @@
 class ProvidersController < ApplicationController
   def create
-    @provider = Provider.new(params[:provider], :as => :creator)
+    @provider = Provider.new(provider_params)
     authorize @provider
     if @provider.save
       flash[:notice] = "The provider was added"
@@ -32,5 +32,11 @@ class ProvidersController < ApplicationController
     authorize @provider
     @provider.update_attribute :enabled, params[:enabled].present?
     head :ok
+  end
+
+  private
+
+  def provider_params
+    params.require(:provider).permit(:clinic_id, :code, :name)
   end
 end

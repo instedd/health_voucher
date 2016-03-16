@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user], :as => :admin)
+    @user = User.new(user_params)
     if @user.save
       log_activity @user, "#{@user.email} created with role #{@user.role.text}"
       redirect_to users_path, notice: 'User created'
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       params[:user].delete(:password_confirmation)
     end
 
-    @user.update_attributes params[:user], :as => :admin
+    @user.update_attributes user_params
     if @user.save
       if !@user.site_manager? && @user.site
         @user.site.update_attribute :user_id, nil
@@ -73,5 +73,9 @@ class UsersController < ApplicationController
 
   def load_user
     @user = User.find(params[:id])
+  end
+
+  def user_params
+    params.require(:user).permit(:email, :password, :password_confirmation, :role)
   end
 end

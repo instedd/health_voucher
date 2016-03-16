@@ -1,8 +1,6 @@
 class Statement < ActiveRecord::Base
   extend Enumerize
 
-  attr_accessible :status, :until
-
   enumerize :status, in: [:unpaid, :paid],
     :default => :unpaid, :predicates => true
 

@@ -19,7 +19,7 @@ class ClinicsController < SiteController
   end
 
   def create
-    @clinic = @site.clinics.create(params[:clinic])
+    @clinic = @site.clinics.create(clinic_params)
     authorize @clinic
     if @clinic.valid?
       flash[:notice] = 'Clinic created'
@@ -90,5 +90,9 @@ class ClinicsController < SiteController
     unless @clinic.nil?
       add_breadcrumb @clinic.name, site_clinic_path(@site, @clinic)
     end
+  end
+
+  def clinic_params
+    params.require(:clinic).permit(:name)
   end
 end

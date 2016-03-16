@@ -33,7 +33,7 @@ class MentorsController < SiteController
   end
 
   def create
-    @mentor = @site.mentors.create(params[:mentor])
+    @mentor = @site.mentors.create(mentor_params)
     if @mentor.valid?
       flash[:notice] = "Mentor added"
     end
@@ -61,7 +61,7 @@ class MentorsController < SiteController
     ids = params[:agep_ids].strip.split(/\s+/)
     ids.each do |agep_id|
       patient = @mentor.patients.create agep_id: agep_id
-      unless patient.valid? 
+      unless patient.valid?
         errors << "#{agep_id} #{patient.errors[:agep_id].first}"
       end
     end
@@ -162,5 +162,9 @@ class MentorsController < SiteController
     if @mentor
       add_breadcrumb @mentor.name, site_mentor_path(@site, @mentor)
     end
+  end
+
+  def mentor_params
+    params.require(:mentor).permit(:name)
   end
 end

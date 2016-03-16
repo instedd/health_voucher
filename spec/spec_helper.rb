@@ -14,7 +14,7 @@ RSpec.configure do |config|
   end
 
   config.expect_with(:rspec) do |c|
-    c.syntax = :should
+    c.syntax = [:expect, :should]
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

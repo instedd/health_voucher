@@ -1,6 +1,4 @@
 class Authorization < ActiveRecord::Base
-  attr_accessible :card, :provider, :service, :message
-
   belongs_to :card
   belongs_to :provider
   belongs_to :service

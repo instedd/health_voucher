@@ -4,8 +4,6 @@ class Transaction < ActiveRecord::Base
   enumerize :status, in: [:unpaid, :pending, :suspicious, :rejected, :paid],
     default: :unpaid, predicates: true
 
-  attr_accessible :comment
-
   belongs_to :voucher
   belongs_to :authorization
   belongs_to :statement

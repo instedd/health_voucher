@@ -1,8 +1,6 @@
 class Batch < ActiveRecord::Base
   DEFAULT_QUANTITY = 100
 
-  attr_accessible :name, :initial_serial_number, :quantity
-
   has_many :cards, :dependent => :destroy
 
   validates_presence_of :name

@@ -3,8 +3,6 @@ class Service < ActiveRecord::Base
 
   extend Enumerize
 
-  attr_accessible :code, :description, :service_type, :short_description
-
   enumerize :service_type, in: [:primary, :secondary], predicates: true
 
   validates_presence_of :code, :description, :service_type, :short_description

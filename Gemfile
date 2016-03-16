@@ -1,7 +1,6 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 4.0.13'
-gem 'protected_attributes'    # TODO: remove and use strong parameters
 gem 'thin'
 
 gem 'mysql2', '~> 0.3.17'

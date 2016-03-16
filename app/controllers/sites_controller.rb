@@ -19,7 +19,7 @@ class SitesController < ApplicationController
   end
 
   def create
-    @site = Site.new(params[:site])
+    @site = Site.new(site_params)
     authorize @site
     if @site.save
       redirect_to sites_path, notice: 'Site was registered successfully'
@@ -33,7 +33,7 @@ class SitesController < ApplicationController
   end
 
   def update
-    @site.update_attributes params[:site]
+    @site.update_attributes site_params
     if @site.save
       redirect_to @site, notice: 'Site was updated successfully'
     else
@@ -70,7 +70,7 @@ class SitesController < ApplicationController
       end
     else
       flash[:alert] = "Card does not exist"
-    end 
+    end
     redirect_to assign_cards_site_path(@site)
   end
 
@@ -86,7 +86,7 @@ class SitesController < ApplicationController
 
   def update_manager
     @user = @site.user || @site.build_user
-    @user.update_for_site_manager params[:user]
+    @user.update_for_site_manager user_manager_params
     if @user.save
       @site.update_attribute :user, @user
       log_activity @site, "Manager #{@user.email} was set for site '#{@site.name}'"
@@ -175,5 +175,13 @@ class SitesController < ApplicationController
     if @site
       add_breadcrumb @site.name, @site
     end
+  end
+
+  def site_params
+    params.require(:site).permit(:name, :training)
+  end
+
+  def user_manager_params
+    params.require(:user).permit(:email, :password, :password_confirmation)
   end
 end

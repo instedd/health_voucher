@@ -1,6 +1,4 @@
 class Site < ActiveRecord::Base
-  attr_accessible :name, :training
-
   belongs_to :user
   has_many :clinics, :dependent => :destroy
   has_many :mentors, :dependent => :destroy

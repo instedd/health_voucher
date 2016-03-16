@@ -8,8 +8,6 @@ class Card < ActiveRecord::Base
 
   DEFAULT_VALIDITY = 1.year
 
-  attr_accessible :serial_number
-
   has_many :vouchers, :dependent => :destroy
   has_many :authorizations
   has_many :used_vouchers, ->{ where used: true }, :class_name => "Voucher"

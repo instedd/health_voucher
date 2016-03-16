@@ -4,7 +4,7 @@ class BatchesController < ApplicationController
 
   def index
     direction = 'asc'
-    direction = params[:direction] if %w(asc desc).include?(params[:direction]) 
+    direction = params[:direction] if %w(asc desc).include?(params[:direction])
     sort = 'initial_serial_number'
     sort = params[:sort] if %w(name created_at initial_serial_number).include?(params[:sort])
     @batches = Batch.order("#{sort} #{direction}").page params[:page]
@@ -29,9 +29,9 @@ class BatchesController < ApplicationController
   end
 
   def create
-    @batch = Batch.new(params[:batch])
+    @batch = Batch.new(batch_params)
     if @batch.save
-      Batch::Generator.new(@batch).delay.generate! 
+      Batch::Generator.new(@batch).delay.generate!
       redirect_to batches_path, notice: 'Batch created. Card generation started in the background.'
     else
       add_breadcrumb 'Generate', new_batch_path
@@ -54,5 +54,9 @@ class BatchesController < ApplicationController
   def add_breadcrumbs
     @show_breadcrumb = true
     add_breadcrumb 'Batches', batches_path
+  end
+
+  def batch_params
+    params.require(:batch).permit(:name, :initial_serial_number, :quantity)
   end
 end
