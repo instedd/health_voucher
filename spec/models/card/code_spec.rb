@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe "Card::Code" do
   before(:each) do

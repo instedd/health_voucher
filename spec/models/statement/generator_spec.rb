@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Statement::Generator do
   def make_transaction(options = {})

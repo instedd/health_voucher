@@ -24,3 +24,5 @@
 /public/assets
 
 .vagrant/
+
+/spec/examples.txt

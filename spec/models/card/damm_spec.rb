@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 describe "Card::Damm" do
   before(:each) do
