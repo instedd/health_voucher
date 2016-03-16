@@ -50,7 +50,10 @@ EVoucher::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( application-print.css )
+  config.assets.precompile += ['application-print.css']
+
+  # Add assets from vendor/assets/images (JS and CSS are referenced in the application manifests)
+  config.assets.precompile += %w(select2-spinner.gif select2.png select2x2.png)
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
