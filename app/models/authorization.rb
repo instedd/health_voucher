@@ -3,7 +3,7 @@ class Authorization < ActiveRecord::Base
   belongs_to :provider
   belongs_to :service
   belongs_to :message
-  has_one :transaction
+  has_one :confirmation_txn, foreign_key: 'authorization_id', class_name: 'Transaction'
 
   validates_presence_of :card, :provider, :service
 
@@ -18,7 +18,7 @@ class Authorization < ActiveRecord::Base
     joins(:provider).where('providers.clinic_id = ?', clinic.id)
   }
 
-  scope :confirmed, ->{ joins(:transaction) }
+  scope :confirmed, ->{ joins(:confirmation_txn) }
   scope :pending, ->{ joins('LEFT JOIN transactions ON transactions.authorization_id = authorizations.id').where('transactions.id IS NULL') }
 
   def training?

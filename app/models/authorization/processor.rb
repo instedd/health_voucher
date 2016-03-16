@@ -61,7 +61,7 @@ class Authorization::Processor
 
   def confirmed_or_pending_authorizations_for(clinic)
     todays_authorizations.select do |auth|
-      auth.provider.clinic == clinic || auth.transaction.present?
+      auth.provider.clinic == clinic || auth.confirmation_txn.present?
     end
   end
 

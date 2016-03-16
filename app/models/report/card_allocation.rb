@@ -14,7 +14,7 @@ class Report::CardAllocation < Report
   end
 
   def build
-    patients_with_uses = Patient.joins(:current_card => {:authorizations => :transaction}, :mentor => []).uniq
+    patients_with_uses = Patient.joins(:current_card => {:authorizations => :confirmation_txn}, :mentor => []).uniq
     patients_with_uses = add_date_criteria(patients_with_uses, 'transactions.created_at')
 
     if by_mentor?

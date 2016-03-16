@@ -50,7 +50,7 @@ module CardsHelper
   end
 
   def transactions_for_card_path(card)
-    txn_ids = card.authorizations.joins(:transaction).pluck('transactions.id')
+    txn_ids = card.authorizations.joins(:confirmation_txn).pluck('transactions.id')
     transactions_path(txn_id: txn_ids.join(','))
   end
 end

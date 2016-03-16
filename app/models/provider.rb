@@ -5,7 +5,7 @@ class Provider < ActiveRecord::Base
   has_one :site, :through => :clinic
 
   has_many :authorizations
-  has_many :transactions, :through => :authorizations
+  has_many :transactions, :through => :authorizations, :source => :confirmation_txn
 
   validates_presence_of :name, :clinic
   validates_uniqueness_of :code

@@ -14,7 +14,7 @@ class Transaction::Processor
   end
 
   def validate
-    @auth = find_authorization 
+    @auth = find_authorization
     if @auth.nil? or @auth.card.patient.nil?
       set_error :not_authorized
     elsif @voucher.used?
@@ -38,7 +38,7 @@ class Transaction::Processor
     Transaction.transaction do
       @voucher.use!
 
-      @txn = @auth.build_transaction
+      @txn = @auth.build_confirmation_txn
       @txn.voucher = @voucher
       @txn.message = @message
       @txn.amount = @auth.clinic_service.cost
@@ -47,8 +47,8 @@ class Transaction::Processor
     end
 
     options = {
-      serial_number: @voucher.card.full_serial_number, 
-      transaction_id: @txn.id, 
+      serial_number: @voucher.card.full_serial_number,
+      transaction_id: @txn.id,
       service_short_desc: @service.short_description
     }
 
@@ -86,4 +86,3 @@ class Transaction::Processor
   end
 
 end
-

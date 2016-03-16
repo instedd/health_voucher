@@ -49,9 +49,8 @@ class Report::Transactions < Report
   private
 
   def build_by_site
-    since_when = 30.days.ago
     patients_with_recent_visits = Patient.
-      joins(:current_card => {:authorizations => :transaction}).
+      joins(:current_card => {:authorizations => :confirmation_txn}).
       joins(:mentor).
       uniq.
       select(['patients.id', 'mentors.site_id AS site_id'])
@@ -82,7 +81,7 @@ class Report::Transactions < Report
 
   def build_by_clinic
     patients_with_recent_visits = Patient.
-      joins(:current_card => {:authorizations => [:transaction, :provider]}).
+      joins(:current_card => {:authorizations => [:confirmation_txn, :provider]}).
       uniq.
       select(['patients.id', 'providers.clinic_id AS clinic_id'])
     patients_with_recent_visits = add_date_criteria(patients_with_recent_visits, 'transactions.created_at')

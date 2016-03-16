@@ -105,34 +105,34 @@ describe Transaction::Processor do
     it "should create a transaction for the authorization" do
       @processor.confirm
 
-      @auth1.transaction.should_not be_nil
+      @auth1.confirmation_txn.should_not be_nil
     end
 
     it "should set the amount from the service cost" do
       @processor.confirm
 
-      @auth1.transaction.amount.should_not be_nil
-      @auth1.transaction.amount.should == @cs1.cost
+      @auth1.confirmation_txn.amount.should_not be_nil
+      @auth1.confirmation_txn.amount.should == @cs1.cost
     end
 
     it "should set the transaction training status to false" do
       @processor.confirm
 
-      @auth1.transaction.should_not be_training
+      @auth1.confirmation_txn.should_not be_training
     end
 
     it "should set the transaction training flag to true if the clinic was training" do
       @clinic.site.update_attribute :training, true
       @processor.confirm
 
-      @auth1.transaction.should be_training
+      @auth1.confirmation_txn.should be_training
     end
 
     it "should set the transaction training flag to true if the card was training" do
       @card.site.update_attribute :training, true
       @processor.confirm
 
-      @auth1.transaction.should be_training
+      @auth1.confirmation_txn.should be_training
     end
   end
 end

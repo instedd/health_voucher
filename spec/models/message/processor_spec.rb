@@ -100,13 +100,13 @@ describe Message::Processor do
         lambda do
           @processor.process
         end.should change(Transaction, :count).by(1)
-        @auth.reload.transaction.should_not be_nil
+        @auth.reload.confirmation_txn.should_not be_nil
       end
 
       it "should link the message to the transaction" do
         @processor.process
         message = @processor.message.reload
-        message.transaction.should_not be_nil
+        message.confirmation_txn.should_not be_nil
       end
 
       it "should save a successful confirmation message" do
@@ -131,7 +131,7 @@ describe Message::Processor do
         lambda do
           @processor.process
         end.should_not change(Transaction, :count)
-        @auth.reload.transaction.should be_nil
+        @auth.reload.confirmation_txn.should be_nil
       end
 
       it "should save a failed confirmation message" do

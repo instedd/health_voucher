@@ -5,7 +5,7 @@ class Message < ActiveRecord::Base
   enumerize :status, in: [:success, :failure, :error], predicates: true
 
   has_many :authorizations
-  has_one :transaction
+  has_one :confirmation_txn, foreign_key: 'message_id', class_name: 'Transaction'
 
   scope :for_listing, ->{}
 
