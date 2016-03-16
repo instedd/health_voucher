@@ -10,7 +10,7 @@ class Statement::GenerateForm
 
   ATTRIBUTES = [:clinic_id, :until]
 
-  attr_accessor *ATTRIBUTES
+  attr_accessor(*ATTRIBUTES)
 
   validates_presence_of :clinic_id, :until
 

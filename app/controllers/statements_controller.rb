@@ -14,7 +14,7 @@ class StatementsController < ApplicationController
     list = Statement.for_listing
 
     if params[:stmt_id].present?
-      if params[:stmt_id].match /\d*-\d*/
+      if params[:stmt_id].match(/\d*-\d*/)
         lower, upper = params[:stmt_id].split('-')
         list = list.where('statements.id >= ?', lower) if lower.present?
         list = list.where('statements.id <= ?', upper) if upper.present?
@@ -38,9 +38,9 @@ class StatementsController < ApplicationController
       list = list.where('transactions.created_at <= ?', txn_to_date) if txn_to_date.present?
     end
 
-    direction = if %w(asc desc).include?(params[:direction]) 
-                  params[:direction] 
-                else 
+    direction = if %w(asc desc).include?(params[:direction])
+                  params[:direction]
+                else
                   'desc'
                 end
     if %w(site clinic).include?(params[:sort])

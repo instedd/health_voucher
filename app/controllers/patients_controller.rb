@@ -24,7 +24,7 @@ class PatientsController < ApplicationController
       }
     end
   end
-  
+
   def deactivate_card
     @patient.deactivate_card!(params[:lost].present? ? :lost : nil)
     respond_to do |format|

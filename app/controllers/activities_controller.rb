@@ -13,7 +13,7 @@ class ActivitiesController < ApplicationController
     list = list.where('activities.created_at <= ?', until_date) if until_date.present?
 
     if params[:object_id].present?
-      if params[:object_id].match /\d*-\d*/
+      if params[:object_id].match(/\d*-\d*/)
         lower, upper = params[:object_id].split('-')
         list = list.where('activities.object_id >= ?', lower) if lower.present?
         list = list.where('activities.object_id <= ?', upper) if upper.present?
@@ -23,9 +23,9 @@ class ActivitiesController < ApplicationController
       end
     end
 
-    direction = if %w(asc desc).include?(params[:direction]) 
-                  params[:direction] 
-                else 
+    direction = if %w(asc desc).include?(params[:direction])
+                  params[:direction]
+                else
                   'desc'
                 end
     sort = case params[:sort]

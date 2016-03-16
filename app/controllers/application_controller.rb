@@ -8,9 +8,9 @@ class ApplicationController < ActionController::Base
 
   # after_filter :verify_authorized,  except: :index
   # after_filter :verify_policy_scoped, only: :index
- 
+
   rescue_from Pundit::NotAuthorizedError, with: :permission_denied
-  
+
   private
 
   def authenticate_admin!
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   def permission_denied
     render :file => "public/401", :status => :unauthorized, :layout => false
   end
-  
+
   # Monkey patch add_breadcrumb to escape HTML entities in the breadcrumb
   # name
 

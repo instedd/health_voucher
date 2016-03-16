@@ -13,9 +13,9 @@ class MessagesController < ApplicationController
     list = list.where('messages.created_at >= ?', since_date) if since_date.present?
     list = list.where('messages.created_at <= ?', until_date) if until_date.present?
 
-    direction = if %w(asc desc).include?(params[:direction]) 
-                  params[:direction] 
-                else 
+    direction = if %w(asc desc).include?(params[:direction])
+                  params[:direction]
+                else
                   'desc'
                 end
     sort = case params[:sort]
@@ -43,4 +43,3 @@ class MessagesController < ApplicationController
     add_breadcrumb 'Incoming SMSs', messages_path
   end
 end
-

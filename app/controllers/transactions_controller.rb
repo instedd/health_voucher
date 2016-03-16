@@ -10,7 +10,7 @@ class TransactionsController < ApplicationController
     list = Transaction.for_listing
 
     if params[:txn_id].present?
-      if params[:txn_id].match /\d*-\d*/
+      if params[:txn_id].match(/\d*-\d*/)
         lower, upper = params[:txn_id].split('-')
         list = list.where('transactions.id >= ?', lower) if lower.present?
         list = list.where('transactions.id <= ?', upper) if upper.present?
@@ -26,9 +26,9 @@ class TransactionsController < ApplicationController
     list = list.where('transactions.created_at >= ?', since_date) if since_date.present?
     list = list.where('transactions.created_at <= ?', until_date) if until_date.present?
 
-    direction = if %w(asc desc).include?(params[:direction]) 
-                  params[:direction] 
-                else 
+    direction = if %w(asc desc).include?(params[:direction])
+                  params[:direction]
+                else
                   'desc'
                 end
     sort = case params[:sort]
@@ -100,4 +100,3 @@ class TransactionsController < ApplicationController
     add_breadcrumb 'Transactions', transactions_path
   end
 end
-

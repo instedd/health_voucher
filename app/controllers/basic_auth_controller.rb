@@ -1,8 +1,8 @@
 class BasicAuthController < ActionController::Base
   before_filter :authenticate
-  
+
   private
-  
+
   def authenticate
     config = EVoucher::Application.config
     authenticate_or_request_with_http_basic do |username, password|

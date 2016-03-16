@@ -6,7 +6,7 @@ class CardsController < ApplicationController
 
   def start_validity
     if @card.patient.nil?
-      redirect_to root_path 
+      redirect_to root_path
       return
     end
 
@@ -23,7 +23,7 @@ class CardsController < ApplicationController
 
   def set_expiration
     if @card.patient.nil?
-      redirect_to root_path 
+      redirect_to root_path
       return
     end
 
@@ -39,7 +39,7 @@ class CardsController < ApplicationController
   end
 
   private
-  
+
   def load_card
     @card = Card.find(params[:id])
     authorize @card

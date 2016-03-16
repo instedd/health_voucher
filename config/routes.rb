@@ -2,7 +2,7 @@ EVoucher::Application.routes.draw do
   devise_for :users, :skip => :registrations
 
   as :user do
-    get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'    
+    get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
     put 'users' => 'devise/registrations#update', :as => 'user_registration'
   end
 
@@ -21,7 +21,7 @@ EVoucher::Application.routes.draw do
       post :batch_assign_cards
       post :assign_individual_card
       post :return_cards
-      
+
       get 'manager' => :edit_manager
       put 'manager' => :update_manager
       delete 'manager' => :destroy_manager
