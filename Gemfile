@@ -17,7 +17,9 @@ gem 'foreman', '~> 0.78', :require => false
 gem 'newrelic_rpm'
 
 gem 'haml', '~> 4.0.7'
-gem 'jquery-rails', '~> 2.0.2'  # TODO: update to jQuery 1.12 (jquery-rails 4.1.1)
+gem 'jquery-rails', '~> 4.1.1'
+gem 'jquery-ui-rails', '~> 5.0.5'
+gem 'jquery-migrate-rails', '~> 1.2.1'
 gem 'select2-rails', '~> 3.4.9'
 gem 'instedd-rails', '~> 0.0.25'
 gem 'kaminari', '~> 0.16.3'
