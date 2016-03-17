@@ -41,7 +41,7 @@ GEM
       htmlentities (~> 4.3.1)
       nokogiri (>= 1.4.1)
       rubyzip (~> 1.0.0)
-    axlsx_rails (0.3.0)
+    axlsx_rails (0.4.0)
       axlsx (>= 2.0.1)
       rails (>= 3.1)
     bcrypt (3.1.11)
@@ -87,7 +87,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    enumerize (0.11.0)
+    enumerize (1.1.1)
       activesupport (>= 3.2)
     erubis (2.7.0)
     eventmachine (1.0.9.1)
@@ -148,7 +148,7 @@ GEM
       coderay (~> 1.0)
       method_source (~> 0.8)
       slop (~> 3.4)
-    pundit (1.0.1)
+    pundit (1.1.0)
       activesupport (>= 3.0.0)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
@@ -250,7 +250,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  axlsx_rails (~> 0.3.0)
+  axlsx_rails (~> 0.4.0)
   capistrano (~> 3.4)
   capistrano-bundler (~> 1.1)
   capistrano-passenger
@@ -259,7 +259,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   delayed_job_active_record (~> 4.1.0)
   devise (~> 3.5.6)
-  enumerize (~> 0.11)
+  enumerize (~> 1.1.1)
   foreman (~> 0.78)
   haml (~> 4.0.7)
   instedd-rails (~> 0.0.25)
@@ -270,7 +270,7 @@ DEPENDENCIES
   mysql2 (~> 0.3.17)
   newrelic_rpm
   pry
-  pundit (~> 1.0.1)
+  pundit (~> 1.1.0)
   quiet_assets
   rails (~> 4.2.6)
   rspec-rails (~> 3.4)

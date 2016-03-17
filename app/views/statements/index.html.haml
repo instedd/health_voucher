@@ -52,7 +52,7 @@
   - if policy(Statement).generate?
     = link_to 'Generate Statements', generate_statements_path, :class => 'cadd'
 
-= form_tag export_statements_path, :id => 'export_stmts' do 
+= form_tag export_statements_path(format: 'xlsx'), :id => 'export_stmts' do
   = hidden_field_tag 'stmt_ids'
 
 :javascript

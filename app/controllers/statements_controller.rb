@@ -151,7 +151,12 @@ class StatementsController < ApplicationController
         @visits[stmt.clinic_id][txn.service_id][:amount] += txn.amount
       end
     end
-    render xlsx: 'export', filename: 'statements.xlsx', disposition: 'attachment'
+
+    respond_to do |format|
+      format.xlsx do
+        render xlsx: 'export', filename: 'statements.xlsx', disposition: 'attachment'
+      end
+    end
   end
 
   private

@@ -44,7 +44,7 @@ describe StatementsController do
       end
 
       it "POST export should be allowed" do
-        post :export, stmt_ids: "#{@stmt.id}"
+        post :export, stmt_ids: "#{@stmt.id}", format: 'xlsx'
         response.status.should == 200
       end
 
