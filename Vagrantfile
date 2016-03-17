@@ -29,7 +29,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision :shell, path: 'config/vagrant/install-post.sh'
 
   # Provision default configuration files
-  %w(database.yml settings.yml newrelic.yml).each do |file|
+  %w(database.yml settings.yml newrelic.yml secrets.yml).each do |file|
     config.vm.provision :file, source: "config/vagrant/#{file}", destination: "/u/apps/health_voucher/shared/config/#{file}"
   end
 end

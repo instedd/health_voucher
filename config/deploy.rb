@@ -16,7 +16,7 @@ set :format, :pretty
 set :log_level, :info
 set :pty, true
 
-set :linked_files, fetch(:linked_files, []).push('config/settings.yml', 'config/database.yml', 'config/newrelic.yml')
+set :linked_files, fetch(:linked_files, []).push('config/settings.yml', 'config/database.yml', 'config/newrelic.yml', 'config/secrets.yml')
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets')
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
