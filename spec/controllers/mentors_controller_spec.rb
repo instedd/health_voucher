@@ -21,6 +21,11 @@ describe MentorsController do
       expect(new_mentor.name).to eq('Joe Mentor')
       expect(new_mentor.site).to eq(@site)
     end
+
+    it "GET show" do
+      get :show, site_id: @site.id, id: @mentor.id
+      expect(response.status).to be(200)
+    end
   end
 
   describe "access" do

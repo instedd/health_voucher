@@ -5,6 +5,27 @@ describe StatementsController do
     @stmt = Statement.make!
   end
 
+  context "with admin access" do
+    render_views
+
+    before(:each) do
+      @user = User.make!(:admin)
+      sign_in @user
+    end
+
+    it "GET show" do
+      get :show, id: @stmt.id
+      expect(response.status).to be(200)
+    end
+
+    it "DELETE destroy" do
+      expect do
+        delete :destroy, id: @stmt.id
+      end.to change(Statement, :count).by(-1)
+      expect(response.status).to be(302)
+    end
+  end
+
   describe "access" do
     context "for auditor" do
       before(:each) do
@@ -38,7 +59,7 @@ describe StatementsController do
             end
           end
         end
-      end 
+      end
     end
 
     context "for site manager" do
@@ -58,8 +79,7 @@ describe StatementsController do
             end
           end
         end
-      end 
+      end
     end
   end
 end
-

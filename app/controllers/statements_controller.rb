@@ -89,7 +89,7 @@ class StatementsController < ApplicationController
 
     @stmt.destroy
 
-    log_activity @stmt, "Statement destroyed (Date #{@stmt.created_at.to_s(:transaction)}, Site '#{@stmt.site.name}', Clinic '#{@stmt.clinic.name}', Until #{@stmt.until.to_time_in_current_zone.to_s(:date)}, Transactions #{txns.join(',')})"
+    log_activity @stmt, "Statement destroyed (Date #{@stmt.created_at.to_s(:transaction)}, Site '#{@stmt.site.name}', Clinic '#{@stmt.clinic.name}', Until #{@stmt.until.in_time_zone.to_s(:date)}, Transactions #{txns.join(',')})"
 
     redirect_to statements_path, :notice => 'Statement deleted'
   end

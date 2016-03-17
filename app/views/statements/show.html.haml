@@ -12,16 +12,16 @@
       %br
     = link_to 'Export CSV', statement_path(@stmt, :format => 'csv'), :class => 'fexport'
   %div
-    Clinic: 
+    Clinic:
     %span= @stmt.clinic.name
     %br
     Date:
     %span= @stmt.created_at.to_s(:date)
     %br
-    Includes transactions until: 
-    %span= @stmt.until.to_time_in_current_zone.to_s(:date)
+    Includes transactions until:
+    %span= @stmt.until.in_time_zone.to_s(:date)
     %br
-    Total amount: 
+    Total amount:
     %span= number_to_currency(@stmt.compute_total, unit: '')
 
 %br

@@ -9,9 +9,9 @@ class Mentor < ActiveRecord::Base
   before_destroy :check_no_patients
 
   def self.with_patient_counts
-    scoped.joins(:patients, :site).group('mentors.id').
-      select(['mentors.*', 'sites.name AS site_name', 
-              'COUNT(patients.id) AS patient_count', 
+    joins(:patients, :site).group('mentors.id').
+      select(['mentors.*', 'sites.name AS site_name',
+              'COUNT(patients.id) AS patient_count',
               'COUNT(CASE WHEN patients.current_card_id IS NULL THEN 1 END) AS patients_without_card'])
   end
 

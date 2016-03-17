@@ -35,7 +35,7 @@ module CardsHelper
 
   def card_validity(card)
     if card && card.validity
-      card.validity.to_time_in_current_zone.to_s(:date)
+      card.validity.in_time_zone.to_s(:date)
     else
       ''
     end
@@ -43,7 +43,7 @@ module CardsHelper
 
   def card_expiration(card)
     if card && card.expiration
-      card.expiration.to_time_in_current_zone.to_s(:date)
+      card.expiration.in_time_zone.to_s(:date)
     else
       ''
     end
