@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 4.1.15'
+gem 'rails', '~> 4.2.6'
 gem 'thin'
 
 gem 'mysql2', '~> 0.3.17'
@@ -29,10 +29,11 @@ group :development, :test do
   gem 'timecop'
   gem 'mocha', :require => false
   gem 'quiet_assets'
+  gem 'pry'
 end
 
 group :development do
-  gem 'pry'
+  gem 'web-console', '~> 2.0'
   gem 'capistrano',           '~> 3.4', :require => false
   gem 'capistrano-rails',     '~> 1.1', :require => false
   gem 'capistrano-bundler',   '~> 1.1', :require => false

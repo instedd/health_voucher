@@ -1,6 +1,25 @@
 require 'rails_helper'
 
 describe Card do
+  describe "find_by_serial_number" do
+    before(:each) do
+      @card = Card.make!(serial_number: '000123')
+    end
+
+    it "should work with strings (without check digit)" do
+      expect(Card.find_by_serial_number('000123')).to eq(@card)
+    end
+
+    it "should work with strings (with check digit)" do
+      check_digit = Card::Damm.generate('000123')
+      expect(Card.find_by_serial_number("#{check_digit}000123")).to eq(@card)
+    end
+
+    it "should work with Fixnum argument" do
+      expect(Card.find_by_serial_number(123)).to eq(@card)
+    end
+  end
+
   describe "validity" do
     before(:each) do
       Timecop.travel(2013,5,31)

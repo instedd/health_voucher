@@ -37,7 +37,7 @@ class Card < ActiveRecord::Base
     if sn.to_s.length == SERIAL_NUMBER_LENGTH + 1
       self.where(serial_number: sn.to_s[1..-1], check_digit: sn.to_s[0]).first
     else
-      self.where(serial_number: sn).first
+      self.where(serial_number: sn.to_serial_number).first
     end
   end
 
