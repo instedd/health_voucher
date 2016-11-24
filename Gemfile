@@ -8,10 +8,6 @@ gem 'enumerize', '~> 1.1.1'
 gem 'devise', '~> 3.5.6'
 gem 'pundit', '~> 1.1.0'
 
-gem 'sass-rails', '~> 4.0.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
-
 gem 'delayed_job_active_record', '~> 4.1.0'
 gem 'foreman', '~> 0.78', :require => false
 gem 'newrelic_rpm'
@@ -43,4 +39,10 @@ group :development do
   gem 'capistrano-bundler',   '~> 1.1', :require => false
   gem 'capistrano-rvm',       '~> 0.1', :require => false
   gem 'capistrano-passenger',           :require => false
+end
+
+group :assets do
+  gem 'sass-rails', '~> 4.0.0'
+  gem 'uglifier', '>= 1.3.0'
+  gem 'coffee-rails', '~> 4.0.0'
 end
