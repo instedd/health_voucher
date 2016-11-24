@@ -25,6 +25,8 @@ gem 'instedd-rails', '~> 0.0.25'
 gem 'kaminari', '~> 0.16.3'
 gem 'axlsx_rails', '~> 0.4.0'
 
+gem 'puma', '~> 3.0.2'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.4'
   gem 'machinist'
