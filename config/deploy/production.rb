@@ -1,5 +1,3 @@
-set :branch, :stable
-set :deploy_user, 'ubuntu'
-set :passenger_restart_with_touch, true
-set :rvm_ruby_version, :default
-server 'instedd1.instedd.org', user: fetch(:deploy_user), roles: %w{app db web}
+set :branch, :master
+set :deploy_user, 'ec2-user'
+server 'evouchers.instedd.org', user: fetch(:deploy_user), roles: %w{app db web}

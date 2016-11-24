@@ -30,10 +30,6 @@ set :rails_env, :production
 # Name for the exported service
 set :service_name, fetch(:application)
 
-# These settings are specific to running rvmsudo correctly
-set :rvm_map_bins, fetch(:rvm_map_bins, []).push('rvmsudo')
-set :default_env, {'rvmsudo_secure_path' => '1'}
-
 namespace :service do
   task :export do
     on roles(:app) do
@@ -41,14 +37,14 @@ namespace :service do
         app: fetch(:service_name),
         log: File.join(shared_path, 'log'),
         user: fetch(:deploy_user),
-        concurrency: "delayed=1"
+        concurrency: "delayed=1,puma=1"
       }
 
       execute(:mkdir, "-p", opts[:log])
 
       within release_path do
-        execute :rvmsudo, :bundle, :exec, :foreman, 'export',
-                'upstart', '/etc/init',
+        execute :sudo, '/usr/local/bin/bundle', "exec", "foreman", 'export',
+                'upstart', '/etc/init', '-t', "etc/upstart",
                 opts.map { |opt, value| "--#{opt}=\"#{value}\"" }.join(' ')
       end
     end
@@ -59,7 +55,7 @@ namespace :service do
     on roles(:app) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :bundle, :exec, "env | grep '^\\(PATH\\|GEM_PATH\\|GEM_HOME\\|RAILS_ENV\\)'", "> .env"
+          execute :bundle, :exec, "env | grep '^\\(PATH\\|GEM_PATH\\|GEM_HOME\\|RAILS_ENV\\|PUMA_OPTS\\)'", "> .env"
         end
       end
     end
